@@ -1,0 +1,467 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider            = "prisma-client"
+  output              = "../src/generated/prisma"
+  runtime             = "nodejs"
+  moduleFormat        = "esm"
+  importFileExtension = "ts"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ── Sponsor ──────────────────────────────────────────────────────────────────
+// Mirrors the TS contract Sponsor in the front-end (src/lib/types/sponsor.ts).
+// Single image (logo) stored as two scalar columns; reassembled to { url, alt }
+// at the API boundary. Translatable text (description) lives in the related
+// translation table (Pattern B). No tiers; present or hard-deleted.
+
+model Sponsor {
+  id           String  @id @default(uuid())
+  name         String
+  logoUrl      String
+  logoAlt      String
+  website      String?
+  sourceLocale String
+
+  translations SponsorTranslation[]
+}
+
+model SponsorTranslation {
+  id          String @id @default(uuid())
+  locale      String
+  description String
+
+  sponsorId String
+  sponsor   Sponsor @relation(fields: [sponsorId], references: [id], onDelete: Cascade)
+
+  @@unique([sponsorId, locale])
+}
+
+// ── Archer ───────────────────────────────────────────────────────────────────
+// Mirrors src/lib/types/archer.ts. Single image (cardPhoto) = two columns.
+// careerStats[]/performance[] = related tables. coachIds = self-relation (M:N).
+// Value lists (roles, categories, hiddenSections) = String[]. birthDate (nullable)
+// derives age (minor → age auto-hidden); minorVisibleFields was dropped.
+// Scores are Float (verified WA scores are ints, but averages are fractional and
+// we aggregate them ourselves — Float holds both safely).
+
+model Archer {
+  id        String @id @default(uuid())
+  slug      String @unique
+  firstName String
+  lastName  String
+
+  roles                 String[]
+  bowType               String[]
+  gender                String?
+  competitionCategories String[]
+  order                 Int
+
+  cardPhotoUrl   String?
+  cardPhotoAlt   String?
+  profilePhotoUrl String?
+  profilePhotoAlt String?
+  worldArcheryId String?
+
+  // Stored, never sent raw. The public profile shows the DERIVED age (a number),
+  // auto-hidden when age < 18 (minor). Null = age simply not shown.
+  birthDate DateTime?
+
+  hiddenSections String[] // admin force-hide: bio / stats / performance
+
+  status       String
+  hidden       Boolean
+  sourceLocale String
+
+  // Self-relation: who coaches this archer, and who they coach (reverse).
+  coaches  Archer[] @relation("ArcherCoaches")
+  students Archer[] @relation("ArcherCoaches")
+
+  careerStats         ArcherCareerStat[]
+  performance         ArcherPerformance[]
+  translations        ArcherTranslation[]
+  achievements        Achievement[]       @relation("ArcherAchievements")
+  attendedEvents      ClubEvent[]         @relation("EventAttendees")
+  mentionedInArticles Article[]           @relation("ArticleMentions")
+}
+
+model ArcherCareerStat {
+  id           String @id @default(uuid())
+  year         Int
+  discipline   String
+  averageScore Float?
+  wins         Int
+  losses       Int
+  highestScore Float?
+
+  archerId String
+  archer   Archer @relation(fields: [archerId], references: [id], onDelete: Cascade)
+}
+
+model ArcherPerformance {
+  id         String   @id @default(uuid())
+  date       String // 'MM/YYYY'
+  name       String // event/competition name
+  scope      String // 'domestic' | 'global'
+  type       String // 'outdoor' | 'indoor' | 'field' | '3d'
+  categories String[] // WA category codes contested
+  meters     String? // distance, e.g. '50m'
+  placing    String? // '1st' | 'silver' | … ; null when unknown
+  points     Float? // qualification points; null when unavailable
+
+  archerId String
+  archer   Archer @relation(fields: [archerId], references: [id], onDelete: Cascade)
+}
+
+model ArcherTranslation {
+  id     String @id @default(uuid())
+  locale String
+  bio    String
+
+  archerId String
+  archer   Archer @relation(fields: [archerId], references: [id], onDelete: Cascade)
+
+  @@unique([archerId, locale])
+}
+
+// ── Achievement ──────────────────────────────────────────────────────────────
+// Mirrors src/lib/types/achievement.ts. Credited archers are M:N: one
+// (individual), many (team), or none (club-level). Deleting an archer just drops
+// their join link; the achievement survives (becomes club-level if it was theirs
+// alone). Single image (nullable) = two nullable columns. Present or hard-deleted.
+
+model Achievement {
+  id         String   @id @default(uuid())
+  year       Int
+  scope      String
+  level      String // primary level
+  alsoLevels String[] // extra levels it also counts toward (e.g. a world+European record)
+  type       String
+  medal      String?
+
+  imageUrl String?
+  imageAlt String?
+
+  sourceLocale String
+
+  archers Archer[] @relation("ArcherAchievements")
+
+  translations AchievementTranslation[]
+}
+
+model AchievementTranslation {
+  id     String @id @default(uuid())
+  locale String
+  title  String
+
+  achievementId String
+  achievement   Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+
+  @@unique([achievementId, locale])
+}
+
+// ── AchievementCategory ──────────────────────────────────────────────────────
+// One row per achievement category (the grouping key used on the /achievements
+// page and homepage). Holds the custom card image for that category. `type` is
+// the hr title string (the same value Achievement rows stack on) so the summary
+// route looks it up by the group title it already computes; a group with no
+// matching category falls back to the stock medal/record icon. imageAlt is
+// English-only for now (folded into the translate pipeline later).
+
+model AchievementCategory {
+  id       String @id @default(uuid())
+  type     String @unique // hr title — matches Achievement's grouped title
+  imageUrl String
+  imageAlt String
+}
+
+// ── HomeStatImage ─────────────────────────────────────────────────────────────
+// One row per homepage club-stat slot (the 6 banner numbers: worldTitles,
+// europeanTitles, nationalTitles, worldRecords, europeanRecords, nationalRecords).
+// Holds the photo shown on that slot's homepage card. `slot` is the stat key (the
+// same name as the field in the summary `stats` object) so the route attaches
+// each image to its number. imageAlt is English-only for now (translate later).
+
+model HomeStatImage {
+  slot     String @id // stat slot key, e.g. 'worldTitles' — matches stats.<slot>
+  imageUrl String
+  imageAlt String
+}
+
+// ── EventLevel ───────────────────────────────────────────────────────────────
+// Admin-extensible event level (World Cup, European, Domestic…). Drives the
+// calendar legend (color). Translatable label in EventLevelTranslation.
+
+model EventLevel {
+  id    String @id @default(uuid())
+  color String
+  order Int
+
+  events       ClubEvent[]
+  translations EventLevelTranslation[]
+}
+
+model EventLevelTranslation {
+  id     String @id @default(uuid())
+  locale String
+  name   String
+
+  eventLevelId String
+  eventLevel   EventLevel @relation(fields: [eventLevelId], references: [id], onDelete: Cascade)
+
+  @@unique([eventLevelId, locale])
+}
+
+// ── ClubEvent ────────────────────────────────────────────────────────────────
+// Mirrors src/lib/types/club-event.ts. Links to EventLevel (nullable, SetNull)
+// and attending Archers (M:N). dateFrom/dateTo are real DateTime (queried for
+// calendar/upcoming/3-year prune). Single image (nullable) = two nullable columns.
+// location/organizer are neutral; only `name` is translated.
+
+model ClubEvent {
+  id         String    @id @default(uuid())
+  waId       String?   @unique // World Archery competition id (null for domestic/manual); import dedupe key
+  discipline String
+  format     String?
+  dateFrom   DateTime
+  dateTo     DateTime?
+
+  imageUrl  String?
+  imageAlt  String?
+  sourceUrl String?
+
+  isCancelled  Boolean
+  status       String
+  hidden       Boolean
+  location     String?
+  organizer    String?
+  sourceLocale String
+
+  // True if a club member NOT in the roster attended (no specific name shown).
+  // An event counts as club-attended if it has >=1 named archer OR this is true.
+  hasUnlistedClubAttendee Boolean @default(false)
+
+  levelId String?
+  level   EventLevel? @relation(fields: [levelId], references: [id], onDelete: SetNull)
+
+  attendingArchers Archer[] @relation("EventAttendees")
+
+  translations ClubEventTranslation[]
+}
+
+model ClubEventTranslation {
+  id     String @id @default(uuid())
+  locale String
+  name   String
+
+  clubEventId String
+  clubEvent   ClubEvent @relation(fields: [clubEventId], references: [id], onDelete: Cascade)
+
+  @@unique([clubEventId, locale])
+}
+
+// ── Article ──────────────────────────────────────────────────────────────────
+// Mirrors src/lib/types/article.ts. The most complex model.
+// images[] = related ArticleImage table; video/externalLink = nullable column
+// pairs; timestamps = DateTime (feed sorts by publishedAt). mentionedArchers =
+// M:N to Archer. draftRevision = a Json snapshot (transient edit buffer, never
+// queried into — the correct use of JSON here). translations = Pattern B.
+
+model Article {
+  id             String  @id @default(uuid())
+  slug           String  @unique
+  source         String
+  fbId           String?
+  fbPermalinkUrl String?
+
+  mediaType String // 'event' | 'gallery' | 'external-link' | 'video-only'
+
+  // Main poster/hero photo (always present): first pulled photo (event/gallery),
+  // external cover image or static fallback (external-link), or video thumbnail
+  // (video-only). Source decided at import time.
+  posterImageUrl String
+  posterImageAlt String
+
+  // video {url, posterUrl} and externalLink {url, sourceName} as nullable pairs
+  videoUrl           String?
+  videoPosterUrl     String?
+  externalUrl        String?
+  externalSourceName String?
+
+  status        String
+  hidden        Boolean
+  draftRevision Json?
+
+  publishedAt DateTime?
+  createdAt   DateTime
+  updatedAt   DateTime
+
+  fbContentHash String?
+  fbRefusedHash String?
+  adminEdited   Boolean
+
+  sourceLocale String
+
+  mentionedArchers Archer[] @relation("ArticleMentions")
+
+  images       ArticleImage[]
+  translations ArticleTranslation[]
+}
+
+model ArticleImage {
+  id    String @id @default(uuid())
+  url   String
+  alt   String
+  order Int
+
+  articleId String
+  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+}
+
+model ArticleTranslation {
+  id      String @id @default(uuid())
+  locale  String
+  title   String
+  body    String
+  excerpt String
+
+  articleId String
+  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@unique([articleId, locale])
+}
+
+// ── HeroImage ────────────────────────────────────────────────────────────────
+// Homepage cursor-image hero. Image-only, ordered. No translatable text.
+
+model HeroImage {
+  id       String @id @default(uuid())
+  imageUrl String
+  imageAlt String
+  order    Int
+}
+
+// ── ClubInfo ─────────────────────────────────────────────────────────────────
+// Singleton (one row). Canonical club contact + socials + identity/history.
+// officers/socials = JSON (tiny, read whole); historyPhotos = related table
+// (need stable ids for caption-keying + ordering). Translatable text in
+// ClubInfoTranslation (incl. JSON maps keyed by roleKey / photo id).
+
+model ClubInfo {
+  id          String    @id @default(uuid())
+  foundedDate DateTime?
+  address     String?
+  email       String?
+  oib         String?
+
+  officers Json // [{ name, roleKey }]
+  socials  Json // [{ platform, url }]
+
+  sourceLocale String
+
+  historyPhotos ClubHistoryPhoto[]
+  translations  ClubInfoTranslation[]
+}
+
+model ClubHistoryPhoto {
+  id    String @id @default(uuid())
+  url   String
+  alt   String
+  order Int
+
+  clubInfoId String
+  clubInfo   ClubInfo @relation(fields: [clubInfoId], references: [id], onDelete: Cascade)
+}
+
+model ClubInfoTranslation {
+  id                String @id @default(uuid())
+  locale            String
+  valuesText        String
+  historyText       String
+  officerRoleLabels Json // { roleKey: label }
+  photoCaptions     Json // { photoId: caption }
+
+  clubInfoId String
+  clubInfo   ClubInfo @relation(fields: [clubInfoId], references: [id], onDelete: Cascade)
+
+  @@unique([clubInfoId, locale])
+}
+
+// ── Inquiry inboxes ──────────────────────────────────────────────────────────
+// Inbound public form submissions; admin-only. status = inbox workflow.
+// No translatable text.
+
+model MembershipSubmission {
+  id              String   @id @default(uuid())
+  salutation      String?
+  fullName        String
+  email           String
+  phone           String?
+  birthDate       DateTime?
+  experience      String?
+  forMinor        Boolean
+  minorDetails    String?
+  message         String?
+  consentAccepted Boolean
+  status          String   @default("new")
+  responded       Boolean  @default(false)
+  submittedAt     DateTime @default(now())
+}
+
+model SponsorInquiry {
+  id                  String   @id @default(uuid())
+  companyName         String
+  contactName         String
+  email               String
+  phone               String?
+  sponsorshipInterest String?
+  message             String?
+  consentAccepted     Boolean
+  status              String   @default("new")
+  responded           Boolean  @default(false)
+  submittedAt         DateTime @default(now())
+}
+
+model DonationInquiry {
+  id              String   @id @default(uuid())
+  donorName       String
+  email           String
+  phone           String?
+  message         String?
+  consentAccepted Boolean
+  status          String   @default("new")
+  responded       Boolean  @default(false)
+  submittedAt     DateTime @default(now())
+}
+
+// ── Admin + Session (auth) ───────────────────────────────────────────────────
+// Dashboard staff. passwordHash is null until the invitee sets it via the invite
+// link. role: 'admin' | 'developer'. Sessions are SERVER-SIDE (the cookie holds
+// only a random session id); JWT is used only for time-based action tokens
+// (invite/reset), never for the session itself.
+
+model Admin {
+  id           String   @id @default(uuid())
+  workName     String
+  email        String   @unique
+  passwordHash String? // null until set via the invite link
+  role         String // 'admin' | 'developer'
+  createdAt    DateTime @default(now())
+
+  sessions Session[]
+}
+
+model Session {
+  id         String   @id // cryptographically-random id (>=256-bit); the cookie value
+  adminId    String
+  admin      Admin    @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  lastSeenAt DateTime @default(now()) // idle timeout = now - lastSeenAt > 30 min
+  expiresAt  DateTime // absolute timeout (8 h from creation)
+}

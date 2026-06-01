@@ -1,0 +1,83 @@
+{
+	"_comment": "Example posts. Copy to posts.json. One object per FB post, in order (number = position). All text is Croatian (hr). 'type' is the final value: event | gallery | external-link | video-only. external-link = ARTICLES only; reposted VIDEOS go under video-only. video-only has TWO modes: (a) club's own HOSTED video — set videoUrl + videoSizeMB (<5 = kept, >=5 = post skipped); (b) REPOSTED 3rd-party video (news/HSS/member FB) — NO videoUrl, instead externalUrl + externalSourceName (link out). All images/videos are PERMANENT public Supabase URLs (never temporary). status defaults 'published'. fbPermalinkUrl = null for all seeded posts (logged-out FB deep-links hit a login wall, so per-post links wouldn't work for site visitors; the real sync engine fills them later if the club adopts). body = the FB caption EXPANDED to article length by a separate agent (no invented facts). The importer takes body AS-IS (no padding), applies the video-only 5MB gate (hosted mode only), image cap 10, poster source per type, and reuses posterImageUrl as the video player poster.",
+	"posts": [
+		{
+			"number": 1,
+			"type": "event",
+			"status": "published",
+			"mentions": ["Amanda Mlinarić", "Alen Remar"],
+			"publishedAt": "2026-01-16",
+			"fbPermalinkUrl": null,
+			"title": "Odličan nastup na Nimes turniru",
+			"body": "Cijeli (prošireni) tekst članka na hrvatskom...",
+			"posterImageUrl": "https://YOUR-PROJECT.supabase.co/storage/v1/object/public/posts/1-poster.jpg",
+			"posterImageAlt": "Podij u Nimesu",
+			"images": [
+				{ "url": "https://.../posts/1-a.jpg", "alt": "Amanda na liniji", "order": 1 },
+				{ "url": "https://.../posts/1-b.jpg", "alt": "Tim", "order": 2 }
+			],
+			"_notes": "event: poster = first pulled photo (or set explicitly). Full FB report kept (this type already has real text). mentions link to those archers' profiles + relate to the event. publishedAt = visible date (date alone is fine)."
+		},
+		{
+			"number": 2,
+			"type": "gallery",
+			"status": "published",
+			"mentions": ["Leo Sulik"],
+			"publishedAt": "2026-02-02",
+			"fbPermalinkUrl": null,
+			"title": "Trening fotke",
+			"body": "Prošireni tekst uz galeriju s treninga...",
+			"posterImageUrl": "https://.../posts/2-poster.jpg",
+			"posterImageAlt": "Trening",
+			"images": [
+				{ "url": "https://.../posts/2-a.jpg", "alt": "Trening 1", "order": 1 }
+			],
+			"_notes": "gallery: club photos (or photos shared from a club member's FB). Any video in the original FB post is discarded."
+		},
+		{
+			"number": 3,
+			"type": "external-link",
+			"status": "published",
+			"mentions": ["Amanda Mlinarić"],
+			"publishedAt": "2026-02-20",
+			"fbPermalinkUrl": null,
+			"title": "Amanda u Večernjem listu",
+			"body": "Kratki uvodni tekst + kontekst (prošireno)...",
+			"posterImageUrl": "https://.../posts/3-cover.jpg",
+			"posterImageAlt": "Naslovnica članka",
+			"externalUrl": "https://www.vecernji.hr/sport/...",
+			"externalSourceName": "Večernji list",
+			"_notes": "external-link: an ARTICLE you link out to. poster = cover image of the linked media (or omit posterImageUrl to use the static fallback). externalUrl + externalSourceName required."
+		},
+		{
+			"number": 4,
+			"type": "video-only",
+			"status": "published",
+			"mentions": [],
+			"publishedAt": "2026-03-10",
+			"fbPermalinkUrl": null,
+			"title": null,
+			"body": "",
+			"posterImageUrl": "https://.../posts/4-thumb.jpg",
+			"posterImageAlt": "Video sličica",
+			"videoUrl": "https://.../posts/4.mp4",
+			"videoSizeMB": 3.2,
+			"_notes": "video-only MODE (a) — CLUB'S OWN HOSTED video. Supply posterImageUrl (the thumbnail) + videoUrl (the real <5MB clip, hosted on Supabase) + videoSizeMB. DO NOT supply videoPosterUrl — the importer reuses posterImageUrl as the player's poster. The whole post is SKIPPED if videoSizeMB >= 5. title null → auto-derived."
+		},
+		{
+			"number": 5,
+			"type": "video-only",
+			"status": "published",
+			"mentions": ["Amanda Mlinarić"],
+			"publishedAt": "2026-03-18",
+			"fbPermalinkUrl": null,
+			"title": "HRT prilog o Amandi",
+			"body": "Prošireni tekst uz reportažu...",
+			"posterImageUrl": "https://.../posts/5-thumb.jpg",
+			"posterImageAlt": "Sličica HRT priloga",
+			"externalUrl": "https://www.hrt.hr/sport/...",
+			"externalSourceName": "HRT",
+			"_notes": "video-only MODE (b) — REPOSTED 3rd-party video (news outlet / HSS / member's FB). NOT hosted: NO videoUrl, NO videoSizeMB. Supply posterImageUrl (thumbnail) + externalUrl + externalSourceName (link to the original). Renders as thumbnail + 'watch on {sourceName}' link. Contrast with post #4 (mode a: club's own hosted <5MB video with videoUrl)."
+		}
+	]
+}

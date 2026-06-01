@@ -1,0 +1,94 @@
+import { Router } from "express";
+import { z } from "zod";
+import { prisma } from "../../db.ts";
+import { validate } from "../../http/validate.ts";
+import { HttpError } from "../../http/errors.ts";
+
+export const adminSponsorsRouter = Router();
+
+// Create: writes the Sponsor + the Croatian (source) translation row only;
+// other locales are backfilled by the translate pipeline later (reads fall back
+// to hr meanwhile). description is the translatable text (required).
+const createBody = z.object({
+	name: z.string().min(1),
+	logoUrl: z.url(),
+	logoAlt: z.string().min(1),
+	website: z.url().nullable().default(null),
+	description: z.string().min(1), // Croatian source
+});
+
+const updateBody = z.object({
+	name: z.string().min(1).optional(),
+	logoUrl: z.url().optional(),
+	logoAlt: z.string().min(1).optional(),
+	website: z.url().nullable().optional(),
+	description: z.string().min(1).optional(), // updates the hr translation
+});
+
+const idParam = z.object({ id: z.uuid() });
+
+// POST /admin/sponsors
+adminSponsorsRouter.post("/", validate({ body: createBody }), async (req, res, next) => {
+	try {
+		const b = req.body as z.infer<typeof createBody>;
+		const sponsor = await prisma.sponsor.create({
+			data: {
+				name: b.name,
+				logoUrl: b.logoUrl,
+				logoAlt: b.logoAlt,
+				website: b.website,
+				sourceLocale: "hr",
+				translations: { create: [{ locale: "hr", description: b.description }] },
+			},
+		});
+		res.status(201).json({ id: sponsor.id });
+	} catch (err) {
+		next(err);
+	}
+});
+
+// PATCH /admin/sponsors/:id
+adminSponsorsRouter.patch("/:id", validate({ params: idParam, body: updateBody }), async (req, res, next) => {
+	try {
+		const { id } = req.params as z.infer<typeof idParam>;
+		const b = req.body as z.infer<typeof updateBody>;
+
+		const exists = await prisma.sponsor.findUnique({ where: { id } });
+		if (!exists) throw new HttpError(404, "Sponsor not found");
+
+		await prisma.sponsor.update({
+			where: { id },
+			data: {
+				...(b.name !== undefined ? { name: b.name } : {}),
+				...(b.logoUrl !== undefined ? { logoUrl: b.logoUrl } : {}),
+				...(b.logoAlt !== undefined ? { logoAlt: b.logoAlt } : {}),
+				...(b.website !== undefined ? { website: b.website } : {}),
+			},
+		});
+
+		// description edits the hr translation row (upsert in case it's missing).
+		if (b.description !== undefined) {
+			await prisma.sponsorTranslation.upsert({
+				where: { sponsorId_locale: { sponsorId: id, locale: "hr" } },
+				create: { sponsorId: id, locale: "hr", description: b.description },
+				update: { description: b.description },
+			});
+		}
+		res.json({ ok: true });
+	} catch (err) {
+		next(err);
+	}
+});
+
+// DELETE /admin/sponsors/:id — hard delete (cascade removes translations).
+adminSponsorsRouter.delete("/:id", validate({ params: idParam }), async (req, res, next) => {
+	try {
+		const { id } = req.params as z.infer<typeof idParam>;
+		const exists = await prisma.sponsor.findUnique({ where: { id } });
+		if (!exists) throw new HttpError(404, "Sponsor not found");
+		await prisma.sponsor.delete({ where: { id } });
+		res.json({ ok: true });
+	} catch (err) {
+		next(err);
+	}
+});

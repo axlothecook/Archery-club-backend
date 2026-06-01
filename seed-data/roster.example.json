@@ -1,0 +1,69 @@
+{
+	"_comment": "Example roster. Copy to roster.json and replace with real data. There is ONE archer type — every archer is the same shape. 'Different-looking' archers just have different OPTIONAL fields filled (a WA competitor is full; a casual member is sparse). Optional fields: profilePhotoUrl/profilePhotoAlt, worldArcheryId, birthDate, coaches, careerStats, performance (use null / [] when not applicable, or omit). bio is Croatian (hr). TWO photos per archer: cardPhoto* = the uniform team-grid headshot (looking at camera, ~shoulders-up); profilePhoto* = the bigger image on the individual profile page (null = front-end shows a placeholder). bowType is an ARRAY (first entry = primary, drives the grid section).",
+	"archers": [
+		{
+			"firstName": "Amanda",
+			"lastName": "Mlinarić",
+			"roles": ["archer"],
+			"bowType": ["compound"],
+			"gender": "female",
+			"competitionCategories": ["CW"],
+			"order": 1,
+			"status": "published",
+			"cardPhotoUrl": "https://YOUR-PROJECT.supabase.co/storage/v1/object/public/archers/amanda.jpg",
+			"cardPhotoAlt": "Amanda Mlinarić",
+			"profilePhotoUrl": "https://YOUR-PROJECT.supabase.co/storage/v1/object/public/archers/amanda-profile.jpg",
+			"profilePhotoAlt": "Amanda Mlinarić na natjecanju",
+			"worldArcheryId": "17411",
+			"birthDate": "2000-06-15",
+			"bio": "Hrvatska reprezentativka u compound disciplini...",
+			"coaches": [],
+			"careerStats": [
+				{ "year": 2024, "discipline": "compound", "averageScore": 690.5, "wins": 12, "losses": 3, "highestScore": 715 }
+			],
+			"performance": [
+				{ "date": "2024-05-18", "competition": "Shanghai World Cup", "placing": "5th", "distance": "50m", "score": 698 }
+			],
+			"_notes": "Full WA competitor. worldArcheryId set; has careerStats + performance. bowType is an ARRAY of every style they compete in (e.g. ['recurve','barebow']); first entry = PRIMARY bow (drives the grid section). Use [] for a coach-only entry. order = position in the grid's bow section. status defaults 'published' (visible); set 'draft' to hide while building. roles can be ['archer','coach']. coaches: list of coach names, [] if none."
+		},
+		{
+			"firstName": "Leo",
+			"lastName": "Sulik",
+			"roles": ["archer", "coach"],
+			"bowType": ["recurve", "barebow"],
+			"gender": "male",
+			"competitionCategories": ["RM", "RU21M"],
+			"order": 2,
+			"status": "published",
+			"cardPhotoUrl": "https://YOUR-PROJECT.supabase.co/storage/v1/object/public/archers/leo.jpg",
+			"cardPhotoAlt": "Leo Sulik",
+			"profilePhotoUrl": null,
+			"profilePhotoAlt": null,
+			"worldArcheryId": "30434",
+			"birthDate": null,
+			"bio": "Strijelac i trener u klubu...",
+			"coaches": [],
+			"careerStats": [],
+			"performance": []
+		},
+		{
+			"firstName": "Mladi",
+			"lastName": "Strijelac",
+			"roles": ["archer"],
+			"bowType": ["recurve"],
+			"gender": "male",
+			"competitionCategories": [],
+			"order": 3,
+			"status": "published",
+			"cardPhotoUrl": "https://YOUR-PROJECT.supabase.co/storage/v1/object/public/archers/kid.jpg",
+			"cardPhotoAlt": "Mladi strijelac",
+			"profilePhotoUrl": null,
+			"profilePhotoAlt": null,
+			"worldArcheryId": null,
+			"birthDate": "2012-01-01",
+			"bio": "Mladi član kluba.",
+			"coaches": ["Leo Sulik"],
+			"_notes": "Casual/young archer: worldArcheryId null, NO stats — careerStats/performance simply OMITTED (importer treats absent as []). coaches lists other archers by 'FirstName LastName' (importer links them). A minor (birthDate makes age<18) → age auto-hidden on the site."
+		}
+	]
+}

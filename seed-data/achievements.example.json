@@ -1,0 +1,40 @@
+{
+	"_comment": "Example achievements (club medals/titles + records). Copy to achievements.json. title is Croatian (hr). 'archers' lists credited archers by 'First Last' (importer resolves to ids): one = individual, several = team, empty [] = club-level. image optional.",
+	"achievements": [
+		{
+			"year": 2019,
+			"archers": ["Amanda Mlinarić"],
+			"scope": "individual",
+			"level": "world",
+			"type": "title",
+			"medal": "gold",
+			"imageUrl": "https://YOUR-PROJECT.supabase.co/storage/v1/object/public/achievements/2019-world.jpg",
+			"imageAlt": "Amanda na pobjedničkom postolju",
+			"title": "Svjetska prvakinja (compound)",
+			"_notes": "scope: individual|team|club. level: world|european|state|other. type: title|record|other. medal: gold|silver|bronze|null. archers names → resolved to ids; team = list 2+, club-level = []."
+		},
+		{
+			"year": 2022,
+			"archers": ["Amanda Mlinarić", "Alen Remar"],
+			"scope": "team",
+			"level": "european",
+			"type": "title",
+			"medal": "silver",
+			"imageUrl": null,
+			"imageAlt": null,
+			"title": "Europsko ekipno srebro"
+		},
+		{
+			"year": 2014,
+			"archers": [],
+			"scope": "club",
+			"level": "other",
+			"type": "other",
+			"medal": null,
+			"imageUrl": null,
+			"imageAlt": null,
+			"title": "Klub osnovan",
+			"_notes": "club-level achievement (no specific archer) → archers: []. Shows only on the club history timeline."
+		}
+	]
+}

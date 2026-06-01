@@ -1,0 +1,24 @@
+{
+	"_comment": "Example club info — the SINGLE club-info record (about/history/contact/socials). Copy to club-info.json. All text is Croatian (hr). officers/socials are small lists. historyPhotos = the founders/roots gallery. officerRoleLabels maps each officer's roleKey to a Croatian label; photoCaptions maps each history photo (by its 'key' here) to a caption.",
+	"foundedDate": "2014-01-01",
+	"address": "Varaždin, Hrvatska",
+	"email": "varazdin.archery.club@gmail.com",
+	"oib": null,
+	"officers": [
+		{ "name": "Ime Prezime", "roleKey": "president" },
+		{ "name": "Ime Prezime", "roleKey": "secretary" }
+	],
+	"socials": [
+		{ "platform": "facebook", "url": "https://www.facebook.com/.../100063458080154" },
+		{ "platform": "instagram", "url": "https://instagram.com/varazdinarchery" }
+	],
+	"historyPhotos": [
+		{ "key": "founders", "url": "https://YOUR-PROJECT.supabase.co/storage/v1/object/public/history/founders.jpg", "alt": "Osnivači kluba", "order": 1 },
+		{ "key": "first-range", "url": "https://YOUR-PROJECT.supabase.co/storage/v1/object/public/history/range.jpg", "alt": "Prvo strelište", "order": 2 }
+	],
+	"valuesText": "Naše vrijednosti... (Markdown dopušten)",
+	"historyText": "Povijest kluba od 2014... (Markdown dopušten)",
+	"officerRoleLabels": { "president": "Predsjednik", "secretary": "Tajnik" },
+	"photoCaptions": { "founders": "Osnivači, 2014.", "first-range": "Prvo klupsko strelište" },
+	"_notes": "officers[].roleKey must appear in officerRoleLabels. historyPhotos[].key must appear in photoCaptions (the importer keys captions by photo). socials.platform = lowercase key (facebook/instagram/...). Only ONE club-info record exists (singleton)."
+}

@@ -1,0 +1,18 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+*.log
+
+# manual pre-edit data snapshots — git history supersedes these
+*.bak
+*.bak-*
+
+/src/generated/prisma
+
+# one-off Supabase→R2 image migration artifacts (not committed)
+_migration-backup/
+_migration-backup-roster/
+migrate-images-to-r2.ts
+migrate-roster-images-to-r2.ts

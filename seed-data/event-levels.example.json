@@ -1,0 +1,9 @@
+{
+	"_comment": "Example event levels (calendar-legend categories). Copy to event-levels.json. name is Croatian (hr). color = hex (legend dot). order = legend display order. These are referenced by events via their level name (importer resolves name → id).",
+	"eventLevels": [
+		{ "name": "Svjetski kup", "color": "#C8102E", "order": 1, "_notes": "name = the Croatian label; color = #RRGGBB hex; order = where it sits in the legend." },
+		{ "name": "Europsko prvenstvo", "color": "#003DA5", "order": 2 },
+		{ "name": "Državno", "color": "#1E9E4A", "order": 3 },
+		{ "name": "Domaće", "color": "#888888", "order": 4 }
+	]
+}
