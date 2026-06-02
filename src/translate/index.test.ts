@@ -63,8 +63,21 @@ describe("translate — live mode (key set)", () => {
 		expect(body.q).toEqual(["Bok"]);
 	});
 
-	it("throws on a non-OK response", async () => {
-		vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response("nope", { status: 403 }));
-		await expect(translateBatch(["x"], "en")).rejects.toThrow(/403/);
+	it("fails fast on a non-transient error (400) without retrying", async () => {
+		const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response("bad", { status: 400 }));
+		await expect(translateBatch(["x"], "en")).rejects.toThrow(/400/);
+		expect(fetchSpy).toHaveBeenCalledOnce(); // no retry on 400
+	});
+
+	it("retries a transient 403 (propagation blip) then succeeds", async () => {
+		vi.spyOn(console, "warn").mockImplementation(() => {});
+		const fetchSpy = vi.spyOn(globalThis, "fetch")
+			.mockResolvedValueOnce(new Response("referer blocked", { status: 403 }))
+			.mockResolvedValueOnce(
+				new Response(JSON.stringify({ data: { translations: [{ translatedText: "Hello" }] } }), { status: 200 }),
+			);
+		const out = await translateBatch(["Bok"], "en");
+		expect(out).toEqual(["Hello"]);
+		expect(fetchSpy).toHaveBeenCalledTimes(2); // 1 fail + 1 success
 	});
 });

@@ -19,6 +19,23 @@ const ENDPOINT = "https://translation.googleapis.com/language/translate/v2";
 // total `q` payload modest; we chunk to stay well under limits.
 const MAX_BATCH = 100;
 
+// Retry policy for TRANSIENT failures: rate-limits (429), server errors (5xx),
+// and the propagation-window 403 that fires right after an API-key restriction
+// change ("Requests from referer <empty> are blocked" before the change is fully
+// rolled out across Google's edge). Genuine errors (400 bad request, an
+// auth-config 403 that never clears) are NOT worth many retries but a couple of
+// 403 attempts cheaply rides out the propagation blip. Exponential backoff.
+const MAX_ATTEMPTS = 5;
+const BASE_DELAY_MS = 800;
+
+function sleep(ms: number): Promise<void> {
+	return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function isTransientStatus(status: number): boolean {
+	return status === 429 || status === 403 || status >= 500;
+}
+
 function isMock(): boolean {
 	return !process.env["GOOGLE_TRANSLATE_KEY"];
 }
@@ -62,22 +79,38 @@ export async function translateBatch(
 
 		let translated: string[] = [];
 		if (send.length > 0) {
-			const res = await fetch(`${ENDPOINT}?key=${encodeURIComponent(key)}`, {
-				method: "POST",
-				headers: { "content-type": "application/json; charset=utf-8" },
-				body: JSON.stringify({ q: send, source, target, format: "text" }),
-			});
-			if (!res.ok) {
-				const body = await res.text().catch(() => "");
-				throw new Error(`Google Translate failed (${res.status}): ${body}`);
+			let lastErr = "";
+			for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+				const res = await fetch(`${ENDPOINT}?key=${encodeURIComponent(key)}`, {
+					method: "POST",
+					headers: { "content-type": "application/json; charset=utf-8" },
+					body: JSON.stringify({ q: send, source, target, format: "text" }),
+				});
+				if (res.ok) {
+					const data = (await res.json()) as {
+						data?: { translations?: { translatedText?: string }[] };
+					};
+					const rows = data.data?.translations ?? [];
+					translated = rows.map((r) => r.translatedText ?? "");
+					if (translated.length !== send.length) {
+						throw new Error(`Google Translate returned ${translated.length} results for ${send.length} inputs`);
+					}
+					break; // success
+				}
+				lastErr = `${res.status}: ${await res.text().catch(() => "")}`;
+				// Non-transient (e.g. 400 bad request) → fail immediately.
+				if (!isTransientStatus(res.status)) {
+					throw new Error(`Google Translate failed (${lastErr})`);
+				}
+				// Transient → backoff + retry (unless this was the last attempt).
+				if (attempt < MAX_ATTEMPTS) {
+					const delay = BASE_DELAY_MS * 2 ** (attempt - 1);
+					console.warn(`[translate] transient ${res.status} (attempt ${attempt}/${MAX_ATTEMPTS}) — retrying in ${delay}ms`);
+					await sleep(delay);
+				}
 			}
-			const data = (await res.json()) as {
-				data?: { translations?: { translatedText?: string }[] };
-			};
-			const rows = data.data?.translations ?? [];
-			translated = rows.map((r) => r.translatedText ?? "");
 			if (translated.length !== send.length) {
-				throw new Error(`Google Translate returned ${translated.length} results for ${send.length} inputs`);
+				throw new Error(`Google Translate failed after ${MAX_ATTEMPTS} attempts (${lastErr})`);
 			}
 		}
 

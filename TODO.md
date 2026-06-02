@@ -2,6 +2,16 @@
 
 Pre-launch / known-issues to address before this becomes an official client product.
 
+## Harden the Google Translate API key at deploy
+
+The `GOOGLE_TRANSLATE_KEY` is created with Application restriction = **None** for
+dev (API restriction = Cloud Translation API only, which is the real guardrail).
+A backend key can't use a "Websites" restriction (no browser Origin on
+server-side calls). AT DEPLOY: switch the key's Application restriction to **IP
+addresses** = the Pi's public IP, so a leaked key can't be used from elsewhere.
+(Do NOT add archeryclub.axlothecook.com as a website restriction — the front-end
+never calls Google directly; the backend does.)
+
 ## Set up system for event generation
 
 Build the input/generation path for the `/schedule` page's events. Today only
