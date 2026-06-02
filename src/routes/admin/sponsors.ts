@@ -3,6 +3,7 @@ import { z } from "zod";
 import { prisma } from "../../db.ts";
 import { validate } from "../../http/validate.ts";
 import { HttpError } from "../../http/errors.ts";
+import { retranslateInBackground } from "../../translate/retranslate.ts";
 
 export const adminSponsorsRouter = Router();
 
@@ -42,6 +43,7 @@ adminSponsorsRouter.post("/", validate({ body: createBody }), async (req, res, n
 			},
 		});
 		res.status(201).json({ id: sponsor.id });
+		retranslateInBackground("sponsor"); // fire-and-forget: backfill target locales
 	} catch (err) {
 		next(err);
 	}
@@ -75,6 +77,7 @@ adminSponsorsRouter.patch("/:id", validate({ params: idParam, body: updateBody }
 			});
 		}
 		res.json({ ok: true });
+		if (b.description !== undefined) retranslateInBackground("sponsor"); // re-translate only if hr text changed
 	} catch (err) {
 		next(err);
 	}

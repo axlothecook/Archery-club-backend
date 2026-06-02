@@ -37,8 +37,10 @@ describe("admin CRUD round-trip + validation (integration)", () => {
 			.expect(201);
 		const id = created.body.id as string;
 
-		// public read reflects it (en falls back to hr description)
-		const read = await request(app).get("/sponsors?locale=en").expect(200);
+		// public read reflects it. Read hr (the source locale) so this is
+		// deterministic regardless of the fire-and-forget translate write-hook,
+		// which asynchronously populates the target locales (en/de/…) after create.
+		const read = await request(app).get("/sponsors?locale=hr").expect(200);
 		expect(read.body).toHaveLength(1);
 		expect(read.body[0].name).toBe("Lasercopy");
 		expect(read.body[0].description).toBe("Tvrtka za uredsku opremu.");

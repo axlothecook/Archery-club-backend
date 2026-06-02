@@ -1,0 +1,101 @@
+import type { Locale } from "archery-contracts";
+
+// Thin translation abstraction. Behind this we call Google Cloud Translation v2's
+// REST API directly with an API KEY (no SDK, no OAuth/service-account — the
+// `?key=` model is the simplest for server-to-server use). When
+// GOOGLE_TRANSLATE_KEY is unset (dev / not yet configured) we run in MOCK mode:
+// each target string is returned as `[<locale>] <source text>` so the whole
+// translate-and-store flow is testable end-to-end without a live key (and it is
+// obviously fake, so stub content is never mistaken for real). Mirrors the Brevo
+// email abstraction (src/email). Set GOOGLE_TRANSLATE_KEY in .env to go live.
+
+// Croatian is the source language; every other locale is a derived translation.
+export const SOURCE_LOCALE: Locale = "hr";
+export const TARGET_LOCALES: Locale[] = ["en", "ko", "ar", "es", "de", "fr", "zh"];
+
+const ENDPOINT = "https://translation.googleapis.com/language/translate/v2";
+
+// Google v2 accepts up to ~128 `q` strings per call and wants the POST body's
+// total `q` payload modest; we chunk to stay well under limits.
+const MAX_BATCH = 100;
+
+function isMock(): boolean {
+	return !process.env["GOOGLE_TRANSLATE_KEY"];
+}
+
+function mockOne(text: string, target: Locale): string {
+	return `[${target}] ${text}`;
+}
+
+function chunk<T>(arr: T[], size: number): T[][] {
+	const out: T[][] = [];
+	for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
+	return out;
+}
+
+// Translate a batch of strings into one target locale. Order is preserved
+// (output[i] corresponds to texts[i]). Empty strings pass through unchanged
+// (Google would bill + round-trip them for nothing). In mock mode, no network.
+export async function translateBatch(
+	texts: string[],
+	target: Locale,
+	source: Locale = SOURCE_LOCALE,
+): Promise<string[]> {
+	if (texts.length === 0) return [];
+	if (target === source) return [...texts]; // no-op: same language
+
+	if (isMock()) {
+		console.log(`[translate:mock] ${texts.length} string(s) -> ${target} (set GOOGLE_TRANSLATE_KEY to send)`);
+		return texts.map((t) => (t === "" ? "" : mockOne(t, target)));
+	}
+
+	const key = process.env["GOOGLE_TRANSLATE_KEY"] as string;
+	const out: string[] = [];
+
+	for (const part of chunk(texts, MAX_BATCH)) {
+		// Preserve empties without sending them.
+		const sendIdx: number[] = [];
+		const send: string[] = [];
+		part.forEach((t, i) => {
+			if (t !== "") { sendIdx.push(i); send.push(t); }
+		});
+
+		let translated: string[] = [];
+		if (send.length > 0) {
+			const res = await fetch(`${ENDPOINT}?key=${encodeURIComponent(key)}`, {
+				method: "POST",
+				headers: { "content-type": "application/json; charset=utf-8" },
+				body: JSON.stringify({ q: send, source, target, format: "text" }),
+			});
+			if (!res.ok) {
+				const body = await res.text().catch(() => "");
+				throw new Error(`Google Translate failed (${res.status}): ${body}`);
+			}
+			const data = (await res.json()) as {
+				data?: { translations?: { translatedText?: string }[] };
+			};
+			const rows = data.data?.translations ?? [];
+			translated = rows.map((r) => r.translatedText ?? "");
+			if (translated.length !== send.length) {
+				throw new Error(`Google Translate returned ${translated.length} results for ${send.length} inputs`);
+			}
+		}
+
+		// Re-interleave translated values with the preserved empties.
+		const merged = part.map((t) => (t === "" ? "" : ""));
+		sendIdx.forEach((origIdx, j) => { merged[origIdx] = translated[j] ?? ""; });
+		out.push(...merged);
+	}
+
+	return out;
+}
+
+// Convenience: translate a single string into one target locale.
+export async function translateText(
+	text: string,
+	target: Locale,
+	source: Locale = SOURCE_LOCALE,
+): Promise<string> {
+	const [t] = await translateBatch([text], target, source);
+	return t ?? "";
+}
