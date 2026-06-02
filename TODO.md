@@ -2,6 +2,36 @@
 
 Pre-launch / known-issues to address before this becomes an official client product.
 
+## Set up system for event generation
+
+Build the input/generation path for the `/schedule` page's events. Today only
+`import-wa-events.ts` exists (pulls GLOBAL World Archery events from the WA API);
+there is NO path for the DOMESTIC events the schedule page actually needs (local
+tournaments, club-hosted events, national-calendar entries). Decide the source
+(manual seed `seed-data/events.json` + importer, an admin-create flow, a domestic
+calendar feed, or a mix) and how WA-global vs domestic events coexist on the page.
+Also decide whether to wire `import-wa-events.ts` into `import-seed`. See the
+Dev-DB cleanup note below for the current event rows + the WA-global-vs-domestic
+gap. (EventLevel — the calendar legend — has `event-levels.example.json` but no
+real seed/importer yet either; fold its input into this work.)
+
+## Dev-DB cleanup — defer to the events/sponsors backend work
+
+The DEV database (`archery_club`) holds leftover manual-test rows that are NOT
+load-bearing (tests use the separate `archery_club_test` DB; deployment ships a
+fresh seeded DB — the dev DB never travels). Verified 2026-06-01:
+
+- **72 `clubEvents`** — real global World Archery events from an earlier
+  `import-wa-events.ts` run; stale (2021–2024). NOT wired into `import-seed`, so
+  they don't regenerate on a seed; re-importable anytime from the WA API.
+- **2 `sponsors`** — `GoodCo` / `BrokenCo` placeholder test rows (real sponsor
+  list still pending from the user).
+- plus a test hero image + 1 test membership submission + a few test admins.
+Decision (user, 2026-06-01): **leave as-is for now; clear + reconcile when we build
+the events + sponsors backend.** At that point also decide whether to wire
+`import-wa-events.ts` into `import-seed`, and build the DOMESTIC-events input path
+(the real `/schedule` blocker — global WA events ≠ the domestic events the page needs).
+
 ## Image storage on Cloudflare R2: handle the 4-hour edge cache on UPDATES
 
 **Context:** Images will be served via a Cloudflare R2 bucket behind a custom

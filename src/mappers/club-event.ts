@@ -29,7 +29,7 @@ function imageOrNull(url: string | null, alt: string | null): ImageRef | null {
 }
 
 // Resolve an EventLevel for the public calendar legend (name + color).
-function resolveLevel(level: LevelRow | null, requested: Locale): EventLevelResolved | null {
+export function resolveLevel(level: LevelRow | null, requested: Locale): EventLevelResolved | null {
 	if (!level) return null;
 	// Level translations have no per-level sourceLocale column; fall back to 'hr'
 	// (the site source language) when the requested locale's row is missing.

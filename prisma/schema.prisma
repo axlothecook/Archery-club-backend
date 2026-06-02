@@ -382,7 +382,7 @@ model ClubHistoryPhoto {
 model ClubInfoTranslation {
   id                String @id @default(uuid())
   locale            String
-  valuesText        String
+  valuesBlocks      Json // [{ header, body }] /club/identity named value blocks
   historyText       String
   officerRoleLabels Json // { roleKey: label }
   photoCaptions     Json // { photoId: caption }
@@ -391,6 +391,40 @@ model ClubInfoTranslation {
   clubInfo   ClubInfo @relation(fields: [clubInfoId], references: [id], onDelete: Cascade)
 
   @@unique([clubInfoId, locale])
+}
+
+// ── ClubHistoryPeriod ────────────────────────────────────────────────────────
+// /club/history grid of FC-Barcelona-style period cards. Editorial `order`
+// (foundation first); the year span lives in the translatable title text. Single
+// cover image as two scalar columns (reassembled to { url, alt } at the API),
+// like Sponsor.logo. Translatable narrative in ClubHistoryPeriodTranslation; the
+// ordered { header, body } sections are a JSON column (read whole, stored
+// per-locale since history is static — no on-the-fly resolution).
+
+model ClubHistoryPeriod {
+  id            String  @id @default(uuid())
+  slug          String  @unique
+  order         Int
+  coverImageUrl String?
+  coverImageAlt String?
+
+  sourceLocale String
+
+  translations ClubHistoryPeriodTranslation[]
+}
+
+model ClubHistoryPeriodTranslation {
+  id         String @id @default(uuid())
+  locale     String
+  title      String
+  subtitle   String
+  lead       String
+  paragraphs Json // [{ header, body }] ordered narrative sections
+
+  periodId String
+  period   ClubHistoryPeriod @relation(fields: [periodId], references: [id], onDelete: Cascade)
+
+  @@unique([periodId, locale])
 }
 
 // ── Inquiry inboxes ──────────────────────────────────────────────────────────

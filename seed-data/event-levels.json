@@ -1,0 +1,9 @@
+{
+	"_comment": "Event levels = the /schedule calendar-legend categories. name is Croatian (hr, source locale); color = hex legend dot; order = legend display order. Events reference a level by its hr name (the importer resolves name -> the EventLevel id). Idempotent via UPSERT keyed on the hr name (see import-event-levels.ts). Ignores _-prefixed annotation fields.",
+	"eventLevels": [
+		{ "name": "Svjetski kup", "color": "#C8102E", "order": 1 },
+		{ "name": "Europsko prvenstvo", "color": "#003DA5", "order": 2 },
+		{ "name": "Državno", "color": "#1E9E4A", "order": 3 },
+		{ "name": "Domaće", "color": "#888888", "order": 4 }
+	]
+}

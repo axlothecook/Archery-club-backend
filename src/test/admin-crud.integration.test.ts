@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import request from "supertest";
 import { app, resetDb, loginAsAdmin } from "./helpers.ts";
+import { prisma } from "../db.ts";
 
 let cookie: string;
 beforeEach(async () => {
@@ -153,5 +154,58 @@ describe("admin CRUD round-trip + validation (integration)", () => {
 		expect(p.competition).toBeUndefined();
 		expect(p.distance).toBeUndefined();
 		expect(p.score).toBeUndefined();
+	});
+});
+
+describe("admin club-info: contact editable, identity locked (integration)", () => {
+	// Seed a minimal singleton (stands in for the seed importer) so the
+	// update-only admin PUT has a row to update.
+	async function seedSingleton() {
+		const ci = await prisma.clubInfo.create({
+			data: { sourceLocale: "hr", officers: [], socials: [], foundedDate: new Date("2014-10-10") },
+		});
+		await prisma.clubInfoTranslation.create({
+			data: {
+				clubInfoId: ci.id, locale: "hr",
+				valuesBlocks: [{ header: "Sport je ljudsko pravo", body: "..." }],
+				historyText: "", officerRoleLabels: {}, photoCaptions: {},
+			},
+		});
+	}
+
+	it("admin can update contact + socials", async () => {
+		await seedSingleton();
+		await request(app)
+			.put("/admin/club-info")
+			.set("Cookie", cookie)
+			.send({ address: "Varaždin, R. Boškovića 18", email: "club@example.com", socials: [{ platform: "instagram", url: "https://instagram.com/x" }] })
+			.expect(200);
+		const read = await request(app).get("/club-info?locale=hr").expect(200);
+		expect(read.body.address).toBe("Varaždin, R. Boškovića 18");
+		expect(read.body.email).toBe("club@example.com");
+		expect(read.body.socials).toEqual([{ platform: "instagram", url: "https://instagram.com/x" }]);
+	});
+
+	it("rejects an attempt to edit IDENTITY fields with 400 (strict body)", async () => {
+		await seedSingleton();
+		const res = await request(app)
+			.put("/admin/club-info")
+			.set("Cookie", cookie)
+			.send({ address: "x", valuesBlocks: [{ header: "h", body: "b" }] })
+			.expect(400);
+		// the unrecognized identity key is reported as a body-level validation error
+		expect(res.body.error).toBeDefined();
+		// and identity is untouched: valuesBlocks still the seeded value
+		const read = await request(app).get("/club-info?locale=hr").expect(200);
+		expect(read.body.valuesBlocks).toEqual([{ header: "Sport je ljudsko pravo", body: "..." }]);
+	});
+
+	it("returns 409 when the singleton does not exist yet", async () => {
+		// no seedSingleton() — resetDb already cleared it
+		await request(app)
+			.put("/admin/club-info")
+			.set("Cookie", cookie)
+			.send({ address: "x" })
+			.expect(409);
 	});
 });

@@ -8,6 +8,8 @@ import { teamRouter } from './routes/team.ts';
 import { articlesRouter } from './routes/articles.ts';
 import { heroRouter } from './routes/hero.ts';
 import { clubInfoRouter } from './routes/club-info.ts';
+import { clubHistoryRouter } from './routes/club-history.ts';
+import { eventLevelsRouter } from './routes/event-levels.ts';
 import { authRouter } from './routes/auth.ts';
 import { requireAuth } from './http/require-auth.ts';
 import { adminSponsorsRouter } from './routes/admin/sponsors.ts';
@@ -54,10 +56,12 @@ app.get('/health', async (_req, res) => {
 app.use('/sponsors', sponsorsRouter);
 app.use('/achievements', achievementsRouter);
 app.use('/events', eventsRouter);
+app.use('/event-levels', eventLevelsRouter);
 app.use('/team', teamRouter);
 app.use('/articles', articlesRouter);
 app.use('/hero', heroRouter);
 app.use('/club-info', clubInfoRouter);
+app.use('/club-history', clubHistoryRouter);
 
 // Auth (login/logout/me).
 app.use('/auth', authRouter);
