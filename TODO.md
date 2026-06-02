@@ -15,22 +15,23 @@ Dev-DB cleanup note below for the current event rows + the WA-global-vs-domestic
 gap. (EventLevel — the calendar legend — has `event-levels.example.json` but no
 real seed/importer yet either; fold its input into this work.)
 
-## Translate write-hook: wire the remaining 7 admin route-sets
+## Translate pipeline — go-live + optional refinement
 
-The Google-translate pipeline (src/translate/) is built: engine (mock when no
-GOOGLE_TRANSLATE_KEY), per-entity fill service, `scripts/translate-backfill.ts`,
-and a fire-and-forget `retranslateInBackground(entity)` write-hook. The hook is
-WIRED into the SPONSOR admin routes (create + patch) as the reference. The other
-7 translatable entities' admin routes should get the same one-liner after their
-write (`retranslateInBackground("archer"|"achievement"|"clubEvent"|"article"|
-"eventLevel"|"clubHistoryPeriod"|"clubInfo")`): archers, achievements, events,
-articles, event-levels, club-history (no admin route yet), club-info (identity is
-seed-owned; its admin PUT edits only contact = NON-translatable, so it likely
-needs NO hook — confirm). Until then, run `npx tsx scripts/translate-backfill.ts`
-to fill any new content. Also: when a real GOOGLE_TRANSLATE_KEY is added, run the
-backfill with `--force` once to replace the "[locale] …" mock stubs with real
-translations. Optional refinement: make the hook per-ROW (not per entity-type) to
-cut Google calls on a single edit.
+The Google-translate pipeline (src/translate/) is built + the fire-and-forget
+`retranslateInBackground(entity)` write-hook is WIRED into every admin route that
+edits translatable text: sponsors, achievements, archers, events, event-levels,
+and articles (create + edit + publish-draft). NOT wired (intentionally): club-info
+(admin PUT edits only contact/socials = non-translatable; identity is seed-owned),
+hero (image-only), club-history (no admin route — seed-only for now).
+
+GO-LIVE: add a real `GOOGLE_TRANSLATE_KEY` to `.env`, then run
+`npx tsx scripts/translate-backfill.ts --force` ONCE to replace the "[locale] …"
+mock stubs with real translations. New content thereafter auto-translates via the
+write-hook (and `import-seed`/backfill cover bulk).
+
+Optional refinement: make the write-hook per-ROW (not per entity-type) to cut
+Google calls on a single edit (the per-entity fillers in fill.ts already exist;
+a per-id variant would target just the edited row).
 
 ## Dev-DB cleanup — defer to the events/sponsors backend work
 

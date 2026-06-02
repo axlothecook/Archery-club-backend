@@ -4,6 +4,7 @@ import { prisma } from "../../db.ts";
 import { Prisma } from "../../generated/prisma/client.ts";
 import { validate } from "../../http/validate.ts";
 import { HttpError } from "../../http/errors.ts";
+import { retranslateInBackground } from "../../translate/retranslate.ts";
 import { slugify } from "../../http/slug.ts";
 
 export const adminArticlesRouter = Router();
@@ -94,6 +95,7 @@ adminArticlesRouter.post("/", validate({ body: createBody }), async (req, res, n
 			},
 		});
 		res.status(201).json({ id: article.id, slug });
+		retranslateInBackground("article");
 	} catch (err) {
 		next(err);
 	}
@@ -165,6 +167,7 @@ adminArticlesRouter.patch("/:id", validate({ params: idParam, body: updateBody }
 			}
 		});
 		res.json({ ok: true });
+		if (b.title !== undefined || b.body !== undefined || b.excerpt !== undefined) retranslateInBackground("article");
 	} catch (err) {
 		next(err);
 	}
@@ -258,6 +261,7 @@ adminArticlesRouter.post("/:id/publish-draft", validate({ params: idParam }), as
 			});
 		});
 		res.json({ ok: true });
+		retranslateInBackground("article"); // published draft = new hr text
 	} catch (err) {
 		next(err);
 	}

@@ -3,6 +3,7 @@ import { z } from "zod";
 import { prisma } from "../../db.ts";
 import { validate } from "../../http/validate.ts";
 import { HttpError } from "../../http/errors.ts";
+import { retranslateInBackground } from "../../translate/retranslate.ts";
 import { slugify } from "../../http/slug.ts";
 
 export const adminArchersRouter = Router();
@@ -120,6 +121,7 @@ adminArchersRouter.post("/", validate({ body: createBody }), async (req, res, ne
 			},
 		});
 		res.status(201).json({ id: archer.id, slug });
+		retranslateInBackground("archer");
 	} catch (err) {
 		next(err);
 	}
@@ -171,6 +173,7 @@ adminArchersRouter.patch("/:id", validate({ params: idParam, body: updateBody })
 			}
 		});
 		res.json({ ok: true });
+		if (b.bio !== undefined) retranslateInBackground("archer");
 	} catch (err) {
 		next(err);
 	}
