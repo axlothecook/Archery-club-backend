@@ -2,6 +2,7 @@ import type {
 	ClubInfoResolved,
 	ClubOfficer,
 	ClubSocial,
+	ClubValueBlock,
 	Locale,
 } from "archery-contracts";
 import type {
@@ -52,7 +53,7 @@ export function toClubInfoResolved(row: ClubInfoRow, requested: Locale): ClubInf
 			})),
 
 		locale,
-		valuesText: t.valuesText,
+		valuesBlocks: t.valuesBlocks as unknown as ClubValueBlock[],
 		historyText: t.historyText,
 	};
 }

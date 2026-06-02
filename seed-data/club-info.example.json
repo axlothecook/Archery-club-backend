@@ -16,7 +16,9 @@
 		{ "key": "founders", "url": "https://YOUR-PROJECT.supabase.co/storage/v1/object/public/history/founders.jpg", "alt": "Osnivači kluba", "order": 1 },
 		{ "key": "first-range", "url": "https://YOUR-PROJECT.supabase.co/storage/v1/object/public/history/range.jpg", "alt": "Prvo strelište", "order": 2 }
 	],
-	"valuesText": "Naše vrijednosti... (Markdown dopušten)",
+	"valuesBlocks": [
+		{ "header": "Naziv vrijednosti", "body": "Opis vrijednosti... (Markdown dopušten)" }
+	],
 	"historyText": "Povijest kluba od 2014... (Markdown dopušten)",
 	"officerRoleLabels": { "president": "Predsjednik", "secretary": "Tajnik" },
 	"photoCaptions": { "founders": "Osnivači, 2014.", "first-range": "Prvo klupsko strelište" },

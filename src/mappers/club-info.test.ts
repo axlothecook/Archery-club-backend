@@ -18,13 +18,13 @@ function makeRow() {
 		translations: [
 			{
 				id: "t0", clubInfoId: "ci1", locale: "hr",
-				valuesText: "Vrijednosti", historyText: "Povijest",
+				valuesBlocks: [{ header: "Vrijednost", body: "Opis" }], historyText: "Povijest",
 				officerRoleLabels: { president: "Predsjednik" },
 				photoCaptions: { ph1: "Osnivači" },
 			},
 			{
 				id: "t1", clubInfoId: "ci1", locale: "en",
-				valuesText: "Values", historyText: "History",
+				valuesBlocks: [{ header: "Value", body: "Description" }], historyText: "History",
 				officerRoleLabels: { president: "President" },
 				photoCaptions: { ph1: "Founders" },
 			},
@@ -37,7 +37,7 @@ describe("toClubInfoResolved", () => {
 	it("resolves text + officer role label to the requested locale", () => {
 		const out = toClubInfoResolved(makeRow(), "en");
 		expect(out.locale).toBe("en");
-		expect(out.valuesText).toBe("Values");
+		expect(out.valuesBlocks).toEqual([{ header: "Value", body: "Description" }]);
 		expect(out.officers).toEqual([{ name: "Ivan Horvat", role: "President" }]);
 	});
 
@@ -59,6 +59,6 @@ describe("toClubInfoResolved", () => {
 	it("falls back to sourceLocale", () => {
 		const out = toClubInfoResolved(makeRow(), "ko");
 		expect(out.locale).toBe("hr");
-		expect(out.valuesText).toBe("Vrijednosti");
+		expect(out.valuesBlocks).toEqual([{ header: "Vrijednost", body: "Opis" }]);
 	});
 });

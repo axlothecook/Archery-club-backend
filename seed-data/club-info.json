@@ -1,0 +1,43 @@
+{
+	"_comment": "The SINGLE club-info record (identity/about/contact/socials). IDENTITY is seed-managed (this file) and NOT admin-editable; only CONTACT (address/email/oib/socials) is admin-editable, and the importer writes contact ONLY on first create (re-imports never clobber admin contact edits). All text is Croatian (hr). Identity facts verified VERBATIM from vsk.hr/o-klubu (re-fetched 2026-06-02): founded 10.10.2014, address R. Boškovića 18, OIB 40419412209, officers, and the Olympic-Charter values statement. valuesBlocks = the charter sentence carved into FC-Barcelona-identity-style named value blocks (the IDEAS + WORDS are from the source; block boundaries are editorial; 'fair play' rendered as the Croatian 'poštena igra' per the club's style rules). historyText/historyPhotos/photoCaptions are intentionally empty here — history now lives in ClubHistoryPeriod; these ClubInfo fields are reserved for reuse on identity/sponsors/contact/footer.",
+	"foundedDate": "2014-10-10",
+	"address": "Varaždin, R. Boškovića 18",
+	"email": "varazdin.archery.club@gmail.com",
+	"oib": "40419412209",
+	"officers": [
+		{ "name": "Tomislav Mlinarić", "roleKey": "president" },
+		{ "name": "Amanda Mlinarić", "roleKey": "secretary" },
+		{ "name": "Dražen Kontrec", "roleKey": "vicePresident" }
+	],
+	"socials": [
+		{ "platform": "facebook", "url": "https://www.facebook.com/profile.php?id=100063458080154" },
+		{ "platform": "instagram", "url": "https://instagram.com/varazdinarchery" }
+	],
+	"historyPhotos": [],
+	"valuesBlocks": [
+		{
+			"header": "Sport je ljudsko pravo",
+			"body": "Bavljenje sportom je ljudsko pravo. Svakom pojedincu mora biti omogućeno bavljenje sportom."
+		},
+		{
+			"header": "Bez diskriminacije",
+			"body": "Bavljenje sportom mora biti omogućeno bez diskriminacije bilo koje vrste i u olimpijskom duhu."
+		},
+		{
+			"header": "Prijateljstvo i solidarnost",
+			"body": "Olimpijski duh zahtijeva obostrano razumijevanje u duhu prijateljstva i solidarnosti."
+		},
+		{
+			"header": "Poštena igra",
+			"body": "Bavljenje sportom zahtijeva obostrano razumijevanje u duhu poštene igre."
+		}
+	],
+	"historyText": "",
+	"officerRoleLabels": {
+		"president": "Predsjednik",
+		"secretary": "Tajnica",
+		"vicePresident": "Dopredsjednik"
+	},
+	"photoCaptions": {},
+	"_open": "Officer gender-suffixed titles are garbled on vsk.hr itself (e.g. 'predsjednica: Tomislav Mlinarić'); roleKeys + hr labels use the clean reading verified in archery-club-history-source-facts.md. Only ONE Facebook social URL is confirmed (the page id from club-info.example.json); Instagram from the old example was a guessed handle and is OMITTED pending confirmation. Email = the club Gmail (vsk.hr's was redacted on fetch). Instagram @varazdinarchery VERIFIED real 2026-06-02 (display name 'Varaždinski streličarski klub'). socials are CONTACT (admin-owned) → only written on first create; this seeded list is the initial value."
+}
