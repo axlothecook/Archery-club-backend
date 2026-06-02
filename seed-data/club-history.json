@@ -1,0 +1,177 @@
+{
+	"_comment": "Club-history chapters for the /club/history page (FC Barcelona decade-card style). Written WITH the user, post-by-post, in Croatian (hr = source locale; EN + others come later via the translate pipeline). Each chapter = one ClubHistoryPeriod: slug + order + coverImage (null until the user supplies a cover photo) + hr translation { title, subtitle, lead, paragraphs[] }. `paragraphs` is an ordered list of { header, body }; the future ClubHistoryPeriod model/importer will map this (the contract's flat `narrative` can serialize from lead + paragraphs). `_sourcePosts`/`_open` are annotation fields (ignored by the importer). Style rules: archery-article-writing-rules.md (no em-dash, no English-as-Croatian, 'fair play'->'poštene igre', objective FCB register, past tense). Status per chapter in `_status`.",
+	"periods": [
+		{
+			"slug": "2014-temelji-i-prvi-koraci",
+			"order": 0,
+			"coverImage": { "url": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/history/ch-1.jpg", "alt": "Foundation of Varaždinski streličarski klub, 2014" },
+			"sourceLocale": "hr",
+			"_status": "LOCKED (approved by user 2026-06-01)",
+			"_referenceCard": "https://www.fcbarcelona.com/en/card/643865/1899-1909-foundation-and-survival",
+			"_sourcePosts": "4 FB posts dated 11 Oct 2014 (intro/mission, Olympic-charter quote, sponsors+helpers) + 17 Oct 2014 (jersey in production); 2 jersey mockup images; vsk-logo.png crest.",
+			"_open": "'Veron Habek' spelling unverified beyond user's word; p4 'manje od mjesec dana' = user-verified true. coverImage.alt is agent-composed English (user-accepted 2026-06-01; folds into translate pipeline later).",
+			"translations": [
+				{
+					"locale": "hr",
+					"title": "2014. Temelji i prvi koraci",
+					"subtitle": "Iz želje za višim standardom i većim ambicijama rođen je Varaždinski streličarski klub.",
+					"lead": "Streličarstvo u Varaždinu nije počelo 2014., no te je jeseni skupina streličara odlučila krenuti svojim putem i osnovati novi klub. Cilj nije bio tek otvoriti još jedno mjesto za sport luka i strijele, nego podići profesionalnost i natjecateljsku razinu više nego dotad i izjednačiti ih sa svjetskim ambicijama. Klub je službeno osnovan 10. listopada 2014., a prvi su mjeseci protekli u postavljanju temelja, jer je gotovo sve trebalo izgraditi od početka.",
+					"paragraphs": [
+						{
+							"header": "Osnivači i prvi streličari",
+							"body": "Klub su osnovali Tomislav Mlinarić i Cvijetoslav Zorman. Prvu streličarsku postavu činili su Amanda Mlinarić, Alen Remar i Veron Habek."
+						},
+						{
+							"header": "Identitet i komunikacija",
+							"body": "Klub je temeljen na nekoliko jasnih vrijednosti, utemeljenih na olimpijskom duhu prema kojem je sport ljudsko pravo dostupno svima, bez diskriminacije, u ozračju prijateljstva, solidarnosti i poštene igre, uz jednakost svih članova. Uz to su uspostavljeni bili kanali za redovitu komunikaciju s članovima i zainteresiranima o nastupima i uspjesima u zemlji i inozemstvu te o opremi i novostima u streličarstvu."
+						},
+						{
+							"header": "Logotip kluba",
+							"body": "Logotip kluba utjelovljen je u grbu u obliku štita. Uz gornji rub upisano je puno ime kluba, a u središtu se nalaze bijele kule varaždinskog Starog grada i streličarska meta preko koje je položen napeti luk sa strijelom, univerzalni simbol streličarstva. Pri dnu stoji datum osnutka, 10. listopada 2014. Grb tako povezuje streličarstvo s najprepoznatljivijim simbolom grada."
+						},
+						{
+							"header": "Prvi službeni dres",
+							"body": "Prvi službeni dres viđen je na natjecanju u manje od mjesec dana. Dizajn je bio bijele boje, s klupskim logotipom na sredini prsa. Na leđima su inicijali imena kluba \"V.S.K.\" i prezime streličara, a na prsima, leđima i rukavima logotipi partnera Avus, Lasercopy i Cico-Sport."
+						},
+						{
+							"header": "Prostor za prve treninge",
+							"body": "U početku klub se mogao osloniti na pomoć lokalne zajednice. Općina Vidovec, na čelu s načelnikom Hranićem, i Osnovna škola Vidovec, s ravnateljem Mašićem, ustupili su klubu prijeko potreban prostor za zimske treninge. Time je klubu bilo omogućeno da odmah počne raditi."
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "2014-studeni-prosinac-turniri-ustrajnosti",
+			"order": 1,
+			"coverImage": { "url": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/history/ch-2.jpg", "alt": "VŠK archers at their first indoor tournaments, late 2014" },
+			"sourceLocale": "hr",
+			"_status": "LOCKED (approved by user 2026-06-01)",
+			"_referenceCard": "https://www.fcbarcelona.com/en/card/682785/1909-19-consolidation-at-carrer-industria",
+			"_sourcePosts": "3 FB posts: 9 Nov 2014 (Sisak, first official tournament, van konkurencije, HSS-recognized), 26 Nov 2014 (Mala Subotica 23.11., SK Katarina Zrinski), 8 Dec 2014 (Sv. Nikola, SK Sisak, 7.12.).",
+			"_open": "coverImage.alt agent-composed English (user-accepted 2026-06-01; folds into translate pipeline later). Dates rendered as months per user. Folk-sayings + emotional lines from posts dropped (objective register).",
+			"translations": [
+				{
+					"locale": "hr",
+					"title": "Studeni i prosinac 2014. Turniri ustrajnosti",
+					"subtitle": "S četiri streličara i jednim trenerom mladi klub izlazi na prve turnire i odmah upisuje rezultate i rekorde.",
+					"lead": "Manje od mjesec dana nakon osnivanja klub je izašao na prve turnire. Brojao je tek četiri streličara, Amandu Mlinarić, Verona Habeka, Alena Remara i Tomislava Mlinarića, te trenera Cvijetoslava Zormana. Do kraja 2014. nastupili su na tri dvoranska turnira i pokazali da i mala momčad može pucati uz najbolje.",
+					"paragraphs": [
+						{
+							"header": "Prvi službeni turnir u Sisku",
+							"body": "Prvi službeni turnir kluba održan je u studenome 2014. u sportskoj dvorani u Sisku. Streličari su pucali van konkurencije pa za svoje plasmane nisu dobili medalje. Amanda Mlinarić bila je prva u diviziji složenog luka za djevojčice do 14 godina i postavila novi državni rekord. Veron Habek osvojio je prvo mjesto među dječacima do 12 godina olimpijskim lukom, Alen Remar bio je drugi u juniorskoj konkurenciji olimpijskog luka, a Tomislav Mlinarić deseti među seniorima sa složenim lukom."
+						},
+						{
+							"header": "Rekord postavljen, medalje izostale",
+							"body": "Iako su streličari pucali van konkurencije i ostali bez medalja, Hrvatski streličarski savez priznao je njihove rezultate i rekorde. Time su ušli u povijest kao prvi službeni rezultati Varaždinskog streličarskog kluba. Rekord postavljen tom prigodom ipak nije bio ovjeren, zbog administrativnih postupaka vezanih uz novoosnovani klub."
+						},
+						{
+							"header": "Povratak u konkurenciju",
+							"body": "Drugi nastup uslijedio je na kraju istog mjeseca, na dvoranskom turniru u Maloj Subotici. Klub je ovaj put nastupio pod svojim imenom i u redovnoj konkurenciji, ravnopravno s ostalim streličarima. Amanda Mlinarić ponovno je osvojila prvo mjesto, a Alen Remar broncu u juniorskoj konkurenciji, u kojoj nastupa iako po dobi pripada mlađoj, kadetskoj skupini. I na kraju, ali ne manje važno, Miroslav Habek izborio je nastup na Prvenstvu Hrvatske."
+						},
+						{
+							"header": "Dva rekorda u dva mjeseca",
+							"body": "U posljednjem nastupu u godini u prosincu Remar je osvojio broncu, Veron Habek srebro, a Amanda prvo mjesto i pritom sve iznenadila ponovno oborivši državni rekord."
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "2015-potvrda-kvalitete",
+			"order": 2,
+			"coverImage": { "url": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/history/ch-3.jpg", "alt": "VŠK archers competing internationally and nationally, 2015" },
+			"sourceLocale": "hr",
+			"_status": "LOCKED (approved by user 2026-06-01)",
+			"_referenceCard": "https://www.fcbarcelona.com/en/card/682785/1909-19-consolidation-at-carrer-industria (+ per-archer paragraph structure from the 1919-30 golden-age card)",
+			"_sourcePosts": "FB posts: 12 Jan (Čakovac), 30 Jan (Nîmes, Alen + Amanda), 9 Mar (Alen youngest senior nat-team, Rijeka), 24 Mar (Croatian Champ Rijeka + new jersey + website), 16 Apr (club photographer Marijan Meštrić), 21 Apr (Euro Grand Prix Marathon report), 27 Apr (CEC Kamnik).",
+			"_open": "coverImage.alt agent-composed English (user-accepted convention). New names used as written (unverified beyond posts): Nenad Rauš (website), Marijan Meštrić (photographer), nat-team teammates Mario Vavro/Marko Gligorovski/Matija Mihalić. Per-archer paragraphs (p2 Alen, p3 Amanda) are name-led, intentionally overriding the no-name-opener rule (mirrors FCB golden-age player sections). '5 records' appears in both p3 (HSS recognition) and p5 (jersey-debut occasion) by user instruction.",
+			"translations": [
+				{
+					"locale": "hr",
+					"title": "2015. Potvrda kvalitete",
+					"subtitle": "U prvoj punoj godini klub probija granice, od državnih rekorda do reprezentativnih dresova i prvih velikih međunarodnih nastupa.",
+					"lead": "Nakon prvih turnira na kraju 2014., klub je u 2015. ušao s većim rezultatima. Već su prvi nastupi pokazali da rezultati s kraja prethodne godine nisu bili slučajni, nego najava onoga što slijedi.",
+					"paragraphs": [
+						{
+							"header": "Prvi nastup, prve velike potvrde",
+							"body": "Prvo natjecanje godine, dvoranski turnir u Čakovcu u siječnju, odmah je donijelo prijelomne rezultate. Alen Remar ostvario je normu za Europsko prvenstvo u Kopru i osigurao mjesto u reprezentaciji Hrvatske. Amanda Mlinarić oborila je državni rekord treći put zaredom u svojoj kategoriji. Prvo mjesto među dječacima do 12 godina osvojio je i Veron Habek."
+						},
+						{
+							"header": "Alen Remar",
+							"body": "Alen Remar te je godine napravio velik iskorak na međunarodnoj sceni. Klub ga je s Amandom uputio na Svjetski dvoranski kup u Nîmesu, jedno od najjačih dvoranskih natjecanja na svijetu s oko 1300 streličara. Nastupio je hrabro i sa 549 krugova zauzeo 56. mjesto u svjetskoj konkurenciji, skupivši dragocjeno iskustvo na velikoj pozornici. Ubrzo je na kvalifikacijskom turniru u Rijeci izborio mjesto u seniorskoj reprezentaciji Hrvatske i postao njezin najmlađi član u povijesti. S reprezentacijom je otputovao na Europski Grand Prix u grčki Marathon, posljednji kvalifikacijski turnir za Europske igre. Hrvatska postava Maria Vavre, Marka Gligorovskog, Matije Mihalića i Alena Remara plasmanima na 2., 5., 8. i 17. mjestu izborila je nastup na Europskim igrama."
+						},
+						{
+							"header": "Amanda Mlinarić",
+							"body": "Amanda Mlinarić u Nîmes je stigla s trinaest godina i nastupila među juniorkama, kategoriju iznad svoje. Sa 568 krugova postavila je novi državni rekord i potvrdila normu za Europsko prvenstvo u Kopru. U kvalifikacijama je završila na četvrtom mjestu. U eliminacijama je svladala protivnice iz Turske i Estonije, uz novi hrvatski rekord od 144 kruga s 15 strijela, tek krug manje od svjetskog kadetskog rekorda. Potom je izgubila od pobjednice turnira, Ukrajinke Marye Skholne, a u borbi za broncu poražena je rezultatom 143:140. Tijekom sezone Hrvatski streličarski savez posebno ju je istaknuo kao streličarku s najviše oborenih rekorda, njih pet."
+						},
+						{
+							"header": "Tri međunarodna nastupa u četiri mjeseca",
+							"body": "U samo četiri mjeseca, nepunih pola godine od osnivanja, klub je nastupio na tri inozemna natjecanja sve veće težine: Svjetskom dvoranskom kupu u Nîmesu, Europskom Grand Prixu u Marathonu i prvom Central European Cupu u Kamniku. U Kamniku u travnju mala je ekipa ostvarila zapažene rezultate: Amanda je bila prva sa 649 krugova, Remar treći, a Tomislav petnaesti. Za klub osnovan tek nekoliko mjeseci ranije, takav je međunarodni ritam bio znak brzog rasta."
+						},
+						{
+							"header": "Novi službeni dres",
+							"body": "Na Prvenstvu Hrvatske za mlađe kategorije u Rijeci u ožujku predstavljen je novi službeni dres Varaždinskog streličarskog kluba. Premijerno je nošen na svečanosti na kojoj je Amanda Mlinarić primila priznanje za pet državnih rekorda postavljenih te sezone."
+						},
+						{
+							"header": "Web stranica i klupski fotograf",
+							"body": "Klub je tada dobio i svoju web stranicu, vsk.hr, koju je izradio streličar Nenad Rauš. Ulogu klupskog fotografa preuzeo je novi član Marijan Meštrić, čije su fotografije s natjecanja objavljivane na stranicama kluba."
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "2015-neprekidni-uspon",
+			"order": 3,
+			"coverImage": { "url": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/history/ch-4.jpg", "alt": "VŠK's first full season: medals, a national title sweep and the club's own range, 2015" },
+			"sourceLocale": "hr",
+			"_status": "LOCKED (approved by user 2026-06-01)",
+			"_referenceCard": "https://www.fcbarcelona.com/en/card/682835/1919-30-a-golden-age",
+			"_sourcePosts": "FB posts May-Dec 2015: EU Youth Cup Klagenfurt (28.5), new pucalište (19.6, Varaždin gave 1-yr use), local-domination run (Čakovec/Zrinski 26.4, Maribor/Postružnik 10.5, 20.6 tournament, 8.7 four-tournament stretch, Vitez Čakovca WA720 26.7), field EP norms (Vž.Toplice 8.8 + Austria 29.8), Navaho Jalžabet (30.8), PH Sisak (6.9), CEC 5 Final Hévíz (12-13.9), EP Field Poland Rzeszów (5-10.10) + birthday 10.10, Kutina indoor (11.10), Berlin Open (11-13.12).",
+			"_open": "coverImage.alt agent-composed English (accepted convention). Order = chronological (not the literal p1-p7 synopsis numbering; anniversary added as its own beat). New names used as written: Tomislav Jaranović, Smiljana Brezovec Meštrić (co-designed jersey), Marijan Potočki, Veron/Miroslav Habek. Non-VŠK referenced only as opponents: Filip Šimić (PSK, Amanda's mixed-team partner), Žiga Ravnikar (Alen's CEC final opponent). Maja Marcén photo-encounter line was removed per user. Heavy post editorializing stripped for objective register.",
+			"translations": [
+				{
+					"locale": "hr",
+					"title": "2015. Neprekidni uspon",
+					"subtitle": "Unutar godine dana od osnivanja klub osvaja velike medalje, međunarodni naslov i vlastito strelište.",
+					"lead": "Druga polovica 2015. potvrdila je da rast kluba nije bio kratkog daha. Nizali su se nastupi kod kuće i u inozemstvu, a s njima i medalje, rekordi i prvi veliki naslovi.",
+					"paragraphs": [
+						{
+							"header": "Medalje na European Youth Cupu",
+							"body": "U svibnju su Amanda Mlinarić i Alen Remar prvi put nastupili na European Youth Cupu, najvećem europskom natjecanju za mlade, održanom u Klagenfurtu. Nosili su dres hrvatske reprezentacije. Amanda, najmlađa natjecateljica cijelog turnira, osvojila je broncu u pojedinačnoj konkurenciji i srebro u mješovitom paru s Filipom Šimićem iz Zagreba. Alen je kvalifikacije završio na 13. mjestu. Bile su to prve velike medalje za streličare kluba na međunarodnoj sceni."
+						},
+						{
+							"header": "Vlastito strelište",
+							"body": "Iste godine klub je dobio i vlastito strelište. Grad Varaždin ustupio mu je travnatu površinu na korištenje na godinu dana, s metama postavljenima na različitim udaljenostima. Time je klub prvi put imao prostor za redovite treninge na otvorenom."
+						},
+						{
+							"header": "Niz domaćih i regionalnih pobjeda",
+							"body": "Kroz proljeće i ljeto iste godine streličari kluba nizali su pobjede na domaćim i regionalnim turnirima, od Čakovca i Maribora do Preloga, Ljutomera i Jalžabeta. Amanda Mlinarić i Alen Remar redovito su osvajali prva mjesta u svojim kategorijama, često uz nove rekorde, a na turniru \"Vitez grada Čakovca\" Alen je postavio novi državni kadetski rekord od 659 krugova. Uz njih su zapažene rezultate ostvarivali Tomislav Mlinarić, Miroslav Habek, Smiljana Brezovec Meštrić, Tomislav Jaranović i Marijan Potočki, čime se pokazao i sve veći rast kluba."
+						},
+						{
+							"header": "Pobjede na srednjoeuropskom kupu",
+							"body": "Najveći međunarodni uspjeh godine stigao je na završnom turniru Central European Cupa u mađarskom Hévízu u rujnu. Alen Remar na turnir je stigao kao drugoplasirani u ukupnom poretku, pobijedio na posljednjem turniru i izjednačio se na vrhu sa Žigom Ravnikarom iz Slovenije. Umjesto da podijeli prvo mjesto, zatražio je dodatno gađanje i u njemu osvojio ukupnu pobjedu u cijelom kupu. Amanda Mlinarić pobijedila je u svojoj kategoriji i također osvojila ukupni naslov u kupu, a s Filipom Šimićem u mješovitom paru osvojila je broncu protiv starijih i iskusnijih protivnika."
+						},
+						{
+							"header": "Jedan doprvak i tri prvaka na Prvenstvu Hrvatske",
+							"body": "Na Prvenstvu Hrvatske u Sisku u rujnu klub je osvojio jedan naslov doprvaka i tri naslova prvaka države. Naslove državnih prvaka osvojili su Alen Remar i Amanda Mlinarić. Smiljana Brezovec Meštrić osvojila je naslov među veterankama olimpijskog luka i pritom oborila državni rekord za više od 20 krugova. Miroslav Habek izborio je finale i osvojio srebro."
+						},
+						{
+							"header": "Iskorak u terensko streličarstvo",
+							"body": "Te se godine klub prvi put okušao i u terenskom streličarstvu, disciplini gađanja meta u prirodi na poznatim i nepoznatim udaljenostima. Alen Remar ostvario je dvije juniorske norme za Europsko prvenstvo, uključujući jednu u Austriji, gdje je bio i najbolji u svojoj kategoriji. Početkom listopada nastupio je za hrvatsku reprezentaciju na Europskom terenskom prvenstvu u Poljskoj i kao jedan od najmlađih natjecatelja osvojio četvrto mjesto."
+						},
+						{
+							"header": "Prva godišnjica",
+							"body": "Klub je 10. listopada 2015. obilježio prvu godišnjicu osnivanja. Na isti je dan Alen Remar nastupao na turniru Europskog terenskog prvenstva u Poljskoj, što je godišnjicu učinilo još posebnijom. U godinu dana klub je od skupine od nekoliko streličara izrastao u sredinu s reprezentativcima, državnim naslovima i međunarodnim pobjedama."
+						},
+						{
+							"header": "Završetak godine na Berlin Openu",
+							"body": "Godina je zaključena u prosincu na Berlin Openu, jednom od najvećih svjetskih dvoranskih turnira. Amanda i Remar nastupili su u seniorskoj konkurenciji. Amanda se sa svojih četrnaest godina probila do raspucavanja i završila kao 17. od 60-tak streličarki složenog luka, dok je 16-godišnji Alen bio 68. u konkurenciji više od 200 streličara."
+						}
+					]
+				}
+			]
+		}
+	]
+}
