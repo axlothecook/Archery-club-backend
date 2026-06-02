@@ -1,0 +1,46 @@
+{
+	"_comment": "Club sponsors — displayed on the front-end as 'Official Partners' (FCB-style, but WITH honoring text per partner, not logo-only). Sponsors are admin-managed (model + admin CRUD already exist); this seed is the initial import. Idempotent via match-by-name then create/update (see import-sponsors.ts). All `description` text is the Croatian (hr) SOURCE (translate pipeline backfills other locales later). Ignores _-prefixed annotation fields.",
+	"_notes": "All 5 partners complete (logos + websites + hr descriptions) as of 2026-06-02. Descriptions: Lasercopy/KODRA/Raiffeisen = full hr translations of the user's prototype-page text (axlothecook.github.io/VSK-archeryClub/sponsors.html). Avus = from avus.hr (business-education center). Cico-Sport = archery shop (user-confirmed; product range researched from venatio.hr/hunter.hr/studio-trade.hr as cico-sport.com is down → exact inventory unconfirmed). Each ends with a 'Za više informacija posjetite …' line per user. Cico-Sport's site link is the mojkvart.hr listing (own domain down).",
+	"sponsors": [
+		{
+			"name": "Lasercopy",
+			"logoUrl": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/sponsors/sponsor-lasercopy.png",
+			"logoAlt": "Lasercopy logo",
+			"website": "https://lasercopy.hr",
+			"sourceLocale": "hr",
+			"description": "Lasercopy je hrvatska tvrtka registrirana za prodaju, najam i servis uredske opreme, uključujući dostavu i servisne intervencije vlastitim vozilima. Posluje samostalno i preko poslovnih partnera više od 15 godina. Nudi širok asortiman uredske opreme, među kojom su pisači i faks uređaji. Usluge uključuju i računala (kompletan hardver) te računalne mreže, kao i softver s ovlaštenjem za Microsoftove aplikacije i Kaspersky antivirusnu zaštitu. Za više informacija posjetite lasercopy.hr."
+		},
+		{
+			"name": "KODRA",
+			"logoUrl": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/sponsors/sponsor-kodra.png",
+			"logoAlt": "KODRA logo",
+			"website": "https://kodra.hr",
+			"sourceLocale": "hr",
+			"description": "KODRA s ponosom slavi deset godina uspješnog poslovanja, tijekom kojih je izgradila ugled pouzdanog partnera u distribuciji tehničkih plinova. Njezina je misija osigurati kvalitetnu i brzu dostavu tehničkih plinova izravno potrošačima, bez obzira na količinu proizvoda. Temelji tvrtke su jamstvo zadovoljstva, kvaliteta proizvoda i usmjerenost na klijente. Njihov plin maksimalne je energetske učinkovitosti i kvalitete i pri niskim temperaturama. Tvrtka čvrsto stoji iza kvalitete svojih proizvoda te brze i besplatne dostave. Za više informacija posjetite kodra.hr."
+		},
+		{
+			"name": "Raiffeisen Bank",
+			"logoUrl": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/sponsors/sponsor-bank.png",
+			"logoAlt": "Raiffeisen Bank logo",
+			"website": "https://www.rbinternational.com/en/raiffeisen.html",
+			"sourceLocale": "hr",
+			"description": "Raiffeisen Bank pomaže klijentima ostvariti njihove ciljeve stručnim financijskim uslugama, spajajući europsku tradiciju s modernim potrebama. Daje prednost jednostavnosti, brzini i zadovoljstvu klijenata. Cijeneći stručnost, povjerenje i kvalitetu, nudi profesionalno financijsko savjetovanje s poštenjem i transparentnošću. Raiffeisen Bank potiče zajednički razvoj, napredak društva i izvrsnost zaposlenika. Za više informacija posjetite rbinternational.com."
+		},
+		{
+			"name": "Avus",
+			"logoUrl": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/sponsors/sponsor-avus.png",
+			"logoAlt": "Avus logo",
+			"website": "https://www.avus.hr",
+			"sourceLocale": "hr",
+			"description": "Avus je centar za poslovno obrazovanje koji razvija zaposlenike kroz poslovne edukacije, savjetovanje, individualni rad i programe e-učenja te pomaže poduzećima i poduzetnicima u jačanju komunikacijskih, prodajnih i vodstvenih kompetencija. Za više informacija posjetite avus.hr."
+		},
+		{
+			"name": "Cico-Sport",
+			"logoUrl": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/sponsors/sponsor-cico.png",
+			"logoAlt": "Cico-Sport logo",
+			"website": "https://www.mojkvart.hr/Varazdin/Varazdin/Vinoteka-vino-prodaja-i-proizvodnja-vina/TRGOVINA-CICO-SPORT-CVIJETOSLAV-ZORMAN-VARAzDIN-VUKOVARSKA-3-62276",
+			"sourceLocale": "hr",
+			"description": "Cico-Sport je trgovina specijalizirana za streličarsku opremu koja streličarima svih razina nudi olimpijske, klasične i složene lukove, strijele, mete te dodatnu opremu poput štitnika za podlakticu, rukavica i tobolaca. Za više informacija posjetite njihovu stranicu na mojkvart.hr."
+		}
+	]
+}
