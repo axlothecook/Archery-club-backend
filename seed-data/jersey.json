@@ -1,0 +1,19 @@
+{
+	"_comment": "Jersey (dres) content for the future /club/identity/jersey page. Extracted from club-history.json Ch1 'Prvi službeni dres' (original 2014) + Ch3 'Novi službeni dres' (2015 redesign mention) on 2026-06-04, so jersey content lives outside the history chapters (FCB Club>Identity model). NOTE: this is the THIN EXISTING TEXT only. The FULL visual description + comparison of the two designs (white+grey yoke, black neck, crest moved to left chest mirroring the Croatia national-team shirt, 'VSK'+stylised arrow on back, sponsor evolution Avus/Lasercopy/Cico-Sport -> Croatian Archery Association) is TO BE WRITTEN when the Jersey identity page is built, using the user's photos. The 2015 design is still worn today (2015 -> present). hr = source locale; translations later via translate pipeline.",
+	"slug": "jersey",
+	"sourceLocale": "hr",
+	"_status": "EXTRACTED (thin text) from Ch1+Ch3 2026-06-04; full description + design-comparison TO WRITE at identity-page build (user has photos)",
+	"_todo": "Write full jersey-page prose at build: (1) original 2014 jersey - all white, logo centre chest, V.S.K.+surname back, sponsors Avus/Lasercopy/Cico-Sport. (2) 2015 redesign (presented PH Rijeka, March 2015; worn 2015->today) - white + grey shoulder/back/sleeve yoke, black neck, crest moved to LEFT chest (mirrors placement on the Croatia national-team shirt), big 'VSK' + stylised arrow on back, surname+initial, sponsors evolved (Lasercopy, Avus, Croatian Archery Association at various times). User has photos of both designs + the Croatia national shirt for comparison.",
+	"designs": [
+		{
+			"key": "original-2014",
+			"year": "2014",
+			"hr": "Prvi službeni dres viđen je na natjecanju u manje od mjesec dana. Dizajn je bio bijele boje, s klupskim logotipom na sredini prsa. Na leđima su inicijali imena kluba \"V.S.K.\" i prezime streličara, a na prsima, leđima i rukavima logotipi partnera Avus, Lasercopy i Cico-Sport."
+		},
+		{
+			"key": "redesign-2015",
+			"year": "2015",
+			"hr": "U ožujku 2015., na Prvenstvu Hrvatske za mlađe kategorije u Rijeci, predstavljen je novi službeni dres Varaždinskog streličarskog kluba. Taj dizajn klub nosi i danas."
+		}
+	]
+}

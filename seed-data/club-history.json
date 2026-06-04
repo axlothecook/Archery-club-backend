@@ -4,7 +4,10 @@
 		{
 			"slug": "2014-temelji-i-prvi-koraci",
 			"order": 0,
-			"coverImage": { "url": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/history/ch-1.jpg", "alt": "Foundation of Varaždinski streličarski klub, 2014" },
+			"coverImage": {
+				"url": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/history/ch-1.jpg",
+				"alt": "Foundation of Varaždinski streličarski klub, 2014"
+			},
 			"sourceLocale": "hr",
 			"_status": "LOCKED (approved by user 2026-06-01)",
 			"_referenceCard": "https://www.fcbarcelona.com/en/card/643865/1899-1909-foundation-and-survival",
@@ -26,14 +29,6 @@
 							"body": "Klub je temeljen na nekoliko jasnih vrijednosti, utemeljenih na olimpijskom duhu prema kojem je sport ljudsko pravo dostupno svima, bez diskriminacije, u ozračju prijateljstva, solidarnosti i poštene igre, uz jednakost svih članova. Uz to su uspostavljeni bili kanali za redovitu komunikaciju s članovima i zainteresiranima o nastupima i uspjesima u zemlji i inozemstvu te o opremi i novostima u streličarstvu."
 						},
 						{
-							"header": "Logotip kluba",
-							"body": "Logotip kluba utjelovljen je u grbu u obliku štita. Uz gornji rub upisano je puno ime kluba, a u središtu se nalaze bijele kule varaždinskog Starog grada i streličarska meta preko koje je položen napeti luk sa strijelom, univerzalni simbol streličarstva. Pri dnu stoji datum osnutka, 10. listopada 2014. Grb tako povezuje streličarstvo s najprepoznatljivijim simbolom grada."
-						},
-						{
-							"header": "Prvi službeni dres",
-							"body": "Prvi službeni dres viđen je na natjecanju u manje od mjesec dana. Dizajn je bio bijele boje, s klupskim logotipom na sredini prsa. Na leđima su inicijali imena kluba \"V.S.K.\" i prezime streličara, a na prsima, leđima i rukavima logotipi partnera Avus, Lasercopy i Cico-Sport."
-						},
-						{
 							"header": "Prostor za prve treninge",
 							"body": "U početku klub se mogao osloniti na pomoć lokalne zajednice. Općina Vidovec, na čelu s načelnikom Hranićem, i Osnovna škola Vidovec, s ravnateljem Mašićem, ustupili su klubu prijeko potreban prostor za zimske treninge. Time je klubu bilo omogućeno da odmah počne raditi."
 						}
@@ -44,7 +39,10 @@
 		{
 			"slug": "2014-studeni-prosinac-turniri-ustrajnosti",
 			"order": 1,
-			"coverImage": { "url": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/history/ch-2.jpg", "alt": "VŠK archers at their first indoor tournaments, late 2014" },
+			"coverImage": {
+				"url": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/history/ch-2.jpg",
+				"alt": "VŠK archers at their first indoor tournaments, late 2014"
+			},
 			"sourceLocale": "hr",
 			"_status": "LOCKED (approved by user 2026-06-01)",
 			"_referenceCard": "https://www.fcbarcelona.com/en/card/682785/1909-19-consolidation-at-carrer-industria",
@@ -80,7 +78,10 @@
 		{
 			"slug": "2015-potvrda-kvalitete",
 			"order": 2,
-			"coverImage": { "url": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/history/ch-3.jpg", "alt": "VŠK archers competing internationally and nationally, 2015" },
+			"coverImage": {
+				"url": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/history/ch-3.jpg",
+				"alt": "VŠK archers competing internationally and nationally, 2015"
+			},
 			"sourceLocale": "hr",
 			"_status": "LOCKED (approved by user 2026-06-01)",
 			"_referenceCard": "https://www.fcbarcelona.com/en/card/682785/1909-19-consolidation-at-carrer-industria (+ per-archer paragraph structure from the 1919-30 golden-age card)",
@@ -110,8 +111,8 @@
 							"body": "U samo četiri mjeseca, nepunih pola godine od osnivanja, klub je nastupio na tri inozemna natjecanja sve veće težine: Svjetskom dvoranskom kupu u Nîmesu, Europskom Grand Prixu u Marathonu i prvom Central European Cupu u Kamniku. U Kamniku u travnju mala je ekipa ostvarila zapažene rezultate: Amanda je bila prva sa 649 krugova, Remar treći, a Tomislav petnaesti. Za klub osnovan tek nekoliko mjeseci ranije, takav je međunarodni ritam bio znak brzog rasta."
 						},
 						{
-							"header": "Novi službeni dres",
-							"body": "Na Prvenstvu Hrvatske za mlađe kategorije u Rijeci u ožujku predstavljen je novi službeni dres Varaždinskog streličarskog kluba. Premijerno je nošen na svečanosti na kojoj je Amanda Mlinarić primila priznanje za pet državnih rekorda postavljenih te sezone."
+							"header": "Priznanje za pet državnih rekorda",
+							"body": "Na Prvenstvu Hrvatske za mlađe kategorije u Rijeci u ožujku Amanda Mlinarić primila je priznanje za pet državnih rekorda postavljenih te sezone."
 						},
 						{
 							"header": "Web stranica i klupski fotograf",
@@ -124,7 +125,10 @@
 		{
 			"slug": "2015-neprekidni-uspon",
 			"order": 3,
-			"coverImage": { "url": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/history/ch-4.jpg", "alt": "VŠK's first full season: medals, a national title sweep and the club's own range, 2015" },
+			"coverImage": {
+				"url": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/history/ch-4.jpg",
+				"alt": "VŠK's first full season: medals, a national title sweep and the club's own range, 2015"
+			},
 			"sourceLocale": "hr",
 			"_status": "LOCKED (approved by user 2026-06-01)",
 			"_referenceCard": "https://www.fcbarcelona.com/en/card/682835/1919-30-a-golden-age",
@@ -176,7 +180,10 @@
 		{
 			"slug": "2016-sezona-uzleta",
 			"order": 4,
-			"coverImage": { "url": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/history/ch-5.jpg", "alt": "VŠK archers competing through the 2016 season" },
+			"coverImage": {
+				"url": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/history/ch-5.jpg",
+				"alt": "VŠK archers competing through the 2016 season"
+			},
 			"sourceLocale": "hr",
 			"_status": "LOCKED (approved by user 2026-06-03)",
 			"_referenceCard": "FCB golden-age multi-section style (per-archer paragraphs)",
@@ -210,7 +217,7 @@
 							"body": "Amanda Mlinarić sezonu je provela u diviziji složenog luka i redom osvajala naslove. U srednjoeuropskom kupu nastupila je kao seniorka, ušla u završni turnir s najviše bodova i pobjedom u Beogradu osvojila ukupni naslov pobjednice CEC-a. Kasnije je postavila osobni rekord od 577 krugova, te nekoliko tjedana kasnije potvrdila normu za Europsko prvenstvo."
 						},
 						{
-							"header": "Nova i povratnička lica",
+							"header": "Broj članova raste",
 							"body": "Tijekom 2016. u klupskim su rezultatima sve češće bila i nova imena. Lorena Kovačić vratila se streličarstvu i iz turnira u turnir napredovala, redom osvajajući medalje u juniorskoj konkurenciji olimpijskog luka. Goran Matković, streličar instinktivnog luka, upisao je svoje prve pobjede, među njima zlato u Maloj Subotici i u Sisku. Krajem godine, na turniru u Ljutomeru, za klub je prvi put nastupio Karlo Meštrić u konkurenciji seniora olimpijskog luka."
 						}
 					]
@@ -220,7 +227,10 @@
 		{
 			"slug": "2017-2018-vise-clanova-vise-pobjeda",
 			"order": 5,
-			"coverImage": { "url": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/history/ch-6.jpg", "alt": "Cvijetoslav Zorman, Croatian champion at the 2018 indoor nationals" },
+			"coverImage": {
+				"url": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/history/ch-6.jpg",
+				"alt": "Cvijetoslav Zorman, Croatian champion at the 2018 indoor nationals"
+			},
 			"sourceLocale": "hr",
 			"_status": "LOCKED (approved by user 2026-06-03, piece-by-piece)",
 			"_referenceCard": "FCB golden-age multi-section style; combined 2017+2018 (2017 alone not milestone-heavy)",
@@ -268,7 +278,10 @@
 		{
 			"slug": "2019-2021-klub-dostize-svoj-vrhunac",
 			"order": 6,
-			"coverImage": { "url": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/history/ch-7.jpg", "alt": "Amanda Mlinarić, two-time world junior champion, during the club's 2019-2021 peak" },
+			"coverImage": {
+				"url": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/history/ch-7.jpg",
+				"alt": "Amanda Mlinarić, two-time world junior champion, during the club's 2019-2021 peak"
+			},
 			"sourceLocale": "hr",
 			"_status": "LOCKED (approved by user 2026-06-03, piece-by-piece)",
 			"_referenceCard": "FCB golden-age + FCB '2009 a magical year' honours-list style; merged 2019+2020+2021",
@@ -308,6 +321,132 @@
 						{
 							"header": "2019. i 2021., Magične godine",
 							"body": "Pod vodstvom Cvijetoslava Zormana klub je imao dvije najzlatnije godine, osvojivši naslove na gotovo svakom natjecanju na koje je izašao. Šest velikih pobjeda i olimpijska kvota nadohvat ruke koje su majstorski osvojili, učinili su Varaždinski streličarski klub nadmoćnim na streličarskoj sceni. Kraj svake sezone bio je obilježen proslavama, a medalje su se nizale sve do kraja 2021. godine.\n\n13. travnja 2019. - Amanda Mlinarić, pobjeda na Europskom Grand Prixu, Bukurešt\n\n24. kolovoza 2019. - Amanda Mlinarić, naslov svjetske juniorske prvakinje, Madrid\n\n5. listopada 2019. - Amanda Mlinarić, naslov europske juniorske prvakinje u terenskom streličarstvu, Čatež\n\n10. svibnja 2021. - Amanda Mlinarić, pobjeda na Veronica's Cupu, Kamnik\n\n18. lipnja 2021. - Alen Remar, 9. mjesto na završnim olimpijskim kvalifikacijama, Pariz, najbliže što je hrvatsko streličarstvo bilo olimpijskoj kvoti\n\n14. kolovoza 2021. - Amanda Mlinarić, obrana naslova svjetske juniorske prvakinje, Wrocław"
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "2022-23-rast-u-sjeni-vrha",
+			"order": 7,
+			"coverImage": {
+				"url": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/history/ch-8.jpg",
+				"alt": "Varaždinski streličarski klub wins its first European club medal, Belgrade 2023"
+			},
+			"sourceLocale": "hr",
+			"_status": "LOCKED (approved by user 2026-06-04, piece by piece)",
+			"_referenceCard": "https://www.fcbarcelona.com/en/card/643908/1978-88-more-members-more-stars",
+			"_sourcePosts": "2022 + 2023 FB posts (per-archer + club + newcomers); international placings WA-verified (Amanda 17411, Alen 15290, Leo 30434, Ana 36759). Leo joined VSK 2023 (2022 Plovdiv = composite team).",
+			"_open": "coverImage.alt is agent-composed English (translate pipeline later).",
+			"translations": [
+				{
+					"locale": "hr",
+					"title": "2022 - 23. Rast u sjeni vrha",
+					"subtitle": "Dok su najveći ciljevi ostajali nadomak ruke, klub je tiho rastao i dosezao europska postolja.",
+					"lead": "Nakon vrhunca koji je klub dosegnuo na prijelazu desetljeća, sezone 2022. i 2023. donijele su mirniji ritam, ali i stalan rast. Varaždinski streličarski klub povećao je broj streličara, nastavio slati članove na međunarodna natjecanja i strpljivo gradio mlade streličare koji će uz Amandu Mlinarić i Alena Remara nositi klub na svojim leđima. Upravo je u tom razdoblju stigla i prva europska klupska medalja u povijesti kluba.",
+					"paragraphs": [
+						{
+							"header": "Alen Remar na najtežim terenima",
+							"body": "Alen Remar nastupao je u jednoj od najjačih i najbrojnijih kategorija u streličarstvu, u kojoj se za svaki plasman valja izboriti protiv stotina vrhunskih profesionalaca, pa su njegovi najbolji rezultati u ovom razdoblju utoliko vredniji.\n\nSezonu 2022. otvorio je brončanom medaljom u Nîmesu i novim državnim rekordom od 595 od mogućih 600 krugova. Uslijedila su zapažena peta mjesta na dva od najjačih svjetskih natjecanja, Svjetskim igrama u Birminghamu i Svjetskom prvenstvu u poljskom streličarstvu u Yanktonu, a sezonu je zaokružio srebrom na Berlin Openu. Iste je godine zakoračio i u goli luk, u kojem je odmah po debiju postavio državni rekord i osvojio naslov državnog prvaka.\n\nU 2023. ostvario je jedan od najzapaženijih hrvatskih rezultata na svjetskoj sceni: devetim mjestom na svjetskom kupu u Parizu postao je najbolje plasirani hrvatski strijelac zakrivljenog luka na nekoj dionici svjetskog kupa. Na domaćim je terenima nastavio rušiti dugogodišnje državne rekorde, među kojima i one na 90 i 70 metara koji su stajali više od dva desetljeća. Kao član klupske ekipe pridonio je i prvoj europskoj medalji u povijesti kluba: bronca na Europskom klupskom kupu u Beogradu."
+						},
+						{
+							"header": "Leo Sulik, nova zvijezda u usponu",
+							"body": "Klubu se 2023. godine pridružio Leo Sulik i odmah se nametnuo kao jedno od najvećih obećanja hrvatskog streličarstva. Već u prvoj sezoni u varaždinskom dresu postavio se među najbolje europske juniore zakrivljenog luka.\n\nTu je sezonu otvorio srebrnom medaljom u juniorskoj konkurenciji na svjetskom kupu u Nîmesu te drugim mjestom u finalu juniorskog dvoranskog svjetskog kupa. Krunu sezone donio mu je naslov ukupnog pobjednika Srednjoeuropskog kupa, a na turniru Vitez grada Čakovca ispucao je novi juniorski državni rekord od 678 krugova, tek korak od seniorskoga.\n\nBio je i član klupske ekipe koja je u Beogradu osvojila prvu europsku medalju u povijesti kluba, čime je već u svojoj prvoj sezoni postao jedan od nositelja varaždinskog kluba."
+						},
+						{
+							"header": "Aurelia Mlinarić ruši rekorde",
+							"body": "Najmlađa članica obitelji Mlinarić u ovom je razdoblju zakoračila na natjecateljske terene i odmah pokazala da streličarski dar nije slučajnost. Već 2022. godine Aurelia Mlinarić nizala je pobjede u svojoj uzrasnoj kategoriji složenog luka, a u Prelogu je u jednom danu postavila čak tri državna rekorda.\n\nSezona 2023. bila je još snažnija. U Kutini je oborila državni rekord koji je njezina sestra Amanda postavila još 2013. godine, a rekorde je nastavila rušiti na gotovo svakom nastupu, među ostalim i četiri u jednom danu na turniru u Jalžabetu. Na turniru Vitez grada Čakovca osvojila je naslov maloga viteza, svladavši sve suparnike iz starijih uzrasnih kategorija.\n\nGodinu je okrunila ukupnom pobjedom u Kupu mladih, i to istovremeno u dvije uzrasne kategorije, čime je nagovijestila da varaždinski klub u njoj dobiva svoju sljedeću veliku zvijezdu."
+						},
+						{
+							"header": "Bronce Amande Mlinarić",
+							"body": "Kroz obje sezone Amanda Mlinarić ostala je glavna snaga varaždinskog kluba. U složenom luku nastavila je nastupati na svjetskim i europskim natjecanjima, na čije je postolje najčešće stala na trećem mjestu. 2022. godinu obilježila je broncom na Europskom Grand Prixu u Plovdivu, brončanom medaljom u mješovitoj ekipi s Domagojem Budenom na svjetskom kupu u Antalyji te broncom na Berlin Openu.\n\nPosebno mjesto pripalo je nastupu na Svjetskom prvenstvu u poljskom streličarstvu u Yanktonu, gdje je u mješovitoj ekipi osvojila brončanu medalju svladavši Sloveniju rezultatom 90-88.\n\nSezona 2023. potvrdila ju je kao vrhunski izbor za hrvatsku reprezentaciju. Na Europskom prvenstvu u poljskom streličarstvu u San Sicariju osvojila je brončanu medalju u pojedinačnoj konkurenciji te srebro u mješovitoj ekipi, a srebrom u mješovitoj ekipi zablistala je i na Europskom Grand Prixu u Umagu. Uz međunarodne nastupe redovito je pobjeđivala na domaćim terenima i ostajala najveći trn u oku domaćih klubova."
+						},
+						{
+							"header": "Nikola Portner Pavičević, prvak među kadetima",
+							"body": "Među mladim članovima kluba u složenom luku u ovom se razdoblju posebno isticao Nikola Portner Pavičević. Sezonu 2022. okitio je naslovom državnog prvaka među kadetima, a kroz godinu je nizao pobjede i osobne rekorde na domaćim turnirima te osvojio drugo mjesto na Veronikinu kupu.\n\nU 2023. nastavio je napredovati u jakoj konkurenciji, redovito se boreći za vrh u svojoj uzrasnoj kategoriji i skupljajući dragocjeno iskustvo na međunarodnim natjecanjima. Time se potvrdio kao jedan od najperspektivnijih strijelaca složenog luka u klubu i jedna od njegovih budućih nada."
+						},
+						{
+							"header": "Ana Štimac je stigla",
+							"body": "Klubu se 2022. godine pridružila Ana Štimac i gotovo se odmah nametnula u zakrivljenom luku. U drugoj polovici svoje prve sezone nizala je medalje na domaćim turnirima, pobijedila na Martinjskom turniru i Svetom Nikoli u Sisku, a u Varaždinu krajem studenoga postavila nove kadetske državne rekorde na 25 metara i u ukupnom rezultatu.\n\nGodinu poslije iskoračila je i na međunarodnu scenu. Uz pobjedu na Srednjoeuropskom kupu u Novom Marofu, zajedno je s klupskim kolegom Leom Sulikom predvodila hrvatsku ekipu do ukupnog naslova u finalu Srednjoeuropskog kupa u Temerinu. Nastupila je i na Europskom juniorskom kupu, Svjetskom juniorskom prvenstvu te Europskom prvenstvu u poljskom streličarstvu u San Sicariju, gdje je u konkurenciji juniorki zauzela sedmo mjesto, potvrdivši se kao jedna od najboljih hrvatskih juniorki zakrivljenog luka."
+						},
+						{
+							"header": "Prva europska medalja kluba",
+							"body": "Najveći klupski uspjeh razdoblja stigao je u listopadu 2023., kada je Varaždinski streličarski klub na Europskom klupskom kupu u Beogradu osvojio brončanu medalju. Ekipa zakrivljenog luka u sastavu Alen Remar, Leo Sulik i David Lazar postala je prva hrvatska klupska ekipa koja se ikada popela na europsko postolje, pobijedivši francuski Rennes rezultatom 6:0 i tek u polufinalu zaustavljena nakon raspucavanja. Na istom su natjecanju ispucali i novi ekipni državni rekord u zakrivljenom luku, 1956 krugova.\n\nMeđu zaslužnima za taj uspjeh bio je i David Lazar, koji je 2023. na GT Openu osvojio i svoju prvu pojedinačnu međunarodnu medalju, broncu. Snaga kluba ogledala se i u dubini sastava, koju je još 2022. potvrdila Hana Kontrec osvojivši naslov državne prvakinje u seniorskoj konkurenciji sa samo 16 godina.\n\nNa domaćim terenima klub je iz sezone u sezonu bio najuspješniji u zemlji, nižući naslove državnih prvaka u svim uzrasnim kategorijama i obarajući državne rekorde, među kojima čak dvanaest u jednome danu na turniru u Jalžabetu. Posljednjih šest velikih natjecanja sezone 2023. zaključio je sa šest medalja, a svaku je osvojio drugi strijelac, što je najbolje pokazalo koliko je klub postao širok i snažan."
+						},
+						{
+							"header": "Medalje i naslovi za nove članove",
+							"body": "Razdoblje 2022. i 2023. obilježio je i priljev novih članova koji su ubrzo počeli osvajati prve medalje. Među prvima se pridružila Mila Vrbešić, koja je već na svom debitantskom turniru osvojila drugo mjesto u golom luku i ostala redovita natjecateljica na domaćim turnirima.\n\nKlub je 2023. dobio još nekoliko mladih strijelaca. Filip Bistričić odmah se istaknuo nizom zlatnih medalja u najmlađim uzrasnim kategorijama zakrivljenog luka, a Kiara Pavličević okitila se naslovom državne prvakinje u dvorani među kadetkinjama složenog luka. Redovima se pridružila i Melani Cesar. Time je varaždinski klub postavio temelje naraštaja koji će u godinama koje slijede preuzeti glavnu ulogu."
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "2024-novo-doba-kluba",
+			"order": 8,
+			"coverImage": {
+				"url": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/history/ch-9.jpg",
+				"alt": "VŠK in its golden era: world podiums, a new generation, and the road to the Olympics, 2024 onwards"
+			},
+			"sourceLocale": "hr",
+			"_status": "LOCKED (approved by user 2026-06-04, piece by piece)",
+			"_referenceCard": "https://www.fcbarcelona.com/en/card/643923/2008-20-the-best-years-in-our-history",
+			"_sourcePosts": "2024+2025+2026 FB posts; international placings WA-verified (Amanda 17411, Alen 15290, Leo 30434, Ana 36759). Medal tally 2024-26 from verified counting workflow (scope: intl+national championships) = 61G/30S/21B, 46 national titles, 10 state records, prema klupskim izvjescima.",
+			"_open": "coverImage.alt agent-composed English (translate pipeline later). 2026 season ongoing (data to ~late May 2026).",
+			"translations": [
+				{
+					"locale": "hr",
+					"title": "2024 -. Novo doba kluba",
+					"subtitle": "Zakorak na više svjetskih terena donio je klubu najveći broj internacionalnih medalja u njegovoj povijesti, a otvaranjem olimpijskih vrata pred Amandom Mlinarić zasjao je san o Los Angelesu.",
+					"lead": "U novom dobu kluba njegovi su se streličari popeli među najbolje u Europi, a iza njih članovi kluba rastu u sve većem broju. Nastupajući na sve više svjetskih natjecanja, klub je skupljao međunarodne medalje kao nikada prije. Složeni luk postao je olimpijska disciplina, te je s time san o nastupu na Olimpijskim igrama u Los Angelesu zasjao pred najboljom streličarkom u modernom hrvatskom streličarstvu - Amandom Mlinarić.",
+					"paragraphs": [
+						{
+							"header": "Povratak Amande Mlinarić na vrh",
+							"body": "Amanda Mlinarić uzdigla se do najboljih rezultata svoje karijere. Niz je otvorila 2024. srebrnom medaljom na Svjetskom prvenstvu u poljskom streličarstvu u kanadskom Lac La Bicheu, gdje je u polufinalu svladala prvu reprezentativku svijeta Ellu Gibson, a u finalu se predala iskusnoj Paige Pearce. Iste je godine osvojila zlato na Conquest Cupu u Istanbulu i na Veronikinu kupu, potvrdivši da su mirnije sezone iza nje.\n\nVrhunac je stigao 2025. godine. U poljskom je streličarstvu postala europska prvakinja u Wałbrzych-Książu, na Conquest Cupu obranila naslov i postala dvostruka uzastopna pobjednica tog natjecanja, a sezonu okrunila zlatom na Taipei Openu, čime se popela na vrh ukupnog poretka dvoranskog svjetskog kupa. Uz to je zablistala srebrom na Berlin Openu i broncom u Nîmesu, dok je u mješovitim parovima, novoj olimpijskoj disciplini, s Domagojem Budenom osvojila zlato na Veronikinu kupu.\n\nGodinu 2026. otvorila je novom medaljom na velikoj sceni: srebro i naslov europske doprvakinje na Europskom dvoranskom prvenstvu u Plovdivu. Na Europskom prvenstvu na otvorenom u Antalyji osvojila je olimpijsku kvotu za Europske igre 2027., prvi korak prema nastupu na Olimpijskim igrama u Los Angelesu, gdje bi mogla postati prva hrvatska streličarka koja je ikada nastupila na Igrama."
+						},
+						{
+							"header": "Jedna strijela do Olimpijskih igara",
+							"body": "Sezona 2024. za Alena Remara započela je najtežim mogućim razočaranjem i potvrdom koliko je blizu samog vrha. Na olimpijskim kvalifikacijama u Antalyji iste godine borio se za vizu za Igre u Parizu, a odluka je pala u raspucavanju protiv petog strijelca svijeta, Kanađanina Erica Petersa. Obojica su pogodila devetku, no protivnikova je strijela bila tek nekoliko milimetara bliže središtu. Za jednu jedinu strijelu Alen je ostao prvi ispod crte i propustio nastup na Olimpijskim igrama.\n\nUnatoč tom udarcu, nastavio je nizati vrhunske rezultate. Iste je 2024. godine na GT Openu osvojio srebro svladavši čak dvojicu osvajača olimpijskih medalja, na Svjetskom prvenstvu u poljskom streličarstvu u Lac La Bicheu bio šesti, a s klupskom ekipom osvojio je broncu na Europskom dvoranskom prvenstvu u Varaždinu. Godine 2025. nastupio je na Svjetskim igrama u kineskom Chengduu.\n\nPriča je dobila svjetliji nastavak 2026. godine. Na Europskom prvenstvu na otvorenom u Antalyji Alen Remar osvojio je kvotu za Europske igre 2027., prvi korak prema novom pokušaju odlaska na Olimpijske igre, čime je pokazao da se ni nakon najbolnijih poraza nije predao."
+						},
+						{
+							"header": "Dvije svjetske krune Lea Sulika",
+							"body": "Ono što je u prethodnom razdoblju nagovještavao, Leo Sulik je u 2024. godini i ostvario. U juniorskoj konkurenciji zakrivljenog luka osvojio je naslov pobjednika finala dvoranskog svjetskog kupa u Nîmesu, svladavši u uzbudljivom raspucavanju prvog nositelja, Španjolca Javiera Meridu. Do kraja iste sezone na GT Openu je osvojio i svoju drugu pobjedu u dvoranskom svjetskom kupu, istaknuvši se kao jedan od najboljih svjetskih juniora.\n\nU sljedećim je sezonama nastavio braniti boje kluba i na seniorskoj sceni. Nastupio je na Svjetskim sveučilišnim igrama u Essenu, a na domaćim je terenima redovito osvajao naslove, među kojima i ekipno zlato te pojedinačno srebro na seniorskom Prvenstvu Hrvatske. Tako se Leo Sulik, samo nekoliko sezona nakon dolaska u klub, čvrsto smjestio među nositelje varaždinskog streličarstva."
+						},
+						{
+							"header": "Aurelia Mlinarić: od stroja za obaranje rekorda do prve reprezentativne medalje",
+							"body": "Jedna od najmlađih zvijezda kluba u novom je razdoblju nastavila rušiti državne rekorde i nizati naslove, ali je učinila i ključan korak naprijed, od domaćih pobjeda prema međunarodnoj sceni. Samo u 2024. i 2025. oborila je najmanje pet državnih rekorda i postala redovita državna prvakinja u svojoj uzrasnoj kategoriji, a naslov maloga viteza grada Čakovca obranila je drugu godinu zaredom.\n\nGodine 2025. prvi je put obukla dres hrvatske reprezentacije i to obilježila brončanom medaljom na Veronikinu kupu u svom debitantskom nastupu. Iste je godine na Samoborskom Grand Prixu u finalu izgubila jedino od svoje starije sestre Amande, rezultatom 146:145, što je najavilo da klub uskoro u istoj kategoriji ima dvije vrhunske natjecateljice.\n\nVrhunac je stigao 2026. godine, kada je na Europskom dvoranskom prvenstvu u Plovdivu osvojila ekipno srebro u kategoriji do 21 godine, svoju prvu medalju s velikih europskih natjecanja. U dvije godine Aurelia Mlinarić tako je od najvećeg klupskog obećanja izrasla u streličarku spremnu za sam vrh."
+						},
+						{
+							"header": "Ela Drožđek osvaja najmanje srebro na prvenstvima Hrvatske",
+							"body": "Među mladim nadama kluba u ovom se razdoblju u zakrivljenom luku posebno isticala Ela Drožđek. Nakon godina sazrijevanja, 2025. je ostvarila svoj prvi veliki uspjeh osvojivši naslov državne prvakinje u kategoriji do 18 godina na dvoranskom Prvenstvu Hrvatske u Kutini. Na Prvenstvu Hrvatske na otvorenom u rujnu iste godine dodala je i srebrnu medalju među kadetkinjama.\n\nTe je 2025. godine prvi put zaigrala za hrvatsku reprezentaciju, debitiravši na Veronikinu kupu, te redovito stajala na pobjedničkim postoljima domaćih turnira, uz zapaženu broncu na međunarodnom memorijalu u Mariboru. U snažnoj je konkurenciji često samo za dlaku ostajala bez najsjajnijih medalja, no svojim je nastupima pokazala da ima prostora za napredak do samog vrha svoje kategorije.\n\nU 2026. napravila je i iskorak među seniorkama, osvojivši srebrnu medalju na seniorskom dvoranskom Prvenstvu Hrvatske u Rijeci. Time se Ela Drožđek potvrdila kao jedna od najperspektivnijih streličara kluba."
+						},
+						{
+							"header": "Tri europske medalje Nikole Portnera Pavičevića",
+							"body": "Ono za što je u prethodnom razdoblju gradio temelje, Nikola Portner Pavičević je u ove dvije godine pretvorio u medalje s europskih prvenstava. U složenom je luku osvojio tri medalje na velikim europskim natjecanjima, sve u ekipnoj konkurenciji.\n\nU 2024. godini okitio se srebrom na Europskom dvoranskom prvenstvu u Varaždinu te broncom na Europskom juniorskom prvenstvu u rumunjskom Ploiestiju. Godinu poslije dodao je i broncu na Europskom dvoranskom prvenstvu u Samsunu, čime je potvrdio status jednog od najuspješnijih hrvatskih streličara složenog luka svoje generacije.\n\nUz europske medalje redovito se borio za vrh na domaćim natjecanjima i Srednjoeuropskom kupu, ostajući pouzdan nositelj kluba u kategoriji složenog luka."
+						},
+						{
+							"header": "Dolazak iskusne Mije Međimurec",
+							"body": "Potkraj 2025. godine klub je na popis članova dodao Miju Međimurec, natjecateljicu u složenom luku s iskustvom i na hrvatskim i na europskim postoljima. Njezin je dolazak klubu donio snažan vjetar u leđa ženskoj konkurenciji složenog luka.\n\nVeć u prvim nastupima u novom dresu pokazala je svoju streličarsku kvalitetu. Na GT Openu u Luksemburgu krajem 2025. zauzela je peto mjesto u juniorskoj konkurenciji i pritom ispucala novi osobni rekord od 576 krugova, tek malo ispod seniorske norme za europsko prvenstvo.\n\nU 2026. nizala je dobre rezultate, među kojima zlato na turniru u Sisku, broncu na Srednjoeuropskom kupu u Lendavi i četvrto mjesto na dvoranskom Prvenstvu Hrvatske u Rijeci. Poseban pečat dala je u ženskoj ekipi složenog luka, gdje je zajedno s Amandom Mlinarić i Ivanom Mavračić (SK Samobor) osvojila ekipno zlato na Veronika kupu te postavila novi ekipni državni rekord na Europskom prvenstvu u Antalyji, potvrdivši da će se njezini rezultati u budućnosti pridružiti vrhu klupske liste medalja i titula u ženskom složenom luku."
+						},
+						{
+							"header": "Rekordan broj medalja za klub",
+							"body": "U ovom je razdoblju Varaždinski streličarski klub nastupao na više svjetskih i europskih natjecanja nego ikad prije i s njih se vraćao s najvećim brojem međunarodnih medalja u svojoj povijesti. Klub je iz godine u godinu ostajao najuspješniji u zemlji, osvajajući naslove državnih prvaka u gotovo svim kategorijama i stilovima.\n\nPosebno su se isticale ekipne pobjede. Muška ekipa zakrivljenog luka redovito je osvajala naslov državnih prvaka, a 2026. godine ženska ekipa složenog luka, predvođena Amandom Mlinarić, postavila je novi ekipni državni rekord na Europskom prvenstvu u Antalyji te osvojila ekipno zlato na Veronika kupu, svladavši u finalu Italiju.\n\nSnaga kluba ogledala se i u širini stilova. U disciplini 3D istaknuo se Zoran Velagić, koji je 2025. godine osvojio naslov državnog prvaka. Tako je klub, oslonjen na vrhunske pojedince, ali i na sve dublju natjecateljsku postavu, ušao u svoje najambicioznije razdoblje dosad."
+						},
+						{
+							"header": "Novi članovi dominiraju podijima",
+							"body": "Počevši od 2024. novi članovi odmah su se bacili na osvajanje medalja. Među najmlađima istaknula se Nicole Bratonja, koja je redovito pobjeđivala u uzrasnim kategorijama zakrivljenog luka, te Rafael Barulek, koji je već u debitantskoj sezoni osvojio broncu na dvoranskom Prvenstvu Hrvatske za djecu.\n\nU seniorskoj i juniorskoj konkurenciji našli su se Jakov Crnički, Bojan Rodik, Tena Mikolaj, Karmen Ahmetović, Luka Ciglarić, Leda Crnčec i Mija Mance, koji su zajedno osvojili petnaestak medalja i činili sve raznovrsniju natjecateljsku postavu kluba. U dugom luku istaknuo se Vedran Bartol zlatnim medaljama u Sesvetama i na turniru Vitez grada Čakovca.\n\nTako je klub ne samo nizao vrhunske rezultate svojih najboljih streličara nego i izgradio širok temelj mladih natjecatelja spreman da nastavi tradiciju uspjeha u godinama koje dolaze."
+						},
+						{
+							"header": "Složeni luk postaje olimpijska disciplina",
+							"body": "Najveću vijest u protekle 2 godine nije donio nijedan pojedinačni nastup, nego odluka koja je promijenila budućnost cijelog sporta. U travnju 2025. Međunarodni olimpijski odbor potvrdio je da složeni luk postaje olimpijska disciplina i da će svoj debi imati na Olimpijskim igrama u Los Angelesu 2028. godine, u konkurenciji mješovitih parova.\n\nZa Varaždinski streličarski klub ta je vijest imala posebnu težinu. Klub koji je godinama gradio vrhunske streličare složenog luka, predvođene Amandom Mlinarić, odjednom je dobio stvaran put prema Olimpijskim igrama. Prvi korak prema tom cilju već je napravljen, osvajanjem olimpijskih kvota za Europske igre 2027., a klub ovo razdoblje završava onako kako je i počelo, s pogledom uprtim prema najvišem vrhu."
+						},
+						{
+							"header": "Postignuća za pamćenje",
+							"body": "U dvije i pol godine Varaždinski streličarski klub ostvario je najbolje međunarodne rezultate u svojoj povijesti, predvođen Alenom Remarom, Leom Sulikom, Aurelijom Mlinarić, te Amandom Mlinarić koja je ove sezone bila nedodirljiva. Ostatak tima od 2024. godine do danas nakupio je 61 zlatnu, 30 srebrnih i 21 brončanu medalju, uz 46 titula državnih prvaka i 10 postavljenih državnih rekorda, a sport je dobio i povijesnu vijest koja je klubu otvorila put prema Olimpijskim igrama. Zlatni uspon kluba obilježili su svi streličari kluba, te smo u njihovu čast izdvojili nekoliko znatnih postignuća:\n\nsiječanj 2024. - Leo Sulik, pobjeda u finalu juniorskog dvoranskog svjetskog kupa, Nîmes\n\nveljača 2024. - Nikola Portner Pavičević, ekipno srebro na Europskom dvoranskom prvenstvu, Varaždin\n\nrujan 2024. - Amanda Mlinarić, srebro na Svjetskom prvenstvu u poljskom streličarstvu, Lac La Biche\n\nstudeni 2024. - Leo Sulik, druga pobjeda u dvoranskom svjetskom kupu, GT Open, Strassen\n\nstudeni 2024. - Alen Remar, srebro na GT Openu, Strassen\n\nsvibanj 2025. - Amanda Mlinarić, obrana naslova na Conquest Cupu, Istanbul\n\nrujan 2025. - Amanda Mlinarić, naslov europske prvakinje u poljskom streličarstvu, Wałbrzych-Książ\n\nprosinac 2025. - Amanda Mlinarić, zlato na Taipei Openu i vrh dvoranskog svjetskog kupa\n\nveljača 2026. - Amanda Mlinarić, srebro i naslov europske doprvakinje, Plovdiv\n\nsvibanj 2026. - Amanda i Alen Remar, olimpijske kvote za Europske igre 2027."
+						},
+						{
+							"header": "Deset godina kluba",
+							"body": "U listopadu 2024. Varaždinski streličarski klub proslavio je deset godina postojanja. Klub koji je 2014. osnovala šačica streličara, bez dvorane, vanjskog terena i sredstava, ali s djecom od dvanaest i trinaest godina i velikim ambicijama, u desetljeću je izrastao u najbolji streličarski klub u regiji. Iz njegovih su redova stigli i povijesni uspjesi: Amanda Mlinarić postala je prva juniorka na svijetu koja je obranila naslov svjetske prvakinje, oborila svjetske i europske juniorske rekorde, a klub je 2023. osvojio i prvu hrvatsku klupsku medalju s europskih prvenstava.\n\nTu je obljetnicu klub obilježio i velikim turnirom u varaždinskoj Areni, na kojem se okupilo oko 140 streličara iz tri države i trideset i jednog kluba. Turnir je upisan u svjetsku streličarsku povijest kada je slovački reprezentativac Jozef Bosansky na 25 metara ispucao 596 od mogućih 600 krugova i postavio novi svjetski rekord u složenom luku, baš na varaždinskom terenu.\n\nNa istom je turniru mlada Aurelia Mlinarić oborila domaće rekorde na obje distance, 25 i 18 metara, koje je njezina sestra Amanda postavila još 2015. godine, pa je trebalo punih devet godina da se pronađe njihova nasljednica. Uz to se od aktivnog streličarstva oprostio Cvijetoslav Zorman, jedan od osnivača kluba, nakon pedeset godina bavljenja sportom i četiristo odigranih turnira."
 						}
 					]
 				}
