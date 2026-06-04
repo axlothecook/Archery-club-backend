@@ -2,7 +2,9 @@
 	"_comment": "Crest (grb/logotip) content for the future /club/identity/crest page. Extracted from club-history.json Ch1 'Logotip kluba' (2026-06-04) so identity content lives outside the history chapters (FCB Club>Identity model). hr = source locale; translations come later via the translate pipeline. To be wired into the ClubIdentity model/route when the identity sub-pages are built.",
 	"slug": "crest",
 	"sourceLocale": "hr",
-	"_status": "EXTRACTED from Ch1 2026-06-04; awaiting identity-page build",
+	"_status": "CONTENT LOCKED 2026-06-05 (text from Ch1; logo image URL added).",
+	"imageUrl": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/identity/vsk-logo.png",
+	"imageAlt": "Grb Varaždinskog streličarskog kluba",
 	"translations": [
 		{
 			"locale": "hr",

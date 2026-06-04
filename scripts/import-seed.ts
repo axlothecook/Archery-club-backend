@@ -10,6 +10,7 @@ import { importAchievements } from "../src/import/import-achievements.ts";
 import { importAchievementCategories } from "../src/import/import-achievement-categories.ts";
 import { importHomeStatImages } from "../src/import/import-home-stat-images.ts";
 import { importClubHistory } from "../src/import/import-club-history.ts";
+import { importClubIdentity } from "../src/import/import-club-identity.ts";
 import { importClubInfo } from "../src/import/import-club-info.ts";
 import { importSponsors } from "../src/import/import-sponsors.ts";
 import { importEventLevels } from "../src/import/import-event-levels.ts";
@@ -38,6 +39,9 @@ if (statImages.unknownSlots.length) console.warn(`⚠️ unknown stat slots: ${s
 
 const history = await importClubHistory();
 console.log(`Club history: ${history.periods} periods, ${history.translations} translations upserted.`);
+
+const identity = await importClubIdentity();
+console.log(`Club identity: ${identity.sections} sections, ${identity.translations} translations upserted.`);
 
 const clubInfo = await importClubInfo();
 console.log(`Club info: singleton ${clubInfo.created ? "created (identity + contact)" : "updated (identity only; contact left to admin)"}.`);
