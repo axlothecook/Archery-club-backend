@@ -1,19 +1,29 @@
 {
-	"_comment": "Jersey (dres) content for the future /club/identity/jersey page. Extracted from club-history.json Ch1 'Prvi službeni dres' (original 2014) + Ch3 'Novi službeni dres' (2015 redesign mention) on 2026-06-04, so jersey content lives outside the history chapters (FCB Club>Identity model). NOTE: this is the THIN EXISTING TEXT only. The FULL visual description + comparison of the two designs (white+grey yoke, black neck, crest moved to left chest mirroring the Croatia national-team shirt, 'VSK'+stylised arrow on back, sponsor evolution Avus/Lasercopy/Cico-Sport -> Croatian Archery Association) is TO BE WRITTEN when the Jersey identity page is built, using the user's photos. The 2015 design is still worn today (2015 -> present). hr = source locale; translations later via translate pipeline.",
+	"_comment": "Jersey (dres) content for the /club/identity/jersey page (FCB Club>Identity model). Three designs across the club's history, each with a photo + short description + date of implementation. hr = source locale; other locales come later via the translate pipeline. The importer (import-club-identity.ts) maps `designs` into the ClubIdentitySection 'gallery' kind { items: [{ image, description, date }] }.",
 	"slug": "jersey",
 	"sourceLocale": "hr",
-	"_status": "EXTRACTED (thin text) from Ch1+Ch3 2026-06-04; full description + design-comparison TO WRITE at identity-page build (user has photos)",
-	"_todo": "Write full jersey-page prose at build: (1) original 2014 jersey - all white, logo centre chest, V.S.K.+surname back, sponsors Avus/Lasercopy/Cico-Sport. (2) 2015 redesign (presented PH Rijeka, March 2015; worn 2015->today) - white + grey shoulder/back/sleeve yoke, black neck, crest moved to LEFT chest (mirrors placement on the Croatia national-team shirt), big 'VSK' + stylised arrow on back, surname+initial, sponsors evolved (Lasercopy, Avus, Croatian Archery Association at various times). User has photos of both designs + the Croatia national shirt for comparison.",
+	"_status": "CONTENT LOCKED 2026-06-05 (descriptions + images + dates approved by user from photos).",
 	"designs": [
 		{
 			"key": "original-2014",
-			"year": "2014",
-			"hr": "Prvi službeni dres viđen je na natjecanju u manje od mjesec dana. Dizajn je bio bijele boje, s klupskim logotipom na sredini prsa. Na leđima su inicijali imena kluba \"V.S.K.\" i prezime streličara, a na prsima, leđima i rukavima logotipi partnera Avus, Lasercopy i Cico-Sport."
+			"date": "2014.",
+			"imageUrl": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/identity/jersey-1.jpg",
+			"imageAlt": "VŠK first official jersey, 2014",
+			"hr": "Prvi službeni dres kluba bio je jednostavan, potpuno bijeli dres kratkih rukava, s klupskim grbom na sredini prsa i inicijalima \"V.S.K.\" te prezimenom streličara na leđima. Sponzorski simboli Avus, Lasercopy i Cico-Sport stajali su na prsima, leđima i rukavima."
 		},
 		{
 			"key": "redesign-2015",
-			"year": "2015",
-			"hr": "U ožujku 2015., na Prvenstvu Hrvatske za mlađe kategorije u Rijeci, predstavljen je novi službeni dres Varaždinskog streličarskog kluba. Taj dizajn klub nosi i danas."
+			"date": "ožujak 2015.",
+			"imageUrl": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/identity/jersey-2.jpg",
+			"imageAlt": "VŠK redesigned jersey introduced March 2015",
+			"hr": "U ožujku 2015., na Prvenstvu Hrvatske u Rijeci, predstavljen je preuređeni dres. Lijeva strana dresa od vrha do dna obojena je u sivo, prelazeći prema sredini u bijelo, dok su sredina i desna strana ostale bijele, a oko vrata dodan je crni obrub. Grb je premješten sa sredine na lijevu stranu prsa, a na leđima se prvi put pojavio velik natpis \"VSK\" sa stiliziranom strijelom, uz prezime streličara."
+		},
+		{
+			"key": "redesign-2019",
+			"date": "lipanj 2019.",
+			"imageUrl": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/identity/jersey-3.jpg",
+			"imageAlt": "VŠK current jersey introduced June 2019, mirroring the Croatian national-team kit",
+			"hr": "Od lipnja 2019. klub nosi današnji dres. Klupski grb ostao je na lijevoj strani prsa, dok dizajn ovratnika i simbol Hrvatskog streličarskog saveza na desnom rukavu posuđuju od nacionalne streličarske reprezentacije, koja je vizualno povezana s klubom preko spomenutih elemenata. Na leđima je zadržan natpis \"VSK\" sa stiliziranom strijelom, a sponzorske simbole činili su Lasercopy, Avus i Hrvatski streličarski savez."
 		}
 	]
 }

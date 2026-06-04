@@ -9,6 +9,7 @@ import { articlesRouter } from './routes/articles.ts';
 import { heroRouter } from './routes/hero.ts';
 import { clubInfoRouter } from './routes/club-info.ts';
 import { clubHistoryRouter } from './routes/club-history.ts';
+import { clubIdentityRouter } from './routes/club-identity.ts';
 import { eventLevelsRouter } from './routes/event-levels.ts';
 import { authRouter } from './routes/auth.ts';
 import { requireAuth } from './http/require-auth.ts';
@@ -62,6 +63,7 @@ app.use('/articles', articlesRouter);
 app.use('/hero', heroRouter);
 app.use('/club-info', clubInfoRouter);
 app.use('/club-history', clubHistoryRouter);
+app.use('/club-identity', clubIdentityRouter);
 
 // Auth (login/logout/me).
 app.use('/auth', authRouter);

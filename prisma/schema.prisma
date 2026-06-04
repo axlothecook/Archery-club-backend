@@ -427,6 +427,37 @@ model ClubHistoryPeriodTranslation {
   @@unique([periodId, locale])
 }
 
+// ── Club identity (FC Barcelona "Club > Identity" sub-pages) ─────────────────
+// A small set of static sub-pages under /club/identity (Values, The Crest, Jersey),
+// Values being the default landing. `kind` tells the front-end how to render the
+// translation's `content` JSON: "blocks" (named value blocks), "single" (one image
+// + body), "gallery" (ordered image+description+date items). Content is static and
+// stored per-locale (translated at write time), so it lives in a JSON column.
+
+model ClubIdentitySection {
+  id        String  @id @default(uuid())
+  slug      String  @unique
+  order     Int
+  kind      String // "blocks" | "single" | "gallery"
+  isDefault Boolean @default(false)
+
+  sourceLocale String
+
+  translations ClubIdentitySectionTranslation[]
+}
+
+model ClubIdentitySectionTranslation {
+  id      String @id @default(uuid())
+  locale  String
+  title   String
+  content Json // kind-discriminated: { kind, blocks[] } | { kind, image, body } | { kind, items[] }
+
+  sectionId String
+  section   ClubIdentitySection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  @@unique([sectionId, locale])
+}
+
 // ── Inquiry inboxes ──────────────────────────────────────────────────────────
 // Inbound public form submissions; admin-only. status = inbox workflow.
 // No translatable text.
