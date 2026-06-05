@@ -1,5 +1,6 @@
 import express from 'express';
 import helmet from 'helmet';
+import cors from 'cors';
 import { prisma } from './db.ts';
 import { sponsorsRouter } from './routes/sponsors.ts';
 import { achievementsRouter } from './routes/achievements.ts';
@@ -36,6 +37,27 @@ app.use(
 	helmet({
 		contentSecurityPolicy: false, // no HTML served; CSP belongs on the front-end
 		hsts: { maxAge: 31536000, includeSubDomains: true },
+	}),
+);
+
+// CORS — the SvelteKit front-end is a different origin (dev: localhost:5173/4173;
+// prod: the public domain). Allowed origins come from CORS_ORIGINS (comma-list);
+// dev defaults cover the local Vite ports. credentials:true so session cookies
+// (admin auth) can ride along on cross-origin requests.
+const DEV_ORIGINS = [
+	'http://localhost:5173',
+	'http://localhost:4173',
+	'http://localhost:5174',
+];
+const allowedOrigins = (process.env.CORS_ORIGINS ?? DEV_ORIGINS.join(','))
+	.split(',')
+	.map((o) => o.trim())
+	.filter(Boolean);
+
+app.use(
+	cors({
+		origin: allowedOrigins,
+		credentials: true,
 	}),
 );
 
