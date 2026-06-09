@@ -156,3 +156,12 @@ pre-launch/demo build. Implement only after the club commits to the site.
   group — `title: "Berlin Open"`, Amanda individual silver 2025, `level: "other"`,
   `type: "other"`, `medal: "silver"` (won't affect the world/EU headline counts).
   Same treatment as the other non-championship opens (Vegas, Conquest Cup).
+
+- **Clarify the date of "Svjetski i europski juniorski rekord" (deferred 2026-06-09).**
+  Amanda Mlinarić's compound-indoor 587 world+European junior record (`year: null`
+  in `seed-data/achievements.json` — date NOT found in research 2026-05-29). Because
+  the date is unknown, this group is **hidden from the public Postignuća UI** (filtered
+  in the front-end `src/routes/postignuca/+page.ts` via `HIDDEN_TITLES`; the row stays
+  in the DB and still counts toward the world + European record totals). If adopted,
+  ask the club for the date, fill the `year`, then REMOVE it from `HIDDEN_TITLES` so
+  the card shows.
