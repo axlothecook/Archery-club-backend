@@ -320,7 +320,15 @@
 						},
 						{
 							"header": "2019. i 2021., Magične godine",
-							"body": "Pod vodstvom Cvijetoslava Zormana klub je imao dvije najzlatnije godine, osvojivši naslove na gotovo svakom natjecanju na koje je izašao. Šest velikih pobjeda i olimpijska kvota nadohvat ruke koje su majstorski osvojili, učinili su Varaždinski streličarski klub nadmoćnim na streličarskoj sceni. Kraj svake sezone bio je obilježen proslavama, a medalje su se nizale sve do kraja 2021. godine.\n\n13. travnja 2019. - Amanda Mlinarić, pobjeda na Europskom Grand Prixu, Bukurešt\n\n24. kolovoza 2019. - Amanda Mlinarić, naslov svjetske juniorske prvakinje, Madrid\n\n5. listopada 2019. - Amanda Mlinarić, naslov europske juniorske prvakinje u terenskom streličarstvu, Čatež\n\n10. svibnja 2021. - Amanda Mlinarić, pobjeda na Veronica's Cupu, Kamnik\n\n18. lipnja 2021. - Alen Remar, 9. mjesto na završnim olimpijskim kvalifikacijama, Pariz, najbliže što je hrvatsko streličarstvo bilo olimpijskoj kvoti\n\n14. kolovoza 2021. - Amanda Mlinarić, obrana naslova svjetske juniorske prvakinje, Wrocław"
+							"body": "Pod vodstvom Cvijetoslava Zormana klub je imao dvije najzlatnije godine, osvojivši naslove na gotovo svakom natjecanju na koje je izašao. Šest velikih pobjeda i olimpijska kvota nadohvat ruke koje su majstorski osvojili, učinili su Varaždinski streličarski klub nadmoćnim na streličarskoj sceni. Kraj svake sezone bio je obilježen proslavama, a medalje su se nizale sve do kraja 2021. godine.",
+							"highlights": [
+								{ "date": "travanj 2019.", "result": "Zlato", "competition": "Europski Grand Prix", "archer": "Amanda Mlinarić" },
+								{ "date": "kolovoz 2019.", "result": "Zlato", "competition": "Svjetsko juniorsko prvenstvo", "archer": "Amanda Mlinarić" },
+								{ "date": "listopad 2019.", "result": "Zlato", "competition": "Europsko prvenstvo u terenskom streličarstvu", "archer": "Amanda Mlinarić" },
+								{ "date": "svibanj 2021.", "result": "Zlato", "competition": "Veronica's Cup", "archer": "Amanda Mlinarić" },
+								{ "date": "lipanj 2021.", "result": "9. mjesto", "competition": "Završne olimpijske kvalifikacije", "archer": "Alen Remar" },
+								{ "date": "kolovoz 2021.", "result": "Zlato", "competition": "Svjetsko juniorsko prvenstvo", "archer": "Amanda Mlinarić" }
+							]
 						}
 					]
 				}
@@ -442,7 +450,19 @@
 						},
 						{
 							"header": "Postignuća za pamćenje",
-							"body": "U dvije i pol godine Varaždinski streličarski klub ostvario je najbolje međunarodne rezultate u svojoj povijesti, predvođen Alenom Remarom, Leom Sulikom, Aurelijom Mlinarić, te Amandom Mlinarić koja je ove sezone bila nedodirljiva. Ostatak tima od 2024. godine do danas nakupio je 61 zlatnu, 30 srebrnih i 21 brončanu medalju, uz 46 titula državnih prvaka i 10 postavljenih državnih rekorda, a sport je dobio i povijesnu vijest koja je klubu otvorila put prema Olimpijskim igrama. Zlatni uspon kluba obilježili su svi streličari kluba, te smo u njihovu čast izdvojili nekoliko znatnih postignuća:\n\nsiječanj 2024. - Leo Sulik, pobjeda u finalu juniorskog dvoranskog svjetskog kupa, Nîmes\n\nveljača 2024. - Nikola Portner Pavičević, ekipno srebro na Europskom dvoranskom prvenstvu, Varaždin\n\nrujan 2024. - Amanda Mlinarić, srebro na Svjetskom prvenstvu u poljskom streličarstvu, Lac La Biche\n\nstudeni 2024. - Leo Sulik, druga pobjeda u dvoranskom svjetskom kupu, GT Open, Strassen\n\nstudeni 2024. - Alen Remar, srebro na GT Openu, Strassen\n\nsvibanj 2025. - Amanda Mlinarić, obrana naslova na Conquest Cupu, Istanbul\n\nrujan 2025. - Amanda Mlinarić, naslov europske prvakinje u poljskom streličarstvu, Wałbrzych-Książ\n\nprosinac 2025. - Amanda Mlinarić, zlato na Taipei Openu i vrh dvoranskog svjetskog kupa\n\nveljača 2026. - Amanda Mlinarić, srebro i naslov europske doprvakinje, Plovdiv\n\nsvibanj 2026. - Amanda i Alen Remar, olimpijske kvote za Europske igre 2027."
+							"body": "U dvije i pol godine Varaždinski streličarski klub ostvario je najbolje međunarodne rezultate u svojoj povijesti, predvođen Alenom Remarom, Leom Sulikom, Aurelijom Mlinarić, te Amandom Mlinarić koja je ove sezone bila nedodirljiva. Ostatak tima od 2024. godine do danas nakupio je 61 zlatnu, 30 srebrnih i 21 brončanu medalju, uz 46 titula državnih prvaka i 10 postavljenih državnih rekorda, a sport je dobio i povijesnu vijest koja je klubu otvorila put prema Olimpijskim igrama. Zlatni uspon kluba obilježili su svi streličari kluba, te smo u njihovu čast izdvojili nekoliko znatnih postignuća:",
+							"highlights": [
+								{ "date": "siječanj 2024.", "result": "Zlato", "competition": "Juniorski dvoranski svjetski kup", "archer": "Leo Sulik" },
+								{ "date": "veljača 2024.", "result": "Ekipno srebro", "competition": "Europsko dvoransko prvenstvo", "archer": "Nikola Portner Pavičević" },
+								{ "date": "rujan 2024.", "result": "Srebro", "competition": "Svjetsko prvenstvo u poljskom streličarstvu", "archer": "Amanda Mlinarić" },
+								{ "date": "studeni 2024.", "result": "Zlato", "competition": "Dvoranski svjetski kup (GT Open)", "archer": "Leo Sulik" },
+								{ "date": "studeni 2024.", "result": "Srebro", "competition": "GT Open", "archer": "Alen Remar" },
+								{ "date": "svibanj 2025.", "result": "Zlato", "competition": "Conquest Cup", "archer": "Amanda Mlinarić" },
+								{ "date": "rujan 2025.", "result": "Zlato", "competition": "Europsko prvenstvo u poljskom streličarstvu", "archer": "Amanda Mlinarić" },
+								{ "date": "prosinac 2025.", "result": "Zlato", "competition": "Taipei Open", "archer": "Amanda Mlinarić" },
+								{ "date": "veljača 2026.", "result": "Srebro", "competition": "Europsko dvoransko prvenstvo", "archer": "Amanda Mlinarić" },
+								{ "date": "svibanj 2026.", "result": "Olimpijske kvote", "competition": "Europske igre 2027.", "archer": "Amanda i Alen Remar" }
+							]
 						},
 						{
 							"header": "Deset godina kluba",

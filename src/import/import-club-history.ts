@@ -11,7 +11,8 @@ import { prisma } from "../db.ts";
 // lands in the JSON column. Ignores _-prefixed annotation fields
 // (_comment, _status, _sourcePosts, _open, _referenceCard).
 
-type SeedParagraph = { header: string; body: string };
+type SeedHighlight = { date: string; result: string; competition: string; archer: string };
+type SeedParagraph = { header: string; body: string; highlights?: SeedHighlight[] };
 type SeedTranslation = {
 	locale: string;
 	title: string;
