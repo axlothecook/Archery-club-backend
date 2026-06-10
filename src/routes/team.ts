@@ -23,6 +23,34 @@ teamRouter.get("/", async (_req, res, next) => {
 	}
 });
 
+// GET /team/cards?slugs=a,b,c — roster cards for a SPECIFIC set of archers (by
+// slug), not the whole roster. Used by the news-article page to show the cards of
+// the archers mentioned in an article. Returns ArcherCard[] in the requested order;
+// unknown/hidden slugs are silently dropped. (Declared BEFORE /:slug so "cards"
+// isn't swallowed by the slug param.)
+teamRouter.get("/cards", async (req, res, next) => {
+	try {
+		const raw = req.query["slugs"];
+		const slugs =
+			typeof raw === "string"
+				? raw.split(",").map((s) => s.trim()).filter(Boolean)
+				: [];
+		if (slugs.length === 0) {
+			res.json([]);
+			return;
+		}
+		const rows = await prisma.archer.findMany({
+			where: { slug: { in: slugs }, status: "published", hidden: false },
+		});
+		const cards = safeMapList(rows, toArcherCard, "archer", (r) => r.id);
+		// preserve the requested slug order
+		const bySlug = new Map(cards.map((c) => [c.slug, c]));
+		res.json(slugs.map((s) => bySlug.get(s)).filter(Boolean));
+	} catch (err) {
+		next(err);
+	}
+});
+
 // GET /team/:slug?locale=hr — full profile for one archer.
 teamRouter.get("/:slug", async (req, res, next) => {
 	try {

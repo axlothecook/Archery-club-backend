@@ -7,11 +7,14 @@ import { safeMapList } from "../http/safe-map.ts";
 
 export const articlesRouter = Router();
 
-const PAGE_SIZE = 12;
+const DEFAULT_PAGE_SIZE = 12;
+const MAX_PAGE_SIZE = 30;
 
-// GET /articles?locale=hr&before=<ISO> — news feed, newest first, cursor-paginated
-// for infinite scroll. Public: published, not hidden. Returns { items, nextCursor }.
+// GET /articles?locale=hr&before=<ISO>&limit=<n> — news feed, newest first,
+// cursor-paginated. Public: published, not hidden. Returns { items, nextCursor }.
 // `before` = the publishedAt of the last item seen; pass it to load older posts.
+// `limit` = page size (default 12, clamped 1..30) — the front-end loads a larger
+// first page (to fill the carousel + highlights + first grid row) then 9 per click.
 // nextCursor is null when there are no more.
 articlesRouter.get("/", async (req, res, next) => {
 	try {
@@ -19,6 +22,11 @@ articlesRouter.get("/", async (req, res, next) => {
 		const before = req.query["before"];
 		const beforeDate = typeof before === "string" ? new Date(before) : null;
 		const validBefore = beforeDate && !Number.isNaN(beforeDate.getTime()) ? beforeDate : null;
+
+		const rawLimit = Number(req.query["limit"]);
+		const pageSize = Number.isInteger(rawLimit)
+			? Math.min(Math.max(rawLimit, 1), MAX_PAGE_SIZE)
+			: DEFAULT_PAGE_SIZE;
 
 		const rows = await prisma.article.findMany({
 			where: {
@@ -28,11 +36,11 @@ articlesRouter.get("/", async (req, res, next) => {
 			},
 			include: { translations: true },
 			orderBy: { publishedAt: "desc" },
-			take: PAGE_SIZE + 1, // fetch one extra to know if there's a next page
+			take: pageSize + 1, // fetch one extra to know if there's a next page
 		});
 
-		const hasMore = rows.length > PAGE_SIZE;
-		const page = hasMore ? rows.slice(0, PAGE_SIZE) : rows;
+		const hasMore = rows.length > pageSize;
+		const page = hasMore ? rows.slice(0, pageSize) : rows;
 		const last = page.at(-1);
 		const nextCursor = hasMore && last?.publishedAt ? last.publishedAt.toISOString() : null;
 
