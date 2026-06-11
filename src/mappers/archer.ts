@@ -36,6 +36,7 @@ export function toArcherCard(row: Archer): ArcherCard {
 		gender: row.gender as ArcherCard["gender"],
 		competitionCategories: row.competitionCategories,
 		bowType: row.bowType as Bow[],
+		roles: row.roles as ArcherCard["roles"],
 		order: row.order,
 	};
 }
