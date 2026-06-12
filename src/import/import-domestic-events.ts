@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { prisma } from "../db.ts";
 import { ATTENDED_SERIES } from "./import-upcoming-wa-events.ts";
+import { deriveEventLevel } from "./derive-event-level.ts";
 
 // PATH B — domestic events from the official HSS 2026 calendar.
 //
@@ -83,13 +84,17 @@ function mapDiscipline(d: string | null): "outdoor" | "indoor" | "field" | "3d" 
 	return m ?? "outdoor";
 }
 
-export async function importDomesticEvents(opts?: { today?: Date }): Promise<{
+export async function importDomesticEvents(opts?: {
+	today?: Date;
+	levelIds?: Map<string, string>;
+}): Promise<{
 	created: number;
 	updated: number;
 	imported: { name: string; dateFrom: string; projected: boolean }[];
 	skippedWaCovered: string[];
 }> {
 	const today = opts?.today ?? new Date(new Date().toISOString().slice(0, 10));
+	const levelIds = opts?.levelIds;
 	const raw = JSON.parse(readFileSync(PATH, "utf8")) as { events: CalEvent[] };
 
 	const imported: { name: string; dateFrom: string; projected: boolean }[] = [];
@@ -109,9 +114,19 @@ export async function importDomesticEvents(opts?: { today?: Date }): Promise<{
 		const dateFrom = project ? toNextYear(ev.date) : ev.date;
 		const dateTo = ev.dateTo ? (project ? toNextYear(ev.dateTo) : ev.dateTo) : null;
 
+		// Resolve the calendar level (Svjetski/Europsko/Državno/Domaće) → levelId.
+		const levelName = deriveEventLevel({
+			name: ev.name,
+			format: ev.format,
+			country: ev.country,
+			domestic: ev.domestic,
+		});
+		const levelId = levelIds?.get(levelName) ?? null;
+
 		const neutral = {
 			discipline: mapDiscipline(ev.discipline),
 			format: ev.format,
+			levelId,
 			dateFrom: new Date(dateFrom),
 			dateTo: dateTo ? new Date(dateTo) : null,
 			location: ev.location,

@@ -16,6 +16,8 @@ import { importSponsors } from "../src/import/import-sponsors.ts";
 import { importEventLevels } from "../src/import/import-event-levels.ts";
 import { importUpcomingWaEvents } from "../src/import/import-upcoming-wa-events.ts";
 import { importDomesticEvents } from "../src/import/import-domestic-events.ts";
+import { deriveEventLevel } from "../src/import/derive-event-level.ts";
+import { assignEventAttendees } from "../src/import/assign-event-attendees.ts";
 
 const roster = await importRoster();
 console.log(`Roster: ${roster.created} created, ${roster.updated} updated (${roster.archers} total). Coach links: ${roster.coachLinks}.`);
@@ -57,12 +59,38 @@ console.log(`Event levels: ${eventLevels.upserted} upserted.`);
 // A) external/WA-covered (live WA feed, matched to attended series, projected),
 // B) domestic (HSS calendar rows NOT covered by WA, passed->2027). Path B reuses
 // path A's ATTENDED_SERIES list to de-dupe, so order doesn't matter for correctness.
-const waEvents = await importUpcomingWaEvents();
+const waEvents = await importUpcomingWaEvents({ levelIds: eventLevels.nameToId });
 console.log(`External events (WA): ${waEvents.kept.length} upcoming + ${waEvents.projected.length} projected->2027 (${waEvents.created} created, ${waEvents.updated} updated).`);
 
-const domesticEvents = await importDomesticEvents();
+const domesticEvents = await importDomesticEvents({ levelIds: eventLevels.nameToId });
 console.log(`Domestic events: ${domesticEvents.imported.length} imported (${domesticEvents.created} created, ${domesticEvents.updated} updated).`);
 if (domesticEvents.skippedWaCovered.length) console.log(`  (skipped ${new Set(domesticEvents.skippedWaCovered).size} WA-covered -> path A)`);
+
+// Level backfill — guarantee EVERY published event has a level (the importers only
+// touch events they (re)write this run; older rows can linger with levelId=null).
+// Derive from stored fields: name + format, with waId===null as the domestic flag
+// (WA events carry a waId; domestic ones don't).
+{
+	const orphans = await prisma.clubEvent.findMany({
+		where: { levelId: null },
+		include: { translations: true },
+	});
+	let backfilled = 0;
+	for (const ev of orphans) {
+		const name = ev.translations.find((t) => t.locale === "hr")?.name ?? ev.translations[0]?.name ?? "";
+		const levelName = deriveEventLevel({ name, format: ev.format, domestic: ev.waId === null });
+		const levelId = eventLevels.nameToId.get(levelName);
+		if (levelId) {
+			await prisma.clubEvent.update({ where: { id: ev.id }, data: { levelId } });
+			backfilled++;
+		}
+	}
+	if (backfilled) console.log(`Level backfill: ${backfilled} event(s) had no level → derived.`);
+}
+
+// Assign per-event attending archers by level (Streličari on the /schedule cards).
+const attendees = await assignEventAttendees();
+console.log(`Event attendees: ${attendees.assigned} event(s) got named archers (${attendees.unlistedLocal} local left unlisted).`);
 
 await prisma.$disconnect();
 console.log("✅ Seed import complete.");
