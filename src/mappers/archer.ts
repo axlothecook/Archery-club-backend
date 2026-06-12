@@ -1,4 +1,5 @@
 import type {
+	ArcherAchievement,
 	ArcherCard,
 	ArcherPerformance as ArcherPerformanceView,
 	ArcherProfile,
@@ -7,12 +8,60 @@ import type {
 	Locale,
 } from "archery-contracts";
 import type {
+	Achievement,
+	AchievementTranslation,
 	Archer,
 	ArcherCareerStat,
 	ArcherPerformance,
 	ArcherTranslation,
 } from "../generated/prisma/client.ts";
 import { resolveTranslation } from "./locale.ts";
+
+// Level sort order for the honours grid (most prestigious first).
+const LEVEL_ORDER: Record<string, number> = {
+	world: 0,
+	european: 1,
+	state: 2,
+	varazdin: 3,
+	other: 4,
+};
+
+// Group an archer's individual achievement rows into the profile's "Postignuća"
+// cards: one card per distinct (title + level + medal), with a count of how many
+// times it was won. Ordered by level (world → european → state → other), then by
+// descending count, then title. Each title is resolved to the requested locale.
+function groupAchievements(
+	rows: (Achievement & { translations: AchievementTranslation[] })[],
+	requested: Locale,
+): ArcherAchievement[] {
+	const groups = new Map<string, ArcherAchievement>();
+	for (const row of rows) {
+		const { row: t } = resolveTranslation(
+			row.translations,
+			requested,
+			row.sourceLocale as Locale,
+		);
+		const key = `${t.title}|${row.level}|${row.medal ?? ""}`;
+		const existing = groups.get(key);
+		if (existing) {
+			existing.count += 1;
+		} else {
+			groups.set(key, {
+				title: t.title,
+				count: 1,
+				level: row.level as ArcherAchievement["level"],
+				type: row.type as ArcherAchievement["type"],
+				medal: row.medal as ArcherAchievement["medal"],
+			});
+		}
+	}
+	return [...groups.values()].sort(
+		(a, b) =>
+			(LEVEL_ORDER[a.level] ?? 9) - (LEVEL_ORDER[b.level] ?? 9) ||
+			b.count - a.count ||
+			a.title.localeCompare(b.title),
+	);
+}
 
 // Whole years between birthDate and now.
 function ageFrom(birthDate: Date | null): number | null {
@@ -52,6 +101,7 @@ type ArcherProfileRow = Archer & {
 	performance: ArcherPerformance[];
 	coaches: Archer[];
 	students: Archer[];
+	achievements: (Achievement & { translations: AchievementTranslation[] })[];
 };
 
 // Map a Prisma Archer row -> the full profile view. Applies privacy rules:
@@ -89,6 +139,8 @@ export function toArcherProfile(row: ArcherProfileRow, requested: Locale): Arche
 
 		coaches: row.coaches.map(toRef),
 		students: row.students.map(toRef),
+
+		achievements: groupAchievements(row.achievements, locale),
 
 		careerStats: hidden.has("stats")
 			? []

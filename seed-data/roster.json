@@ -206,7 +206,7 @@
 			"worldArcheryId": "45389",
 			"birthDate": null,
 			"bio": "Zoran Velagić senior je Varaždinskoga streličarskog kluba koji se natječe u disciplini golog luka. Hrvatski je reprezentativac i višestruki državni prvak: u rujnu 2025. osvojio je naslov državnog prvaka u 3D streličarstvu, a u listopadu 2025. naslov prvaka države u poljskom (terenskom) streličarstvu na Svetoj Geri. Često osvaja medalje na domaćim turnirima, a nastupa i na međunarodnim natjecanjima poput Central European Cupa.",
-			"coaches": ["Alen Remar"],
+			"coaches": [],
 			"careerStats": [],
 			"performance": [],
 			"_flags": "category set 2026-05-28 = BM (Barebow Men, senior — official WA code). Grounded: posts 46/55/56/57/58/70/67 all 'seniori, goli luk' (barebow senior men). WA PROFILE FOUND 2026-05-28 = 45389 (WA sweep; name+CRO+age 55 match; profile has Euro Indoor + IWS medal caps). WA profile has NO DoB or club (blank) → birthDate stays null (only AGE 55 shown)."
@@ -368,7 +368,7 @@
 			"worldArcheryId": null,
 			"birthDate": null,
 			"bio": "Bojan Rodik senior je Varaždinskoga streličarskog kluba koji se natječe u klasičnom i golom luku. Član je seniorske ekipe klasičnog luka koja je na Prvenstvu Hrvatske na otvorenom u rujnu 2025. osvojila naslov državnih prvaka, a često dolazi do vrijednih plasmana i medalja na domaćim turnirima.",
-			"coaches": ["Alen Remar", "Cvijetoslav Zorman"],
+			"coaches": ["Cvijetoslav Zorman"],
 			"careerStats": [],
 			"performance": [],
 			"_flags": "categories set 2026-05-28 = RM (Recurve Men) + BM (Barebow Men), both senior official WA codes. Grounded: post 6 lists him in BOTH 'Recurve muškarci' (550) AND 'Barebow muškarci' (432), and in both ekipni recurve+barebow teams; posts 55/56/60 recurve senior ('seniorska ekipa zakrivljenog luka', 'RB M'=recurve). Genuine multi-bow. birthDate unknown."
@@ -376,7 +376,7 @@
 		{
 			"firstName": "Tomislav",
 			"lastName": "Mlinarić",
-			"roles": ["archer", "coach"],
+			"roles": ["coach", "archer"],
 			"bowType": ["compound", "recurve"],
 			"gender": "male",
 			"competitionCategories": ["C50M"],
@@ -410,7 +410,7 @@
 			"worldArcheryId": null,
 			"birthDate": null,
 			"bio": "Luka Ciglarić senior je Varaždinskoga streličarskog kluba koji se natječe u klasičnom luku. Učestalo nastupa na domaćim turnirima i u jakoj konkurenciji ostvaruje solidne rezultate, pridonoseći nastupima brojne varaždinske ekipe.",
-			"coaches": ["Alen Remar", "Cvijetoslav Zorman"],
+			"coaches": ["Cvijetoslav Zorman"],
 			"careerStats": [],
 			"performance": [],
 			"_flags": "category set 2026-05-28 = RM (Recurve Men, senior — official WA). Grounded: post 6 ('Recurve muškarci' 476) + post 44 (listed among 'seniori u zakrivljenom luku'). birthDate unknown."
@@ -535,7 +535,7 @@
 			"profilePhotoAlt": "Cvijetoslav Zorman",
 			"worldArcheryId": "4677",
 			"birthDate": null,
-			"bio": "Cvijetoslav Zorman jedan je od trenera Varaždinskoga streličarskog kluba. Dio je klupskoga trenerskog tima koji vodi natjecatelje svih uzrasta na domaćim i međunarodnim natjecanjima.",
+			"bio": "Cvijetoslav Zorman jedan je od osnivača Varaždinskoga streličarskog kluba. Aktivno se natjecao u klasičnom luku sve do 2022. godine, kada se povukao iz natjecateljskog streličarstva i nastavio svoju ulogu kao trener. Danas je dio klupskoga trenerskog tima koji vodi natjecatelje svih uzrasta na domaćim i međunarodnim natjecanjima.",
 			"coaches": [],
 			"careerStats": [],
 			"performance": [],

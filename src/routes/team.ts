@@ -63,6 +63,7 @@ teamRouter.get("/:slug", async (req, res, next) => {
 				performance: true,
 				coaches: true,
 				students: true,
+				achievements: { include: { translations: true } },
 			},
 		});
 		if (!row) throw new HttpError(404, "Archer not found");

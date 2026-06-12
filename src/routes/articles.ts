@@ -10,11 +10,14 @@ export const articlesRouter = Router();
 const DEFAULT_PAGE_SIZE = 12;
 const MAX_PAGE_SIZE = 30;
 
-// GET /articles?locale=hr&before=<ISO>&limit=<n> — news feed, newest first,
-// cursor-paginated. Public: published, not hidden. Returns { items, nextCursor }.
+// GET /articles?locale=hr&before=<ISO>&limit=<n>&mentions=<archerSlug> — news feed,
+// newest first, cursor-paginated. Public: published, not hidden. Returns
+// { items, nextCursor }.
 // `before` = the publishedAt of the last item seen; pass it to load older posts.
 // `limit` = page size (default 12, clamped 1..30) — the front-end loads a larger
 // first page (to fill the carousel + highlights + first grid row) then 9 per click.
+// `mentions` = an archer slug; when present, only articles that tag that archer are
+// returned (used for the "related news" strip on a profile page).
 // nextCursor is null when there are no more.
 articlesRouter.get("/", async (req, res, next) => {
 	try {
@@ -28,11 +31,15 @@ articlesRouter.get("/", async (req, res, next) => {
 			? Math.min(Math.max(rawLimit, 1), MAX_PAGE_SIZE)
 			: DEFAULT_PAGE_SIZE;
 
+		const mentions = req.query["mentions"];
+		const mentionsSlug = typeof mentions === "string" && mentions.length > 0 ? mentions : null;
+
 		const rows = await prisma.article.findMany({
 			where: {
 				status: "published",
 				hidden: false,
 				...(validBefore ? { publishedAt: { lt: validBefore } } : {}),
+				...(mentionsSlug ? { mentionedArchers: { some: { slug: mentionsSlug } } } : {}),
 			},
 			include: { translations: true },
 			orderBy: { publishedAt: "desc" },
