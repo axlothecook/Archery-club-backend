@@ -52,6 +52,7 @@ describe("toArcherCard", () => {
 			gender: "female",
 			competitionCategories: ["CW"],
 			bowType: ["compound"],
+			roles: ["archer"],
 			order: 1,
 		});
 	});

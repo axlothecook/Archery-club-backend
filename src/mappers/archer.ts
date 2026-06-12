@@ -31,11 +31,13 @@ const LEVEL_ORDER: Record<string, number> = {
 // times it was won. Ordered by level (world → european → state → other), then by
 // descending count, then title. Each title is resolved to the requested locale.
 function groupAchievements(
-	rows: (Achievement & { translations: AchievementTranslation[] })[],
+	rows: (Achievement & { translations: AchievementTranslation[] })[] | undefined,
 	requested: Locale,
 ): ArcherAchievement[] {
 	const groups = new Map<string, ArcherAchievement>();
-	for (const row of rows) {
+	// The achievements relation is only present when the route includes it; tolerate
+	// its absence (e.g. rows built without the include) by treating it as empty.
+	for (const row of rows ?? []) {
 		const { row: t } = resolveTranslation(
 			row.translations,
 			requested,
@@ -101,7 +103,7 @@ type ArcherProfileRow = Archer & {
 	performance: ArcherPerformance[];
 	coaches: Archer[];
 	students: Archer[];
-	achievements: (Achievement & { translations: AchievementTranslation[] })[];
+	achievements?: (Achievement & { translations: AchievementTranslation[] })[];
 };
 
 // Map a Prisma Archer row -> the full profile view. Applies privacy rules:
