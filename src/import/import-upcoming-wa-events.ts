@@ -1,4 +1,5 @@
 import { prisma } from "../db.ts";
+import { deriveEventLevel } from "./derive-event-level.ts";
 
 // PATH A — external/upcoming events from World Archery.
 //
@@ -71,13 +72,17 @@ function toYear2027(d: Date): Date {
 	return next;
 }
 
-export async function importUpcomingWaEvents(opts?: { today?: Date }): Promise<{
+export async function importUpcomingWaEvents(opts?: {
+	today?: Date;
+	levelIds?: Map<string, string>;
+}): Promise<{
 	created: number;
 	updated: number;
 	kept: { name: string; date: string; place: string; via: string }[];
 	projected: { name: string; date: string; via: string }[];
 }> {
 	const today = opts?.today ?? new Date(new Date().toISOString().slice(0, 10)); // midnight today
+	const levelIds = opts?.levelIds;
 	const comps = await fetchWaCompetitions();
 
 	// All WA events matching an attended series (past + future), tagged.
@@ -101,11 +106,16 @@ export async function importUpcomingWaEvents(opts?: { today?: Date }): Promise<{
 	let created = 0;
 	let updated = 0;
 
-	async function writeEvent(waId: string, name: string, dateFrom: Date, dateTo: Date | null, location: string | null): Promise<void> {
+	async function writeEvent(waId: string, name: string, dateFrom: Date, dateTo: Date | null, location: string | null, country: string | null): Promise<void> {
 		const existing = await prisma.clubEvent.findUnique({ where: { waId } });
+		// WA events are international (domestic: false); the level is derived mostly
+		// from the NAME (World Cup / European …), with country as the rule-7 tiebreak.
+		const levelName = deriveEventLevel({ name, country, domestic: false });
+		const levelId = levelIds?.get(levelName) ?? null;
 		const neutral = {
 			waId,
 			discipline: DISCIPLINE_FALLBACK,
+			levelId,
 			dateFrom,
 			dateTo,
 			location,
@@ -129,7 +139,7 @@ export async function importUpcomingWaEvents(opts?: { today?: Date }): Promise<{
 	for (const m of matched.filter((x) => x.upcoming)) {
 		const loc = m.c.Place ?? m.c.CountryName ?? m.c.Country ?? null;
 		kept.push({ name: m.name, date: m.c.DFrom!.slice(0, 10), place: `${m.c.Place ?? "?"}, ${m.c.Country ?? m.c.CountryName ?? "?"}`, via: m.match.note });
-		await writeEvent(m.waId, m.name, new Date(m.c.DFrom!), m.c.DTo ? new Date(m.c.DTo) : null, loc);
+		await writeEvent(m.waId, m.name, new Date(m.c.DFrom!), m.c.DTo ? new Date(m.c.DTo) : null, loc, m.c.Country ?? m.c.CountryName ?? null);
 	}
 
 	// 2) For attended series that have NO real future entry, project their most
@@ -149,7 +159,7 @@ export async function importUpcomingWaEvents(opts?: { today?: Date }): Promise<{
 		// Synthetic waId for a projected edition (real waId belongs to the past one).
 		const projWaId = `proj2027-${m.waId}`;
 		projected.push({ name: m.name, date: projFrom.toISOString().slice(0, 10), via: m.match.note });
-		await writeEvent(projWaId, m.name, projFrom, projTo, m.c.Place ?? m.c.CountryName ?? m.c.Country ?? null);
+		await writeEvent(projWaId, m.name, projFrom, projTo, m.c.Place ?? m.c.CountryName ?? m.c.Country ?? null, m.c.Country ?? m.c.CountryName ?? null);
 	}
 
 	return { created, updated, kept, projected };
