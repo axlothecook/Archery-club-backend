@@ -54,9 +54,21 @@ const allowedOrigins = (process.env.CORS_ORIGINS ?? DEV_ORIGINS.join(','))
 	.map((o) => o.trim())
 	.filter(Boolean);
 
+// In DEV only, also allow LAN origins on the Vite ports (e.g. http://192.168.x.x:5173)
+// so a PHONE on the same Wi-Fi can hit the API. Never enabled in production.
+const isDev = process.env.NODE_ENV !== 'production';
+const LAN_VITE_ORIGIN =
+	/^http:\/\/(?:10|127|192\.168|172\.(?:1[6-9]|2\d|3[01]))(?:\.\d{1,3}){1,3}:(?:5173|5174|4173)$/;
+
 app.use(
 	cors({
-		origin: allowedOrigins,
+		origin(origin, cb) {
+			// Non-browser requests (curl, same-origin) have no Origin header — allow.
+			if (!origin) return cb(null, true);
+			if (allowedOrigins.includes(origin)) return cb(null, true);
+			if (isDev && LAN_VITE_ORIGIN.test(origin)) return cb(null, true);
+			return cb(new Error(`CORS: origin not allowed: ${origin}`));
+		},
 		credentials: true,
 	}),
 );

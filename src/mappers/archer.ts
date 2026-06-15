@@ -18,12 +18,16 @@ import type {
 import { resolveTranslation } from "./locale.ts";
 
 // Level sort order for the honours grid (most prestigious first).
+// `other` = international events not tied to a continent (e.g. Conquest Cup in
+// Istanbul) — they're shown with the GLOBE icon, so they rank as GLOBAL (same tier
+// as `world`). Within that global tier the secondary sort is descending count, so a
+// 3× win lands ahead of lower-count world events.
 const LEVEL_ORDER: Record<string, number> = {
 	world: 0,
+	other: 0,
 	european: 1,
 	state: 2,
 	varazdin: 3,
-	other: 4,
 };
 
 // Group an archer's individual achievement rows into the profile's "Postignuća"
