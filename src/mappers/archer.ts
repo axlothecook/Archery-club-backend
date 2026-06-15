@@ -30,10 +30,21 @@ const LEVEL_ORDER: Record<string, number> = {
 	varazdin: 3,
 };
 
+// Medal "rank" so a merged medal card keeps the BEST medal it contains (gold beats
+// silver beats bronze) for the card's styling.
+const MEDAL_RANK: Record<string, number> = { gold: 3, silver: 2, bronze: 1 };
+
 // Group an archer's individual achievement rows into the profile's "Postignuća"
-// cards: one card per distinct (title + level + medal), with a count of how many
-// times it was won. Ordered by level (world → european → state → other), then by
-// descending count, then title. Each title is resolved to the requested locale.
+// cards. Grouping is PER EVENT (title + level), split only by MEDALS vs RECORDS:
+//   • one MEDAL card per event — ALL medals at that event (gold/silver/bronze)
+//     merged together, count = total medals. A gold IS the title (the win), so it
+//     counts as ONE of those medals, never double-counted as a separate card.
+//   • one RECORD card per event — record entries (type='record', no medal) kept on
+//     their own card.
+// The card keeps the BEST medal (gold > silver > bronze) for styling; a medal card
+// that includes a gold is typed 'title' (a championship) else 'other'.
+// Ordered by level (global → european → state → varazdin), then descending count,
+// then title. Each title is resolved to the requested locale.
 function groupAchievements(
 	rows: (Achievement & { translations: AchievementTranslation[] })[] | undefined,
 	requested: Locale,
@@ -47,10 +58,21 @@ function groupAchievements(
 			requested,
 			row.sourceLocale as Locale,
 		);
-		const key = `${t.title}|${row.level}|${row.medal ?? ""}`;
+		const isRecord = row.type === "record";
+		// Key on title + level + medals-vs-records (NOT the individual medal colour),
+		// so all medals of one event collapse into a single card.
+		const key = `${t.title}|${row.level}|${isRecord ? "record" : "medal"}`;
 		const existing = groups.get(key);
 		if (existing) {
 			existing.count += 1;
+			// Promote the card's medal/type to the best medal seen for this event.
+			if (
+				!isRecord &&
+				(MEDAL_RANK[row.medal ?? ""] ?? 0) > (MEDAL_RANK[existing.medal ?? ""] ?? 0)
+			) {
+				existing.medal = row.medal as ArcherAchievement["medal"];
+				existing.type = row.type as ArcherAchievement["type"];
+			}
 		} else {
 			groups.set(key, {
 				title: t.title,
