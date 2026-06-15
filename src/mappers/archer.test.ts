@@ -87,4 +87,60 @@ describe("toArcherProfile", () => {
 		expect(p.coaches).toEqual([{ slug: "coach-leo", firstName: "Leo", lastName: "Sulik" }]);
 		expect(p.students).toEqual([]);
 	});
+
+	// One achievement DB row (gold IS the title/win — not a separate honour).
+	function ach(title: string, level: string, type: string, medal: string | null) {
+		return {
+			level,
+			type,
+			medal,
+			sourceLocale: "hr",
+			translations: [{ locale: "hr", title }],
+		};
+	}
+
+	describe("achievement grouping", () => {
+		it("merges all medals of one event into ONE card (gold not double-counted)", () => {
+			// 3 bronze + 2 silver + 1 gold at the same event → ONE card, count 6.
+			const achievements = [
+				ach("Indoor World Series", "world", "other", "bronze"),
+				ach("Indoor World Series", "world", "other", "bronze"),
+				ach("Indoor World Series", "world", "other", "bronze"),
+				ach("Indoor World Series", "world", "other", "silver"),
+				ach("Indoor World Series", "world", "other", "silver"),
+				ach("Indoor World Series", "world", "title", "gold"),
+			];
+			const p = toArcherProfile(row({ achievements }), "hr");
+			const iws = p.achievements.filter((a) => a.title === "Indoor World Series");
+			expect(iws).toHaveLength(1);
+			const card = iws[0]!;
+			expect(card.count).toBe(6); // 3+2+1, NOT 7
+			expect(card.medal).toBe("gold"); // best medal kept for styling
+			expect(card.type).toBe("title"); // includes a win
+		});
+
+		it("keeps a RECORD on its own card, separate from medals at the same event", () => {
+			const achievements = [
+				ach("Europsko prvenstvo", "european", "title", "gold"),
+				ach("Europsko prvenstvo", "european", "record", null),
+			];
+			const p = toArcherProfile(row({ achievements }), "hr");
+			const cards = p.achievements.filter((a) => a.title === "Europsko prvenstvo");
+			expect(cards).toHaveLength(2);
+			expect(cards.some((c) => c.type === "record")).toBe(true);
+		});
+
+		it("ranks international 'other' events in the global tier (count desc)", () => {
+			const achievements = [
+				ach("Svjetski kup", "world", "other", "bronze"),
+				ach("Conquest Cup", "other", "title", "gold"),
+				ach("Conquest Cup", "other", "title", "gold"),
+			];
+			const p = toArcherProfile(row({ achievements }), "hr");
+			// Conquest Cup (count 2, 'other'=global) sorts before the 1× world event.
+			const top = p.achievements[0]!;
+			expect(top.title).toBe("Conquest Cup");
+			expect(top.count).toBe(2);
+		});
+	});
 });
