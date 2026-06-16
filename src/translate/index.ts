@@ -10,8 +10,10 @@ import type { Locale } from "archery-contracts";
 // email abstraction (src/email). Set GOOGLE_TRANSLATE_KEY in .env to go live.
 
 // Croatian is the source language; every other locale is a derived translation.
+// Scope: the site ships hr + en only (decided 2026-06-16). The pipeline still
+// supports more locales — add them back here to translate into them.
 export const SOURCE_LOCALE: Locale = "hr";
-export const TARGET_LOCALES: Locale[] = ["en", "ko", "ar", "es", "de", "fr", "zh"];
+export const TARGET_LOCALES: Locale[] = ["en"];
 
 const ENDPOINT = "https://translation.googleapis.com/language/translate/v2";
 
