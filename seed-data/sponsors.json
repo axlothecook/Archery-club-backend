@@ -4,7 +4,7 @@
 	"sponsors": [
 		{
 			"name": "Lasercopy",
-			"logoUrl": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/sponsors/sponsor-lasercopy.png",
+			"logoUrl": "https://images.axlothecook.com/archery/sponsors/sponsor-lasercopy.png",
 			"logoAlt": "Lasercopy logo",
 			"website": "https://lasercopy.hr",
 			"sourceLocale": "hr",
@@ -12,7 +12,7 @@
 		},
 		{
 			"name": "KODRA",
-			"logoUrl": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/sponsors/sponsor-kodra.png",
+			"logoUrl": "https://images.axlothecook.com/archery/sponsors/sponsor-kodra.png",
 			"logoAlt": "KODRA logo",
 			"website": "https://kodra.hr",
 			"sourceLocale": "hr",
@@ -20,7 +20,7 @@
 		},
 		{
 			"name": "Raiffeisen Bank",
-			"logoUrl": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/sponsors/sponsor-bank.png",
+			"logoUrl": "https://images.axlothecook.com/archery/sponsors/sponsor-bank.png",
 			"logoAlt": "Raiffeisen Bank logo",
 			"website": "https://www.rbinternational.com/en/raiffeisen.html",
 			"sourceLocale": "hr",
@@ -28,7 +28,7 @@
 		},
 		{
 			"name": "Avus",
-			"logoUrl": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/sponsors/sponsor-avus.png",
+			"logoUrl": "https://images.axlothecook.com/archery/sponsors/sponsor-avus.png",
 			"logoAlt": "Avus logo",
 			"website": "https://www.avus.hr",
 			"sourceLocale": "hr",
@@ -36,7 +36,7 @@
 		},
 		{
 			"name": "Cico-Sport",
-			"logoUrl": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/sponsors/sponsor-cico.png",
+			"logoUrl": "https://images.axlothecook.com/archery/sponsors/sponsor-cico.png",
 			"logoAlt": "Cico-Sport logo",
 			"website": "https://www.mojkvart.hr/Varazdin/Varazdin/Vinoteka-vino-prodaja-i-proizvodnja-vina/TRGOVINA-CICO-SPORT-CVIJETOSLAV-ZORMAN-VARAzDIN-VUKOVARSKA-3-62276",
 			"sourceLocale": "hr",

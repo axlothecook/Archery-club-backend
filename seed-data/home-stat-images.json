@@ -1,11 +1,11 @@
 {
 	"_comment": "Photos for the 6 homepage club-stat cards. One row per stat slot — `slot` is the key in the summary `stats` object (worldTitles/europeanTitles/nationalTitles/worldRecords/europeanRecords/nationalRecords). The /achievements/summary route attaches each image to its number via a sibling `statImages` map. `_label` = the user's name for the slot (reference only). imageUrl = user-supplied (2026-05-29). NOTE: the user CONFIRMED the World-record + European-record image picks are intentional even though their filenames read as championship/world photos — store verbatim. imageAlt is agent-composed (English-only for now; folds into the translate pipeline later) — flagged for review. Importer upserts by `slot` (idempotent).",
 	"statImages": [
-		{ "_label": "World title", "slot": "worldTitles", "imageUrl": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/achivements/world-cup.jpg", "imageAlt": "image for the World Champion titles" },
-		{ "_label": "European title", "slot": "europeanTitles", "imageUrl": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/achivements/eu-grand-pri.jpg", "imageAlt": "image for the European Champion titles" },
-		{ "_label": "Domestic title", "slot": "nationalTitles", "imageUrl": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/achivements/domestic-champ.jpg", "imageAlt": "image for the National Champion titles" },
-		{ "_label": "World record", "slot": "worldRecords", "imageUrl": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/achivements/world-youth-champ.jpg", "imageAlt": "image for the World records" },
-		{ "_label": "European record", "slot": "europeanRecords", "imageUrl": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/achivements/cadet-world-record.jpg", "imageAlt": "image for the European records" },
-		{ "_label": "Domestic record", "slot": "nationalRecords", "imageUrl": "https://rsjqguihhwunvpjsybtw.supabase.co/storage/v1/object/public/achivements/domestic-record.jpg", "imageAlt": "image for the National records" }
+		{ "_label": "World title", "slot": "worldTitles", "imageUrl": "https://images.axlothecook.com/archery/achivements/world-cup.jpg", "imageAlt": "image for the World Champion titles" },
+		{ "_label": "European title", "slot": "europeanTitles", "imageUrl": "https://images.axlothecook.com/archery/achivements/eu-grand-pri.jpg", "imageAlt": "image for the European Champion titles" },
+		{ "_label": "Domestic title", "slot": "nationalTitles", "imageUrl": "https://images.axlothecook.com/archery/achivements/domestic-champ.jpg", "imageAlt": "image for the National Champion titles" },
+		{ "_label": "World record", "slot": "worldRecords", "imageUrl": "https://images.axlothecook.com/archery/achivements/world-youth-champ.jpg", "imageAlt": "image for the World records" },
+		{ "_label": "European record", "slot": "europeanRecords", "imageUrl": "https://images.axlothecook.com/archery/achivements/cadet-world-record.jpg", "imageAlt": "image for the European records" },
+		{ "_label": "Domestic record", "slot": "nationalRecords", "imageUrl": "https://images.axlothecook.com/archery/achivements/domestic-record.jpg", "imageAlt": "image for the National records" }
 	]
 }
