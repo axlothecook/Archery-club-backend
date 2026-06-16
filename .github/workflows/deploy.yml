@@ -1,0 +1,65 @@
+# Build the archery BACKEND image (arm64), publish to GHCR, then deploy to the Pi.
+# Mirrors the proven create-resume/game-shop pipeline. Runs on every push to main.
+#   1. build-and-push — build linux/arm64, push ghcr.io/axlothecook/archery-club-backend:latest
+#   2. deploy-to-pi    — join the tailnet, SSH to the Pi, pull + restart the stack.
+# The Pi is reached privately over Tailscale (no public SSH).
+name: Build, publish, and deploy backend
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          platforms: linux/arm64
+          push: true
+          tags: ghcr.io/axlothecook/archery-club-backend:latest
+
+  deploy-to-pi:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Connect to Tailscale
+        uses: tailscale/github-action@v4
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:ci
+
+      - name: Deploy on the Pi
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.PI_TAILSCALE_IP }}
+          username: ${{ secrets.PI_USER }}
+          key: ${{ secrets.PI_SSH_KEY }}
+          script: |
+            cd ~/archery-club-deploy
+            docker compose -f docker-compose.prod.yml pull
+            docker compose -f docker-compose.prod.yml up -d
