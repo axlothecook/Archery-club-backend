@@ -46,6 +46,49 @@ export function toArticleCard(row: ArticleCardRow, requested: Locale): ArticleCa
 	};
 }
 
+// ── Admin list row ───────────────────────────────────────────────────────────
+// Shape for the dashboard's article LIST (Objavljene vijesti / Nacrti). This is an
+// ADMIN-ONLY DTO — deliberately separate from the public toArticleCard so admin
+// fields (status, hidden, pending-draft, adminEdited) never leak into any public
+// response (OWASP API3: cherry-pick fields, don't return raw entities). Uses the
+// HR source translation for the title (the dashboard is Croatian-only). No excerpt/
+// body — the list only needs enough to identify + triage each article.
+export type ArticleAdminRow = {
+	id: string;
+	slug: string;
+	title: string;
+	mediaType: ArticleMediaType;
+	status: "draft" | "published";
+	hidden: boolean;
+	source: "facebook" | "manual";
+	posterImage: { url: string; alt: string };
+	publishedAt: string | null; // ISO
+	updatedAt: string; // ISO
+	hasPendingDraft: boolean; // a published article with unpublished edits queued
+	adminEdited: boolean; // display-only "edited since sync" flag
+};
+
+// Map an Article row -> the admin list row. Title comes from the HR source
+// translation (falls back to the first translation, then empty — never throws).
+export function toArticleAdminRow(row: ArticleCardRow): ArticleAdminRow {
+	const hr = row.translations.find((t) => t.locale === row.sourceLocale);
+	const t = hr ?? row.translations[0];
+	return {
+		id: row.id,
+		slug: row.slug,
+		title: t?.title ?? "",
+		mediaType: row.mediaType as ArticleMediaType,
+		status: row.status as "draft" | "published",
+		hidden: row.hidden,
+		source: row.source as "facebook" | "manual",
+		posterImage: { url: row.posterImageUrl, alt: row.posterImageAlt },
+		publishedAt: row.publishedAt ? row.publishedAt.toISOString() : null,
+		updatedAt: row.updatedAt.toISOString(),
+		hasPendingDraft: row.draftRevision !== null,
+		adminEdited: row.adminEdited,
+	};
+}
+
 type ArticleResolvedRow = Article & {
 	translations: ArticleTranslation[];
 	images: ArticleImage[];
