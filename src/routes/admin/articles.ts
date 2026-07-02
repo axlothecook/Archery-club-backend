@@ -6,6 +6,8 @@ import { validate } from "../../http/validate.ts";
 import { HttpError } from "../../http/errors.ts";
 import { retranslateInBackground } from "../../translate/retranslate.ts";
 import { slugify } from "../../http/slug.ts";
+import { toArticleAdminRow } from "../../mappers/article.ts";
+import { safeMapList } from "../../http/safe-map.ts";
 
 export const adminArticlesRouter = Router();
 
@@ -53,6 +55,32 @@ const updateBody = z.object({
 });
 
 const idParam = z.object({ id: z.uuid() });
+
+// GET /admin/articles?status=published|draft — the dashboard's article LIST (the
+// "Objavljene vijesti" and "Nacrti" tabs). Auth-guarded by `app.use('/admin',
+// requireAuth)`. Unlike the PUBLIC GET /articles (which hard-filters to published +
+// non-hidden), this returns EVERY article — incl. drafts and hidden — because the
+// admin manages them. Shaped by the admin-only toArticleAdminRow DTO so admin
+// fields don't leak through any public path. `status` is an optional filter (an
+// unrecognised value is ignored → returns all). Newest first (createdAt) so brand-
+// new drafts (which have no publishedAt) still sort to the top.
+// NB: status is read directly from req.query, NOT via `validate` — validate's query
+// branch reassigns req.query, which is a read-only getter in Express 5. This mirrors
+// how the public /articles route reads its query params.
+adminArticlesRouter.get("/", async (req, res, next) => {
+	try {
+		const raw = req.query["status"];
+		const status = raw === "draft" || raw === "published" ? raw : undefined;
+		const rows = await prisma.article.findMany({
+			where: status ? { status } : {},
+			include: { translations: true },
+			orderBy: { createdAt: "desc" },
+		});
+		res.json(safeMapList(rows, toArticleAdminRow, "article-admin-row", (r) => r.id));
+	} catch (err) {
+		next(err);
+	}
+});
 
 // Ensure a unique slug: try `base`, then base-2, base-3, … (excluding `exceptId`).
 async function uniqueSlug(base: string, exceptId?: string): Promise<string> {
