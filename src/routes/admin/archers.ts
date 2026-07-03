@@ -90,6 +90,25 @@ async function uniqueSlug(base: string, exceptId?: string): Promise<string> {
 	}
 }
 
+// GET /admin/archers/options — lightweight { id, name } list of PUBLISHED archers,
+// for pickers in other editors (e.g. tagging mentioned archers on an article). Only
+// published archers are offered — you wouldn't tag a draft/unpublished profile in a
+// public article. Auth-guarded by app.use('/admin', requireAuth). Sorted by display
+// order then last name. This is the endpoint the Vijesti "Označeni streličari"
+// picker loads; it's separate from any admin archer LIST (that comes with Momčad).
+adminArchersRouter.get("/options", async (_req, res, next) => {
+	try {
+		const rows = await prisma.archer.findMany({
+			where: { status: "published" },
+			select: { id: true, firstName: true, lastName: true },
+			orderBy: [{ order: "asc" }, { lastName: "asc" }],
+		});
+		res.json(rows.map((a) => ({ id: a.id, name: `${a.firstName} ${a.lastName}` })));
+	} catch (err) {
+		next(err);
+	}
+});
+
 adminArchersRouter.post("/", validate({ body: createBody }), async (req, res, next) => {
 	try {
 		const b = req.body as z.infer<typeof createBody>;

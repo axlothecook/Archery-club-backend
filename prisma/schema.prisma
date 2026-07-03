@@ -530,3 +530,15 @@ model Session {
   lastSeenAt DateTime @default(now()) // idle timeout = now - lastSeenAt > 30 min
   expiresAt  DateTime // absolute timeout (8 h from creation)
 }
+
+// A "report a problem" report from the dashboard UI: when a widget fails to load
+// its data it degrades gracefully (still renders, shows a warning) and POSTs the
+// failure here for developer triage. ON ADOPTION a dev-only dashboard view will
+// list these (see the deferred note in memory). Kept deliberately minimal.
+model ClientErrorReport {
+  id        String   @id @default(uuid())
+  context   String // where it happened, e.g. "vijesti-novi:archer-options"
+  message   String // the error message / detail
+  url       String? // the page URL, if provided
+  createdAt DateTime @default(now())
+}

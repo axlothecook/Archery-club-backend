@@ -29,6 +29,7 @@ export async function resetDb(): Promise<void> {
 	await prisma.membershipSubmission.deleteMany();
 	await prisma.sponsorInquiry.deleteMany();
 	await prisma.donationInquiry.deleteMany();
+	await prisma.clientErrorReport.deleteMany();
 	await prisma.session.deleteMany();
 	await prisma.admin.deleteMany();
 }
