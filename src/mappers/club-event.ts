@@ -37,6 +37,68 @@ export function resolveLevel(level: LevelRow | null, requested: Locale): EventLe
 	return { id: level.id, name: row.name, color: level.color };
 }
 
+// ── Admin rows ───────────────────────────────────────────────────────────────
+// Admin-only DTOs for the dashboard Raspored section. Deliberately separate from
+// the public resolver so admin fields (status, hidden) never leak to public
+// responses (OWASP API3). HR source name; the dashboard is Croatian-only.
+
+export type EventAdminRow = {
+	id: string;
+	name: string;
+	discipline: string;
+	dateFrom: string; // ISO
+	dateTo: string | null; // ISO
+	status: "draft" | "published";
+	hidden: boolean;
+	isCancelled: boolean;
+	image: ImageRef | null;
+	level: { id: string; name: string; color: string } | null;
+	attendeeCount: number;
+	hasUnlistedClubAttendee: boolean;
+};
+
+// Map a ClubEvent row -> the admin list row (HR name; falls back safely).
+export function toEventAdminRow(row: ClubEventRow): EventAdminRow {
+	const hr = row.translations.find((t) => t.locale === row.sourceLocale);
+	const t = hr ?? row.translations[0];
+	const lvl = row.level;
+	const lvlName = lvl ? (lvl.translations.find((x) => x.locale === "hr") ?? lvl.translations[0])?.name ?? "" : "";
+	return {
+		id: row.id,
+		name: t?.name ?? "",
+		discipline: row.discipline,
+		dateFrom: row.dateFrom.toISOString(),
+		dateTo: row.dateTo ? row.dateTo.toISOString() : null,
+		status: row.status as "draft" | "published",
+		hidden: row.hidden,
+		isCancelled: row.isCancelled,
+		image: imageOrNull(row.imageUrl, row.imageAlt),
+		level: lvl ? { id: lvl.id, name: lvlName, color: lvl.color } : null,
+		attendeeCount: row.attendingArchers.length,
+		hasUnlistedClubAttendee: row.hasUnlistedClubAttendee,
+	};
+}
+
+export type EventLevelAdminRow = {
+	id: string;
+	name: string;
+	color: string;
+	order: number;
+	eventCount: number; // how many events use this level (so the admin sees usage)
+};
+
+// Map an EventLevel row (+ _count.events) -> the admin CRUD/legend row.
+export function toEventLevelAdminRow(row: LevelRow & { _count?: { events: number } }): EventLevelAdminRow {
+	const t = row.translations.find((x) => x.locale === "hr") ?? row.translations[0];
+	return {
+		id: row.id,
+		name: t?.name ?? "",
+		color: row.color,
+		order: row.order,
+		eventCount: row._count?.events ?? 0,
+	};
+}
+
 // Map a stored ClubEvent row -> the resolved single-locale public view.
 export function toClubEventResolved(row: ClubEventRow, requested: Locale): ClubEventResolved {
 	const { row: t, locale } = resolveTranslation(
