@@ -4,6 +4,8 @@ import { prisma } from "../../db.ts";
 import { validate } from "../../http/validate.ts";
 import { HttpError } from "../../http/errors.ts";
 import { retranslateInBackground } from "../../translate/retranslate.ts";
+import { toEventLevelAdminRow } from "../../mappers/club-event.ts";
+import { safeMapList } from "../../http/safe-map.ts";
 
 export const adminEventLevelsRouter = Router();
 
@@ -24,6 +26,23 @@ const updateBody = z.object({
 });
 
 const idParam = z.object({ id: z.uuid() });
+
+// GET /admin/event-levels — all levels for the dashboard: the Kategorije razina CRUD
+// page AND the single-select level picker on the event form. Returns { id, name,
+// color, order, eventCount } ordered by legend order. Includes the usage count so
+// the admin sees which levels are in use before deleting (delete SetNulls events).
+// Auth-guarded by app.use('/admin', requireAuth).
+adminEventLevelsRouter.get("/", async (_req, res, next) => {
+	try {
+		const rows = await prisma.eventLevel.findMany({
+			include: { translations: true, _count: { select: { events: true } } },
+			orderBy: { order: "asc" },
+		});
+		res.json(safeMapList(rows, toEventLevelAdminRow, "event-level-admin-row", (r) => r.id));
+	} catch (err) {
+		next(err);
+	}
+});
 
 adminEventLevelsRouter.post("/", validate({ body: createBody }), async (req, res, next) => {
 	try {

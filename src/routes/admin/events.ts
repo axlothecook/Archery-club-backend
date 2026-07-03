@@ -4,6 +4,8 @@ import { prisma } from "../../db.ts";
 import { validate } from "../../http/validate.ts";
 import { HttpError } from "../../http/errors.ts";
 import { retranslateInBackground } from "../../translate/retranslate.ts";
+import { toEventAdminRow } from "../../mappers/club-event.ts";
+import { safeMapList } from "../../http/safe-map.ts";
 
 export const adminEventsRouter = Router();
 
@@ -48,6 +50,32 @@ const updateBody = z.object({
 });
 
 const idParam = z.object({ id: z.uuid() });
+
+// GET /admin/events?status=published|draft — the dashboard's event LIST (Svi
+// događaji). Auth-guarded by app.use('/admin', requireAuth). Unlike the PUBLIC
+// GET /events (which hard-filters to published, non-hidden, club-attended), this
+// returns EVERY event incl. drafts + hidden. Admin-only DTO (toEventAdminRow) so
+// no admin fields leak publicly. Ordered by dateFrom desc (upcoming/newest first).
+// status read from req.query directly (validate's query branch reassigns req.query,
+// read-only in Express 5).
+adminEventsRouter.get("/", async (req, res, next) => {
+	try {
+		const raw = req.query["status"];
+		const status = raw === "draft" || raw === "published" ? raw : undefined;
+		const rows = await prisma.clubEvent.findMany({
+			where: status ? { status } : {},
+			include: {
+				translations: true,
+				attendingArchers: true,
+				level: { include: { translations: true } },
+			},
+			orderBy: { dateFrom: "desc" },
+		});
+		res.json(safeMapList(rows, toEventAdminRow, "event-admin-row", (r) => r.id));
+	} catch (err) {
+		next(err);
+	}
+});
 
 adminEventsRouter.post("/", validate({ body: createBody }), async (req, res, next) => {
 	try {
