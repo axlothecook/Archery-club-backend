@@ -6,7 +6,7 @@ import { validate } from "../../http/validate.ts";
 import { HttpError } from "../../http/errors.ts";
 import { retranslateInBackground } from "../../translate/retranslate.ts";
 import { slugify } from "../../http/slug.ts";
-import { toArticleAdminRow } from "../../mappers/article.ts";
+import { toArticleAdminRow, toArticleEditData } from "../../mappers/article.ts";
 import { safeMapList } from "../../http/safe-map.ts";
 
 export const adminArticlesRouter = Router();
@@ -77,6 +77,23 @@ adminArticlesRouter.get("/", async (req, res, next) => {
 			orderBy: { createdAt: "desc" },
 		});
 		res.json(safeMapList(rows, toArticleAdminRow, "article-admin-row", (r) => r.id));
+	} catch (err) {
+		next(err);
+	}
+});
+
+// GET /admin/articles/:id — the FULL article for the dashboard EDIT form (every
+// editable field, HR source). Auth-guarded. 404 if not found. Distinct method from
+// PATCH/DELETE /:id so no route conflict. Uses the admin-only toArticleEditData DTO.
+adminArticlesRouter.get("/:id", validate({ params: idParam }), async (req, res, next) => {
+	try {
+		const { id } = req.params as z.infer<typeof idParam>;
+		const row = await prisma.article.findUnique({
+			where: { id },
+			include: { translations: true, images: true, mentionedArchers: true },
+		});
+		if (!row) throw new HttpError(404, "Article not found");
+		res.json(toArticleEditData(row));
 	} catch (err) {
 		next(err);
 	}
