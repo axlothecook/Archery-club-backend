@@ -95,6 +95,61 @@ type ArticleResolvedRow = Article & {
 	mentionedArchers: Archer[];
 };
 
+// ── Admin edit data ──────────────────────────────────────────────────────────
+// The FULL editable shape for the dashboard edit form (GET /admin/articles/:id).
+// Admin-only: exposes every field the create/edit form drives, in the HR source
+// locale. Separate from the public toArticleResolved (which omits admin fields and
+// resolves a requested locale). mentionedArcherIds are IDs (the picker's value).
+export type ArticleEditData = {
+	id: string;
+	slug: string;
+	mediaType: ArticleMediaType;
+	posterImageUrl: string;
+	posterImageAlt: string;
+	images: { url: string; alt: string; order: number }[];
+	videoUrl: string | null;
+	videoPosterUrl: string | null;
+	externalUrl: string | null;
+	externalSourceName: string | null;
+	status: "draft" | "published";
+	hidden: boolean;
+	mentionedArcherIds: string[];
+	title: string;
+	body: string;
+	excerpt: string;
+};
+
+export function toArticleEditData(
+	row: Article & {
+		translations: ArticleTranslation[];
+		images: ArticleImage[];
+		mentionedArchers: Archer[];
+	},
+): ArticleEditData {
+	const hr = row.translations.find((t) => t.locale === row.sourceLocale);
+	const t = hr ?? row.translations[0];
+	return {
+		id: row.id,
+		slug: row.slug,
+		mediaType: row.mediaType as ArticleMediaType,
+		posterImageUrl: row.posterImageUrl,
+		posterImageAlt: row.posterImageAlt,
+		images: [...row.images]
+			.sort((a, b) => a.order - b.order)
+			.map((img) => ({ url: img.url, alt: img.alt, order: img.order })),
+		videoUrl: row.videoUrl,
+		videoPosterUrl: row.videoPosterUrl,
+		externalUrl: row.externalUrl,
+		externalSourceName: row.externalSourceName,
+		status: row.status as "draft" | "published",
+		hidden: row.hidden,
+		mentionedArcherIds: row.mentionedArchers.map((a) => a.id),
+		title: t?.title ?? "",
+		body: t?.body ?? "",
+		excerpt: t?.excerpt ?? "",
+	};
+}
+
 function toRef(a: Archer): ArticleArcherRef {
 	return { slug: a.slug, firstName: a.firstName, lastName: a.lastName };
 }

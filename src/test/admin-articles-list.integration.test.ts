@@ -92,3 +92,39 @@ describe("GET /admin/articles (dashboard list)", () => {
 		expect(row.publishedAt).toBeNull();
 	});
 });
+
+describe("GET /admin/articles/:id (edit form data)", () => {
+	it("requires auth (401)", async () => {
+		await request(app).get("/admin/articles/00000000-0000-0000-0000-000000000000").expect(401);
+	});
+
+	it("404s for an unknown id", async () => {
+		await request(app)
+			.get("/admin/articles/00000000-0000-0000-0000-000000000000")
+			.set("Cookie", cookie)
+			.expect(404);
+	});
+
+	it("returns the full editable article (HR source: title/body/excerpt + all fields)", async () => {
+		const created = await request(app)
+			.post("/admin/articles")
+			.set("Cookie", cookie)
+			.send(articleBody({ title: "Uredi me", body: "Tijelo članka.", excerpt: "Sažetak.", status: "published", hidden: true }))
+			.expect(201);
+		const id = created.body.id as string;
+
+		const res = await request(app).get(`/admin/articles/${id}`).set("Cookie", cookie).expect(200);
+		expect(res.body).toMatchObject({
+			id,
+			title: "Uredi me",
+			body: "Tijelo članka.",
+			excerpt: "Sažetak.",
+			mediaType: "event",
+			status: "published",
+			hidden: true,
+			mentionedArcherIds: [],
+			images: [],
+		});
+		expect(res.body.posterImageUrl).toBe("https://cdn.example/p.jpg");
+	});
+});
