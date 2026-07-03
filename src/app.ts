@@ -25,6 +25,7 @@ import { adminClubInfoRouter } from './routes/admin/club-info.ts';
 import { inquiriesRouter } from './routes/inquiries.ts';
 import { adminInquiriesRouter } from './routes/admin/inquiries.ts';
 import { adminUploadRouter } from './routes/admin/upload.ts';
+import { adminClientErrorsRouter } from './routes/admin/client-errors.ts';
 import { adminDevRouter } from './routes/admin/dev.ts';
 import { errorHandler } from './http/errors.ts';
 
@@ -117,6 +118,7 @@ app.use('/admin/hero', adminHeroRouter);
 app.use('/admin/club-info', adminClubInfoRouter);
 app.use('/admin/inquiries', adminInquiriesRouter);
 app.use('/admin/upload', adminUploadRouter);
+app.use('/admin/client-errors', adminClientErrorsRouter);
 app.use('/admin/dev', adminDevRouter);
 
 // Global error handler — must be registered AFTER all routes.
