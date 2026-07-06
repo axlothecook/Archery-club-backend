@@ -6,8 +6,13 @@ import type { Admin } from "../generated/prisma/client.ts";
 // state lives in the Session table. JWT is NOT used for sessions (revocation +
 // XSS reasons) — see src/auth/jwt for the action-token use.
 
-export const IDLE_TIMEOUT_MS = 30 * 60 * 1000; // 30 min of inactivity
-export const ABSOLUTE_TIMEOUT_MS = 8 * 60 * 60 * 1000; // 8 h max session age
+// Timeouts default to the production values (30 min idle / 8 h absolute) but can be
+// overridden via env (minutes) for local dev, where a long editing session shouldn't
+// keep dropping — set SESSION_IDLE_MINUTES / SESSION_ABSOLUTE_MINUTES in .env.
+const idleMinutes = Number(process.env.SESSION_IDLE_MINUTES) || 30;
+const absoluteMinutes = Number(process.env.SESSION_ABSOLUTE_MINUTES) || 8 * 60;
+export const IDLE_TIMEOUT_MS = idleMinutes * 60 * 1000;
+export const ABSOLUTE_TIMEOUT_MS = absoluteMinutes * 60 * 1000;
 
 // 256-bit URL-safe random id (well above OWASP's 64-bit minimum).
 function newSessionId(): string {
