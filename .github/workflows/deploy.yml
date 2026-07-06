@@ -127,7 +127,19 @@ jobs:
           host: ${{ secrets.PI_TAILSCALE_IP }}
           username: ${{ secrets.PI_USER }}
           key: ${{ secrets.PI_SSH_KEY }}
+          # Raise the command timeout above the default 10m: pulling a fresh arm64
+          # image + restarting can exceed 10m on the Pi's connection, and a timeout
+          # would abort mid-deploy leaving the stack half-restarted.
+          command_timeout: 20m
           script: |
+            set -e
             cd ~/archery-club-deploy
             docker compose -f docker-compose.prod.yml pull
             docker compose -f docker-compose.prod.yml up -d
+            # Reclaim disk from the image this deploy just replaced. Every deploy leaves
+            # the previous :latest dangling; without this they pile up until the disk
+            # fills and Postgres crash-loops (No space left on device) → site goes down.
+            # -f skips the prompt; only UNTAGGED/unused images are removed (never the
+            # running containers' images).
+            docker image prune -f
+            docker builder prune -f
