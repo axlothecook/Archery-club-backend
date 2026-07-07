@@ -4,6 +4,8 @@ import { prisma } from "../../db.ts";
 import { validate } from "../../http/validate.ts";
 import { HttpError } from "../../http/errors.ts";
 import { retranslateInBackground } from "../../translate/retranslate.ts";
+import { toAchievementAdminRow, toAchievementEditData } from "../../mappers/achievement.ts";
+import { safeMapList } from "../../http/safe-map.ts";
 
 export const adminAchievementsRouter = Router();
 
@@ -37,6 +39,37 @@ const updateBody = z.object({
 });
 
 const idParam = z.object({ id: z.uuid() });
+
+// GET /admin/achievements — the dashboard's achievement LIST (Sva postignuća).
+// Auth-guarded by app.use('/admin', requireAuth). Admin DTO. Ordered newest year first.
+adminAchievementsRouter.get("/", async (_req, res, next) => {
+	try {
+		const rows = await prisma.achievement.findMany({
+			include: { translations: true, archers: true },
+			orderBy: [{ year: "desc" }],
+		});
+		res.json(safeMapList(rows, toAchievementAdminRow, "achievement-admin-row", (r) => r.id));
+	} catch (err) {
+		next(err);
+	}
+});
+
+// GET /admin/achievements/:id — the FULL achievement for the dashboard EDIT form
+// (every editable field incl. credited archer IDs). 404 if not found. Distinct method
+// from PATCH/DELETE /:id so no route conflict.
+adminAchievementsRouter.get("/:id", validate({ params: idParam }), async (req, res, next) => {
+	try {
+		const { id } = req.params as z.infer<typeof idParam>;
+		const row = await prisma.achievement.findUnique({
+			where: { id },
+			include: { translations: true, archers: true },
+		});
+		if (!row) throw new HttpError(404, "Achievement not found");
+		res.json(toAchievementEditData(row));
+	} catch (err) {
+		next(err);
+	}
+});
 
 // POST /admin/achievements
 adminAchievementsRouter.post("/", validate({ body: createBody }), async (req, res, next) => {

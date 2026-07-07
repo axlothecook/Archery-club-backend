@@ -4,6 +4,8 @@ import { prisma } from "../../db.ts";
 import { validate } from "../../http/validate.ts";
 import { HttpError } from "../../http/errors.ts";
 import { retranslateInBackground } from "../../translate/retranslate.ts";
+import { toSponsorAdminRow } from "../../mappers/sponsor.ts";
+import { safeMapList } from "../../http/safe-map.ts";
 
 export const adminSponsorsRouter = Router();
 
@@ -27,6 +29,37 @@ const updateBody = z.object({
 });
 
 const idParam = z.object({ id: z.uuid() });
+
+// GET /admin/sponsors — the dashboard's sponsor LIST (Svi sponzori). Auth-guarded.
+// Admin DTO (HR description). Ordered by name.
+adminSponsorsRouter.get("/", async (_req, res, next) => {
+	try {
+		const rows = await prisma.sponsor.findMany({
+			include: { translations: true },
+			orderBy: { name: "asc" },
+		});
+		res.json(safeMapList(rows, toSponsorAdminRow, "sponsor-admin-row", (r) => r.id));
+	} catch (err) {
+		next(err);
+	}
+});
+
+// GET /admin/sponsors/:id — the FULL sponsor for the dashboard EDIT form. 404 if not
+// found. Distinct method from PATCH/DELETE /:id so no route conflict. Same admin DTO
+// (it already carries every editable field).
+adminSponsorsRouter.get("/:id", validate({ params: idParam }), async (req, res, next) => {
+	try {
+		const { id } = req.params as z.infer<typeof idParam>;
+		const row = await prisma.sponsor.findUnique({
+			where: { id },
+			include: { translations: true },
+		});
+		if (!row) throw new HttpError(404, "Sponsor not found");
+		res.json(toSponsorAdminRow(row));
+	} catch (err) {
+		next(err);
+	}
+});
 
 // POST /admin/sponsors
 adminSponsorsRouter.post("/", validate({ body: createBody }), async (req, res, next) => {
