@@ -10,6 +10,9 @@ import { hashPassword } from "../src/auth/password.ts";
 const email = process.env["FIRST_ADMIN_EMAIL"];
 const password = process.env["FIRST_ADMIN_PASSWORD"];
 const workName = process.env["FIRST_ADMIN_NAME"] ?? "Admin";
+// Optional role — 'admin' (club management) or 'developer' (also unlocks the dev
+// diagnostics view). Defaults to 'admin' (the common case: a club account).
+const role = process.env["FIRST_ADMIN_ROLE"] ?? "admin";
 
 if (!email || !password) {
 	console.error("Set FIRST_ADMIN_EMAIL and FIRST_ADMIN_PASSWORD env vars.");
@@ -17,6 +20,10 @@ if (!email || !password) {
 }
 if (password.length < 12) {
 	console.error("FIRST_ADMIN_PASSWORD must be at least 12 characters.");
+	process.exit(1);
+}
+if (role !== "admin" && role !== "developer") {
+	console.error("FIRST_ADMIN_ROLE must be 'admin' or 'developer'.");
 	process.exit(1);
 }
 
@@ -27,7 +34,7 @@ if (existing) {
 }
 
 const admin = await prisma.admin.create({
-	data: { email, workName, role: "developer", passwordHash: await hashPassword(password) },
+	data: { email, workName, role, passwordHash: await hashPassword(password) },
 });
 console.log(`Created super-admin: ${admin.email} (${admin.workName}, role=${admin.role})`);
 await prisma.$disconnect();

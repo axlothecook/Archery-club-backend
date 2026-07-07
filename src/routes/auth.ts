@@ -61,7 +61,7 @@ authRouter.get("/me", requireAuth, (req, res) => {
 });
 
 // POST /auth/invite { email, workName, role } — protected. Create a pending
-// admin (no password) and email them a 24h invite link to set their password.
+// admin (no password) and email them a 72h invite link to set their password.
 authRouter.post("/invite", requireAuth, async (req, res, next) => {
 	try {
 		const { email, workName, role } = req.body ?? {};
@@ -73,11 +73,11 @@ authRouter.post("/invite", requireAuth, async (req, res, next) => {
 		}
 
 		const admin = await prisma.admin.create({ data: { email, workName, role, passwordHash: null } });
-		const token = await signActionToken(admin.id, "invite", "24h");
+		const token = await signActionToken(admin.id, "invite", "72h");
 		await sendEmail({
 			to: email,
 			subject: "You've been invited to the VSK Archery dashboard",
-			text: `Hi ${workName},\n\nSet your password to activate your account (link valid 24h):\n${dashboardUrl()}/accept-invite?token=${token}\n`,
+			text: `Hi ${workName},\n\nSet your password to activate your account (link valid 72h):\n${dashboardUrl()}/accept-invite?token=${token}\n`,
 		});
 		res.status(201).json({ id: admin.id, email: admin.email });
 	} catch (err) {
