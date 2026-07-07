@@ -5,6 +5,8 @@ import { validate } from "../../http/validate.ts";
 import { HttpError } from "../../http/errors.ts";
 import { retranslateInBackground } from "../../translate/retranslate.ts";
 import { slugify } from "../../http/slug.ts";
+import { toArcherAdminRow, toArcherEditData } from "../../mappers/archer.ts";
+import { safeMapList } from "../../http/safe-map.ts";
 
 export const adminArchersRouter = Router();
 
@@ -104,6 +106,38 @@ adminArchersRouter.get("/options", async (_req, res, next) => {
 			orderBy: [{ order: "asc" }, { lastName: "asc" }],
 		});
 		res.json(rows.map((a) => ({ id: a.id, name: `${a.firstName} ${a.lastName}` })));
+	} catch (err) {
+		next(err);
+	}
+});
+
+// GET /admin/archers — the dashboard's archer LIST (Momčad: Svi streličari + Nacrti
+// share it, filtered by status client-side). Admin DTO. Ordered by display order,
+// then last name. Registered AFTER /options so the literal route still wins.
+adminArchersRouter.get("/", async (_req, res, next) => {
+	try {
+		const rows = await prisma.archer.findMany({
+			orderBy: [{ order: "asc" }, { lastName: "asc" }],
+		});
+		res.json(safeMapList(rows, toArcherAdminRow, "archer-admin-row", (r) => r.id));
+	} catch (err) {
+		next(err);
+	}
+});
+
+// GET /admin/archers/:id — the FULL archer for the dashboard EDIT form (every
+// editable field incl. HR bio, coach IDs, hidden sections, and nested careerStats /
+// performance rows with ids). 404 if not found. Distinct method from PATCH/DELETE
+// /:id so no route conflict; registered after /options + / so those literals win.
+adminArchersRouter.get("/:id", validate({ params: idParam }), async (req, res, next) => {
+	try {
+		const { id } = req.params as z.infer<typeof idParam>;
+		const row = await prisma.archer.findUnique({
+			where: { id },
+			include: { translations: true, careerStats: true, performance: true, coaches: true },
+		});
+		if (!row) throw new HttpError(404, "Archer not found");
+		res.json(toArcherEditData(row));
 	} catch (err) {
 		next(err);
 	}

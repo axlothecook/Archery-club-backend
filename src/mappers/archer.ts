@@ -5,6 +5,7 @@ import type {
 	ArcherProfile,
 	ArcherRef,
 	Bow,
+	ImageRef,
 	Locale,
 } from "archery-contracts";
 import type {
@@ -195,5 +196,147 @@ export function toArcherProfile(row: ArcherProfileRow, requested: Locale): Arche
 
 		locale,
 		bio: hidden.has("bio") ? null : t.bio,
+	};
+}
+
+// ── Admin DTOs ───────────────────────────────────────────────────────────────
+// Admin-only views for the dashboard Momčad section (Croatian-only). The list row
+// is what the Svi streličari / Nacrti tables render; the edit data prefills the
+// Uredi streličar form with every field the create/update body accepts.
+
+export type ArcherAdminRow = {
+	id: string;
+	slug: string;
+	name: string; // "First Last"
+	roles: string[];
+	bowType: string[];
+	gender: string | null;
+	competitionCategories: string[];
+	order: number;
+	status: string; // 'draft' | 'published'
+	hidden: boolean;
+	cardPhoto: ImageRef | null; // list thumbnail
+};
+
+// Map an Archer row -> the admin list row. cardPhoto is the small headshot; null
+// lets the table show a placeholder.
+export function toArcherAdminRow(row: Archer): ArcherAdminRow {
+	return {
+		id: row.id,
+		slug: row.slug,
+		name: `${row.firstName} ${row.lastName}`,
+		roles: row.roles,
+		bowType: row.bowType,
+		gender: row.gender,
+		competitionCategories: row.competitionCategories,
+		order: row.order,
+		status: row.status,
+		hidden: row.hidden,
+		cardPhoto: row.cardPhotoUrl
+			? { url: row.cardPhotoUrl, alt: row.cardPhotoAlt ?? "" }
+			: null,
+	};
+}
+
+// The full editable archer (GET /admin/archers/:id) for the Uredi streličar form:
+// every updateBody field prefilled, incl. the HR source bio, coach IDs, hidden
+// sections, raw birthDate, and the nested careerStats / performance rows (WITH ids
+// so the diff-update can match/keep them).
+export type ArcherEditData = {
+	id: string;
+	slug: string;
+	firstName: string;
+	lastName: string;
+	roles: string[];
+	bowType: string[];
+	gender: string | null;
+	competitionCategories: string[];
+	order: number;
+	cardPhotoUrl: string | null;
+	cardPhotoAlt: string | null;
+	profilePhotoUrl: string | null;
+	profilePhotoAlt: string | null;
+	worldArcheryId: string | null;
+	birthDate: string | null; // ISO date (yyyy-mm-dd) or null
+	hiddenSections: string[];
+	coachIds: string[];
+	status: string;
+	hidden: boolean;
+	bio: string; // HR source bio
+	careerStats: {
+		id: string;
+		year: number;
+		discipline: string;
+		averageScore: number | null;
+		wins: number;
+		losses: number;
+		highestScore: number | null;
+	}[];
+	performance: {
+		id: string;
+		date: string;
+		name: string;
+		scope: string;
+		type: string;
+		categories: string[];
+		meters: string | null;
+		placing: string | null;
+		points: number | null;
+	}[];
+};
+
+// A Prisma Archer row with everything the edit form needs included.
+type ArcherEditRow = Archer & {
+	translations: ArcherTranslation[];
+	careerStats: ArcherCareerStat[];
+	performance: ArcherPerformance[];
+	coaches: Archer[];
+};
+
+export function toArcherEditData(row: ArcherEditRow): ArcherEditData {
+	const hr = row.translations.find((t) => t.locale === row.sourceLocale);
+	const t = hr ?? row.translations[0];
+	return {
+		id: row.id,
+		slug: row.slug,
+		firstName: row.firstName,
+		lastName: row.lastName,
+		roles: row.roles,
+		bowType: row.bowType,
+		gender: row.gender,
+		competitionCategories: row.competitionCategories,
+		order: row.order,
+		cardPhotoUrl: row.cardPhotoUrl,
+		cardPhotoAlt: row.cardPhotoAlt,
+		profilePhotoUrl: row.profilePhotoUrl,
+		profilePhotoAlt: row.profilePhotoAlt,
+		worldArcheryId: row.worldArcheryId,
+		// ISO date only (yyyy-mm-dd) so an <input type="date"> can bind it directly.
+		birthDate: row.birthDate ? row.birthDate.toISOString().slice(0, 10) : null,
+		hiddenSections: row.hiddenSections,
+		coachIds: row.coaches.map((c) => c.id),
+		status: row.status,
+		hidden: row.hidden,
+		bio: t?.bio ?? "",
+		careerStats: row.careerStats.map((s) => ({
+			id: s.id,
+			year: s.year,
+			discipline: s.discipline,
+			averageScore: s.averageScore,
+			wins: s.wins,
+			losses: s.losses,
+			highestScore: s.highestScore,
+		})),
+		performance: row.performance.map((p) => ({
+			id: p.id,
+			date: p.date,
+			name: p.name,
+			scope: p.scope,
+			type: p.type,
+			categories: p.categories,
+			meters: p.meters,
+			placing: p.placing,
+			points: p.points,
+		})),
 	};
 }
