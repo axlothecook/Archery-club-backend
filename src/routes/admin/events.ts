@@ -4,7 +4,7 @@ import { prisma } from "../../db.ts";
 import { validate } from "../../http/validate.ts";
 import { HttpError } from "../../http/errors.ts";
 import { retranslateInBackground } from "../../translate/retranslate.ts";
-import { toEventAdminRow } from "../../mappers/club-event.ts";
+import { toEventAdminRow, toEventEditData } from "../../mappers/club-event.ts";
 import { safeMapList } from "../../http/safe-map.ts";
 
 export const adminEventsRouter = Router();
@@ -72,6 +72,28 @@ adminEventsRouter.get("/", async (req, res, next) => {
 			orderBy: { dateFrom: "desc" },
 		});
 		res.json(safeMapList(rows, toEventAdminRow, "event-admin-row", (r) => r.id));
+	} catch (err) {
+		next(err);
+	}
+});
+
+// GET /admin/events/:id — the FULL event for the dashboard EDIT form (every editable
+// field incl. attending archer IDs, HR source name). Auth-guarded. 404 if not found.
+// Distinct method from PATCH/DELETE /:id so no route conflict. Admin-only DTO
+// (toEventEditData). Mirrors GET /admin/articles/:id.
+adminEventsRouter.get("/:id", validate({ params: idParam }), async (req, res, next) => {
+	try {
+		const { id } = req.params as z.infer<typeof idParam>;
+		const row = await prisma.clubEvent.findUnique({
+			where: { id },
+			include: {
+				translations: true,
+				attendingArchers: true,
+				level: { include: { translations: true } },
+			},
+		});
+		if (!row) throw new HttpError(404, "Event not found");
+		res.json(toEventEditData(row));
 	} catch (err) {
 		next(err);
 	}

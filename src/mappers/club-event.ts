@@ -79,6 +79,53 @@ export function toEventAdminRow(row: ClubEventRow): EventAdminRow {
 	};
 }
 
+// The FULL editable event (GET /admin/events/:id) for the dashboard EDIT form: every
+// createBody field prefilled, incl. the attending archer IDs (the list row only carries
+// the count). HR source name. Mirrors toArticleEditData.
+export type EventEditData = {
+	id: string;
+	discipline: string;
+	format: string | null;
+	dateFrom: string; // ISO
+	dateTo: string | null; // ISO
+	imageUrl: string | null;
+	imageAlt: string | null;
+	sourceUrl: string | null;
+	isCancelled: boolean;
+	status: "draft" | "published";
+	hidden: boolean;
+	location: string | null;
+	organizer: string | null;
+	levelId: string | null;
+	attendingArcherIds: string[];
+	hasUnlistedClubAttendee: boolean;
+	name: string;
+};
+
+export function toEventEditData(row: ClubEventRow): EventEditData {
+	const hr = row.translations.find((t) => t.locale === row.sourceLocale);
+	const t = hr ?? row.translations[0];
+	return {
+		id: row.id,
+		discipline: row.discipline,
+		format: row.format,
+		dateFrom: row.dateFrom.toISOString(),
+		dateTo: row.dateTo ? row.dateTo.toISOString() : null,
+		imageUrl: row.imageUrl,
+		imageAlt: row.imageAlt,
+		sourceUrl: row.sourceUrl,
+		isCancelled: row.isCancelled,
+		status: row.status as "draft" | "published",
+		hidden: row.hidden,
+		location: row.location,
+		organizer: row.organizer,
+		levelId: row.level?.id ?? null,
+		attendingArcherIds: row.attendingArchers.map((a) => a.id),
+		hasUnlistedClubAttendee: row.hasUnlistedClubAttendee,
+		name: t?.name ?? "",
+	};
+}
+
 export type EventLevelAdminRow = {
 	id: string;
 	name: string;
