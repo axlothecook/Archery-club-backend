@@ -17,6 +17,10 @@ function dashboardUrl(): string {
 
 // Minimum password length (basic policy; OWASP favors length over composition).
 const MIN_PASSWORD = 12;
+// Maximum length enforced only where the dashboard UI caps input (self-service password
+// change): keeps the client 12–20 rule and the server in agreement. Invite/reset keep just
+// the minimum (those flows have no such cap).
+const MAX_PASSWORD = 20;
 
 // POST /auth/login { email, password } — verify credentials, start a session.
 // Generic 401 for any failure (no email/password distinction → no enumeration).
@@ -104,6 +108,42 @@ authRouter.post("/accept-invite", async (req, res, next) => {
 		if (admin.passwordHash) throw new HttpError(409, "Invite already used");
 
 		await prisma.admin.update({ where: { id: adminId }, data: { passwordHash: await hashPassword(password) } });
+		res.json({ ok: true });
+	} catch (err) {
+		next(err);
+	}
+});
+
+// POST /auth/change-password { currentPassword, newPassword } — protected. The
+// signed-in admin changes their own password: verify the current one against the
+// stored hash, enforce the 12-char minimum, then update. Revokes all OTHER sessions
+// (keeps the caller's own) so a leaked session elsewhere is logged out.
+authRouter.post("/change-password", requireAuth, async (req, res, next) => {
+	try {
+		const admin = req.admin!;
+		const { currentPassword, newPassword } = req.body ?? {};
+		if (typeof currentPassword !== "string" || typeof newPassword !== "string") {
+			throw new HttpError(400, "currentPassword and newPassword are required");
+		}
+		// An invited-but-not-activated account has no password to change here.
+		if (!admin.passwordHash) throw new HttpError(400, "Account has no password set");
+
+		const ok = await verifyPassword(admin.passwordHash, currentPassword);
+		if (!ok) throw new HttpError(401, "Current password is incorrect");
+
+		if (newPassword.length < MIN_PASSWORD) {
+			throw new HttpError(400, `Password must be at least ${MIN_PASSWORD} characters`);
+		}
+		if (newPassword.length > MAX_PASSWORD) {
+			throw new HttpError(400, `Password must be at most ${MAX_PASSWORD} characters`);
+		}
+
+		await prisma.admin.update({ where: { id: admin.id }, data: { passwordHash: await hashPassword(newPassword) } });
+		// Log out everywhere EXCEPT the current session.
+		const currentSessionId = readSessionCookie(req);
+		await prisma.session.deleteMany({
+			where: { adminId: admin.id, ...(currentSessionId ? { NOT: { id: currentSessionId } } : {}) },
+		});
 		res.json({ ok: true });
 	} catch (err) {
 		next(err);
