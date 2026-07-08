@@ -31,6 +31,13 @@ import { errorHandler } from './http/errors.ts';
 
 const app = express();
 
+// Behind the nginx reverse proxy + Cloudflare Tunnel in production, the real client
+// IP arrives in X-Forwarded-For. Trust ONE proxy hop so `req.ip` is the client, not
+// the proxy — otherwise the inquiries rate-limiter keys every request to the proxy's
+// single IP (one shared bucket for all visitors). One hop only (not `true`) so a
+// client can't spoof its IP by injecting X-Forwarded-For. Harmless in dev (no proxy).
+app.set('trust proxy', 1);
+
 // Security headers (helmet). This is a JSON API — HTML/page CSP is the
 // SvelteKit front-end's job (kit.csp), so CSP is disabled here. HSTS is also set
 // (1y); if Cloudflare sets it at the edge too, dedupe at deploy (one layer only).

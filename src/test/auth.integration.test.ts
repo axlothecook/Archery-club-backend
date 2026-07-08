@@ -37,33 +37,42 @@ describe("auth (integration)", () => {
 	// admin to /prijava. The __Host- prefix additionally requires Secure + Path=/
 	// + no Domain. This is the regression net for that whole login path.
 	it("login sets a hardened session cookie: HttpOnly, Secure, SameSite=Lax, Path=/, __Host- prefix", async () => {
-		await prisma.admin.create({
-			data: {
-				workName: "Tester",
-				email: "test-admin@vsk.hr",
-				role: "developer",
-				passwordHash: await hashPassword("test-password-123"),
-			},
-		});
+		// This guards PRODUCTION cookie hardening. The cookie config is read per-request
+		// from NODE_ENV, so pin it to 'production' here (dev relaxes __Host-/Secure for
+		// http-LAN-IP phone testing). Restored in the finally block.
+		const prevEnv = process.env.NODE_ENV;
+		process.env.NODE_ENV = "production";
+		try {
+			await prisma.admin.create({
+				data: {
+					workName: "Tester",
+					email: "test-admin@vsk.hr",
+					role: "developer",
+					passwordHash: await hashPassword("test-password-123"),
+				},
+			});
 
-		const res = await request(app)
-			.post("/auth/login")
-			.send({ email: "test-admin@vsk.hr", password: "test-password-123" })
-			.expect(200);
+			const res = await request(app)
+				.post("/auth/login")
+				.send({ email: "test-admin@vsk.hr", password: "test-password-123" })
+				.expect(200);
 
-		const setCookie = res.headers["set-cookie"];
-		const header = (Array.isArray(setCookie) ? setCookie : [setCookie]).find((c) =>
-			c?.startsWith("__Host-session="),
-		);
-		expect(header, "login must Set-Cookie __Host-session").toBeDefined();
+			const setCookie = res.headers["set-cookie"];
+			const header = (Array.isArray(setCookie) ? setCookie : [setCookie]).find((c) =>
+				c?.startsWith("__Host-session="),
+			);
+			expect(header, "login must Set-Cookie __Host-session").toBeDefined();
 
-		expect(header).toMatch(/HttpOnly/i);
-		expect(header).toMatch(/Secure/i);
-		expect(header).toMatch(/SameSite=Lax/i);
-		expect(header).toMatch(/Path=\//i);
-		// __Host- prefix forbids a Domain attribute.
-		expect(header).not.toMatch(/Domain=/i);
-		// Explicitly assert it is NOT the old Strict value (the bug we fixed).
-		expect(header).not.toMatch(/SameSite=Strict/i);
+			expect(header).toMatch(/HttpOnly/i);
+			expect(header).toMatch(/Secure/i);
+			expect(header).toMatch(/SameSite=Lax/i);
+			expect(header).toMatch(/Path=\//i);
+			// __Host- prefix forbids a Domain attribute.
+			expect(header).not.toMatch(/Domain=/i);
+			// Explicitly assert it is NOT the old Strict value (the bug we fixed).
+			expect(header).not.toMatch(/SameSite=Strict/i);
+		} finally {
+			process.env.NODE_ENV = prevEnv;
+		}
 	});
 });
