@@ -14,3 +14,11 @@ process.env["DATABASE_URL"] = testUrl;
 if (!process.env["DATABASE_URL"].includes("archery_club_test")) {
 	throw new Error("Refusing to run integration tests: DATABASE_URL is not the test DB");
 }
+
+// Action-token secret for tests that sign invite/reset tokens (action-token.ts throws
+// if unset). Provide a deterministic TEST-ONLY default when the environment hasn't set
+// one — locally it comes from .env, but CI's test job doesn't inject it. Never used for
+// real tokens: production sets AUTH_TOKEN_SECRET from a proper secret.
+if (!process.env["AUTH_TOKEN_SECRET"]) {
+	process.env["AUTH_TOKEN_SECRET"] = "test-only-action-token-secret-not-for-production";
+}
