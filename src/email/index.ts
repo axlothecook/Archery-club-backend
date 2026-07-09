@@ -25,9 +25,19 @@ export async function sendEmail(email: Email): Promise<void> {
 		return;
 	}
 
+	// content-type carries an explicit `; charset=utf-8`: JSON is UTF-8 by definition
+	// (RFC 8259) and `JSON.stringify` + fetch already encode the body as UTF-8, but stating
+	// it removes any ambiguity for proxies and is the spec-clean form. Croatian diacritics
+	// (š ž č ć đ) pass through Brevo as raw UTF-8 in subject/textContent — no MIME/entity
+	// encoding needed. (Do NOT set a `charset` inside Brevo's `headers` field, and keep any
+	// sender display name ASCII — those are the paths Brevo is known to mangle.)
 	const res = await fetch(BREVO_ENDPOINT, {
 		method: "POST",
-		headers: { "api-key": apiKey, "content-type": "application/json", accept: "application/json" },
+		headers: {
+			"api-key": apiKey,
+			"content-type": "application/json; charset=utf-8",
+			accept: "application/json",
+		},
 		body: JSON.stringify({
 			sender: { email: from },
 			to: [{ email: email.to }],
