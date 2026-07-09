@@ -15,12 +15,28 @@ function dashboardUrl(): string {
 	return process.env["DASHBOARD_URL"] ?? "http://localhost:5173";
 }
 
-// Minimum password length (basic policy; OWASP favors length over composition).
+// Password policy: length 12–20 and printable ASCII only (no spaces/control/non-ASCII).
+// OWASP favors length over composition; the 20-char cap + charset keep the server in
+// lockstep with the dashboard's client-side rule (src/lib/password-rules.ts). Enforced
+// uniformly on accept-invite, reset-password and change-password via assertPasswordPolicy.
 const MIN_PASSWORD = 12;
-// Maximum length enforced only where the dashboard UI caps input (self-service password
-// change): keeps the client 12–20 rule and the server in agreement. Invite/reset keep just
-// the minimum (those flows have no such cap).
 const MAX_PASSWORD = 20;
+// Printable ASCII excluding space (0x21–0x7E).
+const PASSWORD_ALLOWED = /^[\x21-\x7E]+$/;
+
+// Throw a 400 HttpError if `pw` violates the policy; otherwise return. Order mirrors the
+// client (length before charset) so the same message surfaces first on both sides.
+function assertPasswordPolicy(pw: string): void {
+	if (pw.length < MIN_PASSWORD) {
+		throw new HttpError(400, `Password must be at least ${MIN_PASSWORD} characters`);
+	}
+	if (pw.length > MAX_PASSWORD) {
+		throw new HttpError(400, `Password must be at most ${MAX_PASSWORD} characters`);
+	}
+	if (!PASSWORD_ALLOWED.test(pw)) {
+		throw new HttpError(400, "Password contains disallowed characters");
+	}
+}
 
 // POST /auth/login { email, password } — verify credentials, start a session.
 // Generic 401 for any failure (no email/password distinction → no enumeration).
@@ -97,9 +113,7 @@ authRouter.post("/accept-invite", async (req, res, next) => {
 		if (typeof token !== "string" || typeof password !== "string") {
 			throw new HttpError(400, "token and password are required");
 		}
-		if (password.length < MIN_PASSWORD) {
-			throw new HttpError(400, `Password must be at least ${MIN_PASSWORD} characters`);
-		}
+		assertPasswordPolicy(password);
 		const adminId = await verifyActionToken(token, "invite");
 		if (!adminId) throw new HttpError(400, "Invalid or expired invite");
 
@@ -131,12 +145,7 @@ authRouter.post("/change-password", requireAuth, async (req, res, next) => {
 		const ok = await verifyPassword(admin.passwordHash, currentPassword);
 		if (!ok) throw new HttpError(401, "Current password is incorrect");
 
-		if (newPassword.length < MIN_PASSWORD) {
-			throw new HttpError(400, `Password must be at least ${MIN_PASSWORD} characters`);
-		}
-		if (newPassword.length > MAX_PASSWORD) {
-			throw new HttpError(400, `Password must be at most ${MAX_PASSWORD} characters`);
-		}
+		assertPasswordPolicy(newPassword);
 
 		await prisma.admin.update({ where: { id: admin.id }, data: { passwordHash: await hashPassword(newPassword) } });
 		// Log out everywhere EXCEPT the current session.
@@ -180,9 +189,7 @@ authRouter.post("/reset-password", async (req, res, next) => {
 		if (typeof token !== "string" || typeof password !== "string") {
 			throw new HttpError(400, "token and password are required");
 		}
-		if (password.length < MIN_PASSWORD) {
-			throw new HttpError(400, `Password must be at least ${MIN_PASSWORD} characters`);
-		}
+		assertPasswordPolicy(password);
 		const adminId = await verifyActionToken(token, "reset");
 		if (!adminId || !(await prisma.admin.findUnique({ where: { id: adminId } }))) {
 			throw new HttpError(400, "Invalid or expired reset link");
