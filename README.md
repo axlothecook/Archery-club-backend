@@ -5,12 +5,16 @@ The API server for the archery club website. Both the public site and the admin 
 The API has two halves:
 
 ### Public site
-available to every visitor: articles, events, team roster, achievements, sponsors, club history and club info
-every route returns the requested language and falls back to Croatian when a translation is missing
+<ul>
+  <li>available to every visitor: articles, events, team roster, achievements, sponsors, club history and club info</li>
+  <li>every route returns the requested language and falls back to Croatian when a translation is missing</li>
+</ul>
 
 ### Admin dashboard
-requires the visitor to be logged in 
-enables creating and editing content, uploading files, reading and replying to inquiries
+<ul>
+  <li>requires the visitor to be logged in </li>
+  <li>enables creating and editing content, uploading files, reading and replying to inquiries</li>
+</ul>
 
 There is also a public inquiries endpoint for the contact forms. It's rate-limited and spam-guarded. Additionally, there is a `/health` endpoint that confirms the server can reach the database.
 
@@ -32,9 +36,10 @@ Files are uploaded through the dashboard, validated by their actual file bytes i
 
 Testing
 141 tests run before every deploy so a broken data read or a failed CRUD action never reaches production. If any test fails, nothing gets deployed. The pipeline itself is explained in [homelab-ci-cd](https://github.com/axlothecook/homelab-ci-cd).
-
-65 unit tests for the mappers and helpers
-76 integration tests that run against a real throwaway Postgres database in CI, covering login and sessions, loading the public site's data, dashboard editing, uploads and security headers
+<ul>
+  <li>65 unit tests for the mappers and helpers</li>
+  <li>76 integration tests that run against a real throwaway Postgres database in CI, covering login and sessions, loading the public site's data, dashboard editing, uploads and security headers</li>
+</ul>
 
 ## Tech stack
 [Node.js](https://nodejs.org) / [Express](https://expressjs.com): runtime and web framework like routing and router middleware <br />
