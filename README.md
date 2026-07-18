@@ -30,7 +30,7 @@ Diagram below shows how the backend handles a request. It goes through shared mi
 <br />
 
 ## Auth
-Admins log in with a password and get a session cookie: `__Host-session`: HttpOnly, Secure, SameSite=Lax. Sessions live server-side in the database, with an 8 hour absolute limit (logged out after 8 hours no matter what) and a 30 minute idle limit (logged out after 30 minutes of inactivity; activity extends it). New admins are invited by email with a 72 hour link, and forgotten passwords get a 30 minute reset link. There are two roles, admin and developer. Any admin can invite new admins or developers and creating or deleting any admin or developer are planned features.
+Admins log in with a password and get a session cookie: `__Host-session`: HttpOnly, Secure, SameSite=Lax. Sessions live server-side in the database, with an 8 hour absolute limit (logged out after 8 hours no matter what) and a 30 minute idle limit (logged out after 30 minutes of inactivity; activity extends it). New admins are invited by email with a 72 hour link, and forgotten passwords get a 30 minute reset link. There are two roles, admin and developer. Any admin can invite new admins or developers. Editing and deleting existing accounts are planned features.
 <br />
 <br />
 
@@ -44,7 +44,7 @@ Files are uploaded through the dashboard, validated by their actual file bytes i
 <br />
 <br />
 
-##Testing
+## Testing
 141 tests run before every deploy so a broken data read or a failed CRUD action never reaches production. If any test fails, nothing gets deployed. The pipeline itself is explained in [homelab-ci-cd](https://github.com/axlothecook/homelab-ci-cd).
 <ul>
   <li>65 unit tests for the mappers and helpers</li>
