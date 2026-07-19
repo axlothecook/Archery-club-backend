@@ -25,7 +25,7 @@ There is also a public inquiries endpoint for the contact forms. It's rate-limit
 ## How a request travels
 Diagram below shows how the backend handles a request. It goes through shared middleware first, then the route decides which path it takes: either to the public half or the session-checked admin half, and from there to Postgres, R2 or Google Translate.
 
-![image](https://github.com/user-attachments/assets/fce2e443-3d02-47d4-a611-830e72309997)
+![image](https://github.com/user-attachments/assets/19ed5dcd-c435-43d5-8919-ac2164589cc1)
 <br />
 <br />
 
