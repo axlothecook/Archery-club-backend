@@ -37,9 +37,9 @@ describe("admin CRUD round-trip + validation (integration)", () => {
 			.expect(201);
 		const id = created.body.id as string;
 
-		// public read reflects it. Read hr (the source locale) so this is
-		// deterministic regardless of the fire-and-forget translate write-hook,
-		// which asynchronously populates the target locales (en/de/…) after create.
+		// public read reflects it. Read hr (the source locale) — target locales
+		// are static (the auto-translate write-hook was removed when the site
+		// became a demo), so only hr is guaranteed to exist after a create.
 		const read = await request(app).get("/sponsors?locale=hr").expect(200);
 		expect(read.body).toHaveLength(1);
 		expect(read.body[0].name).toBe("Lasercopy");

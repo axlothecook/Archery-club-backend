@@ -290,7 +290,7 @@ export async function fillAllTranslations(opts: FillOpts = {}): Promise<FillResu
 	];
 }
 
-// Individual fillers exported for the write-hook (re-translate one entity type).
+// Individual fillers exported for the one-off backfill script (scripts/translate-backfill.ts).
 export {
 	fillSponsors, fillArchers, fillAchievements, fillEventLevels,
 	fillClubEvents, fillArticles, fillClubHistory, fillClubInfo,

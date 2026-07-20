@@ -3,7 +3,6 @@ import { z } from "zod";
 import { prisma } from "../../db.ts";
 import { validate } from "../../http/validate.ts";
 import { HttpError } from "../../http/errors.ts";
-import { retranslateInBackground } from "../../translate/retranslate.ts";
 import { toEventAdminRow, toEventEditData } from "../../mappers/club-event.ts";
 import { safeMapList } from "../../http/safe-map.ts";
 
@@ -124,7 +123,6 @@ adminEventsRouter.post("/", validate({ body: createBody }), async (req, res, nex
 			},
 		});
 		res.status(201).json({ id: ev.id });
-		retranslateInBackground("clubEvent");
 	} catch (err) {
 		next(err);
 	}
@@ -171,7 +169,6 @@ adminEventsRouter.patch("/:id", validate({ params: idParam, body: updateBody }),
 			});
 		}
 		res.json({ ok: true });
-		if (b.name !== undefined) retranslateInBackground("clubEvent");
 	} catch (err) {
 		next(err);
 	}

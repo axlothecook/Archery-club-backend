@@ -3,7 +3,6 @@ import { z } from "zod";
 import { prisma } from "../../db.ts";
 import { validate } from "../../http/validate.ts";
 import { HttpError } from "../../http/errors.ts";
-import { retranslateInBackground } from "../../translate/retranslate.ts";
 import { toEventLevelAdminRow } from "../../mappers/club-event.ts";
 import { safeMapList } from "../../http/safe-map.ts";
 
@@ -55,7 +54,6 @@ adminEventLevelsRouter.post("/", validate({ body: createBody }), async (req, res
 			},
 		});
 		res.status(201).json({ id: level.id });
-		retranslateInBackground("eventLevel");
 	} catch (err) {
 		next(err);
 	}
@@ -82,7 +80,6 @@ adminEventLevelsRouter.patch("/:id", validate({ params: idParam, body: updateBod
 			});
 		}
 		res.json({ ok: true });
-		if (b.name !== undefined) retranslateInBackground("eventLevel");
 	} catch (err) {
 		next(err);
 	}

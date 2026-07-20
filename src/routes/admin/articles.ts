@@ -4,7 +4,6 @@ import { prisma } from "../../db.ts";
 import { Prisma } from "../../generated/prisma/client.ts";
 import { validate } from "../../http/validate.ts";
 import { HttpError } from "../../http/errors.ts";
-import { retranslateInBackground } from "../../translate/retranslate.ts";
 import { slugify } from "../../http/slug.ts";
 import { toArticleAdminRow, toArticleEditData } from "../../mappers/article.ts";
 import { safeMapList } from "../../http/safe-map.ts";
@@ -140,7 +139,6 @@ adminArticlesRouter.post("/", validate({ body: createBody }), async (req, res, n
 			},
 		});
 		res.status(201).json({ id: article.id, slug });
-		retranslateInBackground("article");
 	} catch (err) {
 		next(err);
 	}
@@ -212,7 +210,6 @@ adminArticlesRouter.patch("/:id", validate({ params: idParam, body: updateBody }
 			}
 		});
 		res.json({ ok: true });
-		if (b.title !== undefined || b.body !== undefined || b.excerpt !== undefined) retranslateInBackground("article");
 	} catch (err) {
 		next(err);
 	}
@@ -234,8 +231,8 @@ adminArticlesRouter.delete("/:id", validate({ params: idParam }), async (req, re
 // version) ──────────────────────────────────────────────────────────────────
 // draftRevision holds the Croatian (source) text + editable neutral fields.
 // On publish it overwrites the live hr translation + neutral fields; the other
-// 7 locales are left stale and reads fall back to hr until the translate
-// pipeline backfills (TODO: re-translate hook when GOOGLE key is added).
+// locales are left as-is and reads fall back to hr (translations are static —
+// the auto-translate write-hook was removed when the site became a demo).
 const draftBody = z.object({
 	title: z.string().min(1),
 	body: z.string().min(1),
@@ -298,7 +295,7 @@ adminArticlesRouter.post("/:id/publish-draft", validate({ params: idParam }), as
 				await tx.articleImage.create({ data: { articleId: id, url: img.url, alt: img.alt, order: img.order } });
 			}
 			// hr translation: overwrite with the edited source text. Other locales
-			// left stale → reads fall back to hr. TODO: re-translate when GOOGLE key set.
+			// left as-is → reads fall back to hr (static translations, no auto-translate).
 			await tx.articleTranslation.upsert({
 				where: { articleId_locale: { articleId: id, locale: "hr" } },
 				create: { articleId: id, locale: "hr", title: d.title, body: d.body, excerpt: d.excerpt },
@@ -306,7 +303,6 @@ adminArticlesRouter.post("/:id/publish-draft", validate({ params: idParam }), as
 			});
 		});
 		res.json({ ok: true });
-		retranslateInBackground("article"); // published draft = new hr text
 	} catch (err) {
 		next(err);
 	}

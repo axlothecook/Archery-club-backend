@@ -3,7 +3,6 @@ import { z } from "zod";
 import { prisma } from "../../db.ts";
 import { validate } from "../../http/validate.ts";
 import { HttpError } from "../../http/errors.ts";
-import { retranslateInBackground } from "../../translate/retranslate.ts";
 import { toAchievementAdminRow, toAchievementEditData } from "../../mappers/achievement.ts";
 import { safeMapList } from "../../http/safe-map.ts";
 
@@ -90,7 +89,6 @@ adminAchievementsRouter.post("/", validate({ body: createBody }), async (req, re
 			},
 		});
 		res.status(201).json({ id: a.id });
-		retranslateInBackground("achievement");
 	} catch (err) {
 		next(err);
 	}
@@ -126,7 +124,6 @@ adminAchievementsRouter.patch("/:id", validate({ params: idParam, body: updateBo
 			});
 		}
 		res.json({ ok: true });
-		if (b.title !== undefined) retranslateInBackground("achievement");
 	} catch (err) {
 		next(err);
 	}
