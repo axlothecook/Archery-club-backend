@@ -35,12 +35,14 @@ export async function resetDb(): Promise<void> {
 }
 
 // Create an admin and return a logged-in session cookie for protected requests.
+// `role` lets guest-gate tests log in as the read-only demo account.
 export async function loginAsAdmin(
 	email = "test-admin@vsk.hr",
 	password = "test-password-123",
+	role = "developer",
 ): Promise<string> {
 	await prisma.admin.create({
-		data: { workName: "Tester", email, role: "developer", passwordHash: await hashPassword(password) },
+		data: { workName: "Tester", email, role, passwordHash: await hashPassword(password) },
 	});
 	const res = await request(app).post("/auth/login").send({ email, password });
 	const setCookie = res.headers["set-cookie"];

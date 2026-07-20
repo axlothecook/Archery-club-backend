@@ -516,7 +516,7 @@ model Admin {
   workName     String
   email        String   @unique
   passwordHash String? // null until set via the invite link
-  role         String // 'admin' | 'developer'
+  role         String // 'admin' | 'developer' | 'guest' (guest = read-only demo account)
   createdAt    DateTime @default(now())
 
   sessions Session[]

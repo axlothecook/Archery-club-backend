@@ -10,8 +10,9 @@ import { hashPassword } from "../src/auth/password.ts";
 const email = process.env["FIRST_ADMIN_EMAIL"];
 const password = process.env["FIRST_ADMIN_PASSWORD"];
 const workName = process.env["FIRST_ADMIN_NAME"] ?? "Admin";
-// Optional role — 'admin' (club management) or 'developer' (also unlocks the dev
-// diagnostics view). Defaults to 'admin' (the common case: a club account).
+// Optional role — 'admin' (club management), 'developer' (also unlocks the dev
+// diagnostics view) or 'guest' (read-only demo account for the login page's
+// "browse as guest" button). Defaults to 'admin' (the common case: a club account).
 const role = process.env["FIRST_ADMIN_ROLE"] ?? "admin";
 
 if (!email || !password) {
@@ -22,8 +23,8 @@ if (password.length < 12) {
 	console.error("FIRST_ADMIN_PASSWORD must be at least 12 characters.");
 	process.exit(1);
 }
-if (role !== "admin" && role !== "developer") {
-	console.error("FIRST_ADMIN_ROLE must be 'admin' or 'developer'.");
+if (role !== "admin" && role !== "developer" && role !== "guest") {
+	console.error("FIRST_ADMIN_ROLE must be 'admin', 'developer' or 'guest'.");
 	process.exit(1);
 }
 

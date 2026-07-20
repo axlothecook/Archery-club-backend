@@ -14,6 +14,7 @@ import { clubIdentityRouter } from './routes/club-identity.ts';
 import { eventLevelsRouter } from './routes/event-levels.ts';
 import { authRouter } from './routes/auth.ts';
 import { requireAuth } from './http/require-auth.ts';
+import { guestReadOnly } from './http/guest-read-only.ts';
 import { adminSponsorsRouter } from './routes/admin/sponsors.ts';
 import { adminAchievementsRouter } from './routes/admin/achievements.ts';
 import { adminArticlesRouter } from './routes/admin/articles.ts';
@@ -113,8 +114,9 @@ app.use('/auth', authRouter);
 // Public inquiry intake (NO auth — rate-limited + spam-guarded per route).
 app.use('/inquiries', inquiriesRouter);
 
-// Dashboard write API — every /admin route requires a valid session.
-app.use('/admin', requireAuth);
+// Dashboard write API — every /admin route requires a valid session. The demo
+// guest account may read everything here but write nothing (guestReadOnly).
+app.use('/admin', requireAuth, guestReadOnly);
 app.use('/admin/sponsors', adminSponsorsRouter);
 app.use('/admin/achievements', adminAchievementsRouter);
 app.use('/admin/articles', adminArticlesRouter);

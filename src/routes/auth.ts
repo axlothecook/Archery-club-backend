@@ -6,6 +6,7 @@ import { setSessionCookie, clearSessionCookie, readSessionCookie } from "../auth
 import { signActionToken, verifyActionToken } from "../auth/action-token.ts";
 import { sendEmail } from "../email/index.ts";
 import { requireAuth } from "../http/require-auth.ts";
+import { guestReadOnly } from "../http/guest-read-only.ts";
 import { HttpError } from "../http/errors.ts";
 
 export const authRouter = Router();
@@ -82,7 +83,7 @@ authRouter.get("/me", requireAuth, (req, res) => {
 
 // POST /auth/invite { email, workName, role } — protected. Create a pending
 // admin (no password) and email them a 72h invite link to set their password.
-authRouter.post("/invite", requireAuth, async (req, res, next) => {
+authRouter.post("/invite", requireAuth, guestReadOnly, async (req, res, next) => {
 	try {
 		const { email, workName, role } = req.body ?? {};
 		if (typeof email !== "string" || typeof workName !== "string" || (role !== "admin" && role !== "developer")) {
@@ -132,7 +133,7 @@ authRouter.post("/accept-invite", async (req, res, next) => {
 // signed-in admin changes their own password: verify the current one against the
 // stored hash, enforce the 12-char minimum, then update. Revokes all OTHER sessions
 // (keeps the caller's own) so a leaked session elsewhere is logged out.
-authRouter.post("/change-password", requireAuth, async (req, res, next) => {
+authRouter.post("/change-password", requireAuth, guestReadOnly, async (req, res, next) => {
 	try {
 		const admin = req.admin!;
 		const { currentPassword, newPassword } = req.body ?? {};
