@@ -113,10 +113,14 @@ stored as `url` strings in the DB; no S3/R2 client present as of 2026-05-27).
 So address this when implementing that module — don't blindly copy game-shop's
 wrapper, which uploads under a stable key and is therefore subject to this quirk.
 
-## "IF ADOPTED" features (build only if the club adopts the website)
+## "IF ADOPTED" features — ⚠️ VOID 2026-07-20: the club declined adoption
 
-These are deferred per the user's "expand if adopted" scope decision — NOT for the
-pre-launch/demo build. Implement only after the club commits to the site.
+The club decided not to adopt the website, so nothing in this section gets built.
+The site continues as a portfolio demo with public read-only guest access on the
+dashboard login page. Section kept for history only.
+
+These were deferred per the "expand if adopted" scope decision — NOT for the
+pre-launch/demo build.
 
 - **Roster photos for the remaining members.** As of 2026-05-28 the 21 active
   published archers have card + profile photos; the other 9 archers do NOT
